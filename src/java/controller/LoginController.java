@@ -96,10 +96,10 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("User", user);
                 Cookie uC = new Cookie("user", username);
                 Cookie pC = new Cookie("pass", password);
-                if (remember != null) {
+                if (remember != null) {                   
                     uC.setMaxAge(5 * 60);
-                    pC.setMaxAge(5 * 60);
-                } else {
+                    pC.setMaxAge(5 * 60);                    
+                }else{
                     uC.setMaxAge(0);
                     pC.setMaxAge(0);
                 }

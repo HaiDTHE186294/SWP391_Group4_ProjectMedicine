@@ -40,6 +40,10 @@
         <servlet-name>showProductManageView</servlet-name>
         <servlet-class>controller.ProductManageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductDeleteServlet</servlet-name>
+        <servlet-class>controller.ProductDeleteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -64,10 +68,7 @@
         <servlet-name>ShowProductInformation</servlet-name>
         <url-pattern>/product/ShowProductInformation</url-pattern>
     </servlet-mapping>
-
-
-<servlet-mapping>
-
+    <servlet-mapping>
         <servlet-name>profileController</servlet-name>
         <url-pattern>/changeProfile</url-pattern>
     </servlet-mapping>
@@ -90,5 +91,9 @@
     <servlet-mapping>
         <servlet-name>showProductManageView</servlet-name>
         <url-pattern>/showProductManageView</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductDeleteServlet</servlet-name>
+        <url-pattern>/ProductDeleteServlet</url-pattern>
     </servlet-mapping>
 </web-app>

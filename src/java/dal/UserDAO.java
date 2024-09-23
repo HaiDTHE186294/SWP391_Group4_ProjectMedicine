@@ -138,12 +138,10 @@ public class UserDAO extends DBContext {
                 ps.setString(1, user.getFullName());
                 ps.setString(2, user.getUsername());
                 ps.setString(3, user.getEmail());
-                ps.setInt(4, user.getRoleId());
-                ps.setInt(5, user.getStatus());
-                ps.setString(6, user.getPhone());
-                ps.setString(7, user.getAddress());
-                ps.setString(8, user.getImage());
-                ps.setInt(9, user.getUserId());
+                ps.setString(4, user.getPhone());
+                ps.setString(5, user.getAddress());
+                ps.setString(6, user.getImage());
+                ps.setInt(7, user.getUserId());
 
                 int rowsUpdated = ps.executeUpdate();
 

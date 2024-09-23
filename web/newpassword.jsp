@@ -13,8 +13,8 @@
     </head>
     <body>
         <div class="fxt-form">
-            <h2 style="color: red">Choose a new password</h2>
-            <p id="rule" style="font-size: 14px">A strong password is a combination of letters and punctuation marks. Its must be at least 6 characters long.</p>
+            <h2 style="color: green">Choose a new password</h2>
+            <p id="rule" style="font-size: 14px">
             <form id="f1" action="confirmpass" method="post">
                 <input name="userName" value="${requestScope.uName}" type="hidden">
                 <div class="form-group">
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <div class="fxt-transformY-50 fxt-transition-delay-3">
                         <div class="fxt-content-between">
-                            <button id="buttionsubmit" type="button" onclick="checkPass()" class="fxt-btn-fill">Continue</button>
+                           <button id="buttionsubmit" type="submit" class="fxt-btn-fill">Continue</button>
                         </div>
                     </div>
                 </div>

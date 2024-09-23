@@ -66,20 +66,30 @@ public class ConfirmPassController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        //processRequest(request, response);
-        String newpass = request.getParameter("password");
-        String cfnewpass = request.getParameter("cfpassword");
-        String username = request.getParameter("userName");
-        UserDAO dao = new UserDAO();
-        dao.getUserByUserName(username);
-        if (cfnewpass.equals(newpass)) {
-            dao.updatePassByUserName(newpass, username);
-            request.setAttribute("successfully", "Change password successfully!");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        }
+   protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    String newpass = request.getParameter("password");
+    String cfnewpass = request.getParameter("cfpassword");
+    String username = request.getParameter("userName");
+    UserDAO dao = new UserDAO();
+    
+    // Check if the user exists
+    if (dao.getUserByUserName(username) == null) {
+        request.setAttribute("error", "User not found.");
+        request.getRequestDispatcher("newpassword.jsp").forward(request, response);
+        return;
     }
+
+    // Compare passwords
+    if (cfnewpass.equals(newpass)) {
+        dao.updatePassByUserName(newpass, username);
+        request.setAttribute("successfully", "Change password successfully!");
+        request.getRequestDispatcher("login.jsp").forward(request, response);
+    } else {
+        request.setAttribute("error", "Passwords do not match.");
+        request.getRequestDispatcher("newpassword.jsp").forward(request, response);
+    }
+}
 
     /** 
      * Returns a short description of the servlet.

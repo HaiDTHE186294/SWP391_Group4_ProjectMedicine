@@ -31,28 +31,15 @@
         <table>
             <tr>
                 <th>Full Name</th>
-                <td><input type="text" name="fullName" value="<%= user.getFullName() %>" required /></td>
+                <td><input type="text" name="fullName" value="<%= user.getFullName() %>" /></td>
             </tr>
             <tr>
                 <th>Username</th>
-                <td><input type="text" name="username" value="<%= user.getUsername() %>" required /></td>
+                <td><input type="text" name="username" value="<%= user.getUsername() %>"/></td>
             </tr>
             <tr>
                 <th>Email</th>
-                <td><input type="email" name="email" value="<%= user.getEmail() %>" required /></td>
-            </tr>
-            <tr>
-                <th>Role ID</th>
-                <td><input type="number" name="roleId" value="<%= user.getRoleId() %>" required /></td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>
-                    <select name="status">
-                        <option value="true" <%= user.getStatus() == 1 ? "selected" : "" %>>Active</option>
-                        <option value="false" <%= user.getStatus() == 0 ? "selected" : "" %>>Inactive</option>
-                    </select>
-                </td>
+                <td><input type="email" name="email" value="<%= user.getEmail() %>"/></td>
             </tr>
             <tr>
                 <th>Phone</th>

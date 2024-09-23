@@ -258,5 +258,18 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
     }
+  
+    public void deleteProduct(String productID) {
+        String sql = "UPDATE Product SET status = 0 WHERE productID = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, productID);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+}
+
 
 }

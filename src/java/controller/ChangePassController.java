@@ -16,9 +16,9 @@ public class ChangePassController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        User currentUser = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("User");
 
-        if (currentUser == null) {
+        if (user == null) {
             response.sendRedirect("login.jsp");
             return;
         }
@@ -31,7 +31,7 @@ public class ChangePassController extends HttpServlet {
         UserDAO userDao = new UserDAO();
 
         // Validate old password
-        if (!currentUser.getPassword().equals(oldPassword)) {
+        if (!user.getPassword().equals(oldPassword)) {
             request.setAttribute("errorMessage", "Old password is incorrect.");
             request.getRequestDispatcher("changePassword.jsp").forward(request, response);
             return;
@@ -45,11 +45,9 @@ public class ChangePassController extends HttpServlet {
         }
 
         // Update the password
-        boolean updateSuccessful = userDao.changePassword(currentUser.getUsername(), newPassword);
+        boolean updateSuccessful = userDao.changePassword(user.getUsername(), newPassword);
 
         if (updateSuccessful) {
-            currentUser.setPassword(newPassword); // Update the session with the new password
-            session.setAttribute("user", currentUser);
             request.setAttribute("successMessage", "Password updated successfully.");
             request.getRequestDispatcher("login.jsp").forward(request, response);
 
