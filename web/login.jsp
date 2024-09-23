@@ -8,7 +8,6 @@
 <!DOCTYPE html>
     <html lang="en">
 
-<<<<<<< HEAD
     <head>
         <meta charset="utf-8" />
         <title>Doctris - Doctor Appointment Booking System</title>
@@ -67,7 +66,7 @@
                                             <div class="d-flex justify-content-between">
                                                 <div class="mb-3">
                                                     <div class="form-check">
-                                                        <input class="form-check-input align-middle" type="checkbox" value="" id="remember-check">
+                                                        <input class="form-check-input align-middle" type="checkbox" value="" id="remember-check" name="remember">
                                                         <label class="form-check-label" for="remember-check">Remember me</label>
                                                     </div>
                                                 </div>
@@ -119,18 +118,6 @@
         <!-- Main Js -->
         <script src="../assets/js/app.js"></script>
         
-=======
-                <div class="form-group">
-                    <p>Don't have an account? <a href="register">Register here</a></p>
-                </div>
-                
-                <c:if test="${not empty error}">
-                    <h2>${error}</h2>
-                </c:if>
-                <h2>${requestScope.successfully}</h2>
-            </fieldset>
-        </form>
->>>>>>> 50da375f4c214fd9c9bfef59dcde40beba6bc386
     </body>
 
 </html>

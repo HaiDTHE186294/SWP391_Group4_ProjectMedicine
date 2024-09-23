@@ -60,12 +60,14 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Cookie arr[] = request.getCookies();
-        for (Cookie cookie : arr) {
-            if (cookie.getName().equals("user")) {
-                request.setAttribute("user", cookie.getValue());
-            }
-            if (cookie.getName().equals("pass")) {
-                request.setAttribute("pass", cookie.getValue());
+        if (arr != null) {
+            for (Cookie cookie : arr) {
+                if (cookie.getName().equals("user")) {
+                    request.setAttribute("user", cookie.getValue());
+                }
+                if (cookie.getName().equals("pass")) {
+                    request.setAttribute("pass", cookie.getValue());
+                }
             }
         }
         request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -92,18 +94,19 @@ public class LoginController extends HttpServlet {
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("User", user);
+                Cookie uC = new Cookie("user", username);
+                Cookie pC = new Cookie("pass", password);
                 if (remember != null) {
-                    Cookie uC = new Cookie("user", username);
-                    Cookie pC = new Cookie("pass", password);
-
                     uC.setMaxAge(5 * 60);
                     pC.setMaxAge(5 * 60);
-
-                    response.addCookie(uC);
-                    response.addCookie(pC);
+                } else {
+                    uC.setMaxAge(0);
+                    pC.setMaxAge(0);
                 }
+                response.addCookie(uC);
+                response.addCookie(pC);
                 response.sendRedirect("testMenu.jsp");
-            }else{
+            } else {
                 request.setAttribute("error", "Invalid username or password");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
