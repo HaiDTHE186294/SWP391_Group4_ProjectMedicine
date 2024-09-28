@@ -121,10 +121,8 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>VerifyController</servlet-name>
         <url-pattern>/verify</url-pattern>
-   
     </servlet-mapping>    
     <servlet-mapping>
         <servlet-name>ProductDetail</servlet-name>
