@@ -100,12 +100,57 @@ public class RegisterController extends HttpServlet {
             return;
         }
 
+        session.setAttribute("fullName", fullName);
+//        session.setAttribute("username", username);
+//        session.setAttribute("email", email);
+        session.setAttribute("phone", phone);
+        session.setAttribute("address", address);
+
         UserDAO userDao = new UserDAO();
 
         // Kiểm tra nếu username hoặc email đã tồn tại
         if (userDao.checkUserExists(username, email)) {
             request.setAttribute("registerError", "Registration failed. Username or email might already be taken!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
+        } else {
+            Email handleEmail = new Email();
+            Random random = new Random();
+            Integer code = 100000 + random.nextInt(900000);
+            String verificationCode = code.toString();
+            String subject = handleEmail.subjectVerification();
+            String msgEmail = handleEmail.messageVerification(code);
+
+            boolean isEmailSent = handleEmail.sendEmail(subject, msgEmail, email);
+
+            if (isEmailSent) {
+                session.setAttribute("code", verificationCode);
+                session.setAttribute("codeCreationTime", System.currentTimeMillis()); // Lưu thời gian tạo mã
+
+                User user = new User();
+                user.setFullName(fullName);
+                user.setUsername(username);
+                user.setPassword(password);
+                user.setEmail(email);
+                user.setPhone(phone);
+                user.setAddress(address);
+                user.setImage("images/users/user.png");
+
+                session.setAttribute("registrationData", user);
+//                session.setAttribute("fullName", fullName);
+                session.setAttribute("username", username);
+                session.setAttribute("email", email);
+//                session.setAttribute("phone", phone);
+//                session.setAttribute("address", address);
+
+                request.setAttribute("check", "true");
+                request.setAttribute("message", "EXIST - valid email, check your email to have verify code");
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            } else {
+                request.setAttribute("message", "Failed to send the verification email. Please try again.");
+                request.setAttribute("check", "false");
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            }
+
         }else{
             userDao.createUser(fullName, username, password, email, phone, address, "images/users/user.png");
             response.sendRedirect("login.jsp");
