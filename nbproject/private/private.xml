@@ -2,12 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-
         <group>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/AddProduct.java</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/dal/ProductDAO.java</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/LoginController.java</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/dal/DBContext.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/model/Email.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/util/GoogleLogin.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/VerifyController.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/util/PasswordUtil.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/GoogleLoginController.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/util/Iconstant.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/ForgotController.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/ConfirmResetCodeController.java</file>
         </group>
     </open-files>
 </project-private>

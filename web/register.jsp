@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -40,7 +41,7 @@
 
         <!-- Hero Start -->
         <section class="bg-half-150 d-table w-100 bg-light align-items-center" 
-         style="background: url('../assets/images/bg/bg-lines-one.png') center; padding-top: 70px; padding-bottom: 100px;">
+                 style="background: url('../assets/images/bg/bg-lines-one.png') center; padding-top: 70px; padding-bottom: 100px;">
 
             <div class="container">
                 <div class="row justify-content-center">
@@ -50,73 +51,103 @@
                             <div class="card-body">
                                 <h4 class="text-center">Registration</h4>  
                                 <form class="login-form mt-4" action="register" method="post">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="mb-3">                                               
-                                                <label class="form-label">Full Name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Full Name" name="fullName" required="">
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Username <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Username" name="username" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Your Email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" placeholder="Email" name="email" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Phone Number <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Phone Number" name="phone" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Address <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Address" name="address" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Password <span class="text-danger">*</span></label>
-                                                <input type="password" class="form-control" placeholder="Password" name="password" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Confirm Password <span class="text-danger">*</span></label>
-                                                <input type="password" class="form-control" placeholder="Confirm Password" name="confirmPassword" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input align-middle" type="checkbox" value="" id="accept-tnc-check">
-                                                    <label class="form-check-label" for="accept-tnc-check">I Accept <a href="term.jsp" class="text-primary" style="font-weight: bold;">Terms And Condition</a></label>
+                                    <c:if test="${requestScope.check == null || requestScope.check == 'false'}">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="mb-3">                                               
+                                                    <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" placeholder="Full Name" name="fullName" pattern="^[a-zA-Z\\s]+$" title="Full name should only contain letters and spaces." value="${sessionScope.fullName}" required>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Username <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" placeholder="Username" name="username" value="${sessionScope.username}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Your Email <span class="text-danger">*</span></label>
+                                                    <input type="email" class="form-control" placeholder="Email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid email address" value="${sessionScope.email}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" placeholder="Phone Number" name="phone" pattern="0[0-9]{9}" title="Phone number must start with 0 and be exactly 10 digits long" value="${sessionScope.phone}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Address <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" placeholder="Address" name="address" value="${sessionScope.address}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Password <span class="text-danger">*</span></label>
+                                                    <input type="password" class="form-control" placeholder="Password" name="password" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                                    <input type="password" class="form-control" placeholder="Confirm Password" name="confirmPassword" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input align-middle" type="checkbox" value="" id="accept-tnc-check" required>
+                                                        <label class="form-check-label" for="accept-tnc-check">I Accept <a href="#" class="text-primary" style="font-weight: bold;">Terms And Condition</a></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="d-grid">
+                                                    <button class="btn btn-primary">Register</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="mx-auto">
+                                                <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login" class="text-dark fw-bold" style="font-weight: bold;">Log in</a></p>
+                                            </div>
+
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="d-grid">
-                                                <button class="btn btn-primary">Register</button>
+                                        <c:if test="${requestScope.registerError != null}">
+                                            <div style="padding-top: 15px;">${registerError}</div>
+                                        </c:if>
+                                    </c:if>
+                                    <c:if test="${requestScope.check != null}">
+                                        <c:if test="${requestScope.check == 'true' && !(requestScope.message == 'Sorry, verify code incorrect')}">
+                                            <p style="padding-left: 15px;">${requestScope.message}</p>
+                                        </c:if>
+                                        <c:if test="${requestScope.check == 'false'}">
+                                            <p style="padding-left: 15px;">${requestScope.message}</p>
+                                        </c:if>
+                                        <c:if test="${requestScope.check == 'true' && requestScope.message == 'Sorry, verify code incorrect'}">
+                                            <p style="padding-left: 15px;">${requestScope.message}</p>
+                                        </c:if>
+                                    </c:if>
+                                </form>
+                                <c:if test="${requestScope.check != null && requestScope.check == 'true'}">
+                                    <form action="verify" method="post">
+                                        <div class="col-lg-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Verify Code <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="text" name="verifycode" placeholder="xxxxxx" required="required" value="${requestScope.code}">
                                             </div>
                                         </div>
-
-                                        <div class="mx-auto">
-                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login" class="text-dark fw-bold" style="font-weight: bold;">Log in</a></p>
-                                        </div>
-                                        
-                                    </div>
-                                    <div>
-                                        ${registerError}
-                                    </div>
-                                </form>
+                                        <c:if test="${requestScope.check != null && requestScope.check == 'true'}">
+                                            <div class="col-lg-12">
+                                                <div class="d-grid">
+                                                    <button class="btn btn-primary" type="submit">Confirm Verify Code</button>
+                                                </div>
+                                            </div>
+                                        </c:if>
+                                    </form>
+                                </c:if>
                             </div>
                         </div><!---->
                     </div> <!--end col-->
@@ -131,7 +162,5 @@
         <script src="../assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="../assets/js/app.js"></script>
-
-
     </body>
 </html>

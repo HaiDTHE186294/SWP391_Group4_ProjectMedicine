@@ -8,18 +8,17 @@ import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.User;
 
 /**
  *
  * @author trant
  */
-@WebServlet(name = "ConfirmResetCodeController", urlPatterns = {"/confirmresetcode"})
-public class ConfirmResetCodeController extends HttpServlet {
+public class VerifyController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +37,10 @@ public class ConfirmResetCodeController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ConfirmResetCodeController</title>");
+            out.println("<title>Servlet VerifyController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ConfirmResetCodeController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet VerifyController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -75,9 +74,8 @@ public class ConfirmResetCodeController extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         HttpSession session = request.getSession();
-        UserDAO ud = new UserDAO();
-        String resetCode = request.getParameter("resetcode");
         String code = (String) session.getAttribute("code");
+        String verifyCode = request.getParameter("verifycode");
 
         // Lấy thời gian tạo mã từ session
         Long codeCreationTime = (Long) session.getAttribute("codeCreationTime");
@@ -85,33 +83,37 @@ public class ConfirmResetCodeController extends HttpServlet {
         // Kiểm tra thời gian mã có hợp lệ không (ví dụ: 1 phút)
         long timeLimit = 1 * 60 * 1000; // 1 phút
 
-        String email = request.getParameter("email");
-//        String message = (String) request.getAttribute("message");
-//        String check = (String) request.getAttribute("check");
-
-       if (code == null || codeCreationTime == null) {
-            request.setAttribute("expiredMessage", "Session expired. Please request a new code.");
-            request.getRequestDispatcher("forgot.jsp").forward(request, response);
+        if (code == null || codeCreationTime == null) {
+            request.setAttribute("registerError", "Session expired. Please request a new code.");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
 
         if (System.currentTimeMillis() - codeCreationTime > timeLimit) {
             // Mã đã hết hạn sau 1 phút
-            request.setAttribute("expiredMessage", "The reset code has expired. Please request a new one.");
-            request.getRequestDispatcher("forgot.jsp").forward(request, response);
-        } else if (code.equalsIgnoreCase(resetCode)) {
-            String userName = ud.getUserNameByEmail(email);
+            request.setAttribute("registerError", "The reset code has expired. Please request a new one.");
+            
+            //session.setAttribute("fullName", session.getAttribute("fullName"));
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        } else if (code.equalsIgnoreCase(verifyCode)) {
+            User user = (User) session.getAttribute("registrationData");
+            UserDAO userDao = new UserDAO();
 
-            request.removeAttribute("code");
-            request.setAttribute("uName", userName);
-            request.setAttribute("check", "true");
-            request.getRequestDispatcher("newpassword.jsp").forward(request, response);
+            // Tạo người dùng và lấy UserID
+            userDao.createUser(user.getFullName(), user.getUsername(), user.getPassword(),
+                    user.getEmail(), user.getPhone(), user.getAddress(),
+                    "images/users/user.png");
+
+            session.removeAttribute("code");
+            session.removeAttribute("registrationData");
+            
+            request.setAttribute("error", "Register successfully!");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         } else {
             session.setAttribute("code", code);
-            request.setAttribute("email", email);
             request.setAttribute("check", "true");
-            request.setAttribute("message", "Sorry, reset code incorrect");
-            request.getRequestDispatcher("forgot.jsp").forward(request, response);
+            request.setAttribute("message", "Sorry, verify code incorrect");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
         }
     }
 

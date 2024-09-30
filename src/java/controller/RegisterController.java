@@ -11,6 +11,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.Random;
+import model.Email;
 import model.User;
 
 /**
@@ -71,6 +74,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String fullName = request.getParameter("fullName");
         String username = request.getParameter("username");
         String email = request.getParameter("email");
@@ -101,8 +105,6 @@ public class RegisterController extends HttpServlet {
         }
 
         session.setAttribute("fullName", fullName);
-//        session.setAttribute("username", username);
-//        session.setAttribute("email", email);
         session.setAttribute("phone", phone);
         session.setAttribute("address", address);
 
@@ -136,11 +138,8 @@ public class RegisterController extends HttpServlet {
                 user.setImage("images/users/user.png");
 
                 session.setAttribute("registrationData", user);
-//                session.setAttribute("fullName", fullName);
                 session.setAttribute("username", username);
                 session.setAttribute("email", email);
-//                session.setAttribute("phone", phone);
-//                session.setAttribute("address", address);
 
                 request.setAttribute("check", "true");
                 request.setAttribute("message", "EXIST - valid email, check your email to have verify code");
@@ -150,12 +149,8 @@ public class RegisterController extends HttpServlet {
                 request.setAttribute("check", "false");
                 request.getRequestDispatcher("register.jsp").forward(request, response);
             }
-
-        }else{
-            userDao.createUser(fullName, username, password, email, phone, address, "images/users/user.png");
-            response.sendRedirect("login.jsp");
         }
-      }
+    }
 
     /**
      * Returns a short description of the servlet.

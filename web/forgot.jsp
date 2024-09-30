@@ -70,6 +70,9 @@
                                                 <p style="padding-left: 15px;">${requestScope.message}</p>
                                             </c:if>
                                         </c:if>
+                                        <c:if test="${requestScope.expiredMessage != null}">
+                                            <p style="padding-left: 15px;">${requestScope.expiredMessage}</p>
+                                        </c:if>       
                                         <c:if test="${requestScope.check == null || requestScope.check == 'false'}">
                                             <div class="col-lg-12">
                                                 <div class="d-grid">
