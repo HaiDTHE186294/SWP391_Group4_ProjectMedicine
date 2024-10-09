@@ -2,10 +2,6 @@
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <%= session.getAttribute("userId") %>
-        <%= session.getAttribute("userEmail") %>
-        <%= session.getAttribute("userName") %>  
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         var kommunicateSettings = {
             "appId": "19a459080780f8a3e18a542ff44c64e9f",

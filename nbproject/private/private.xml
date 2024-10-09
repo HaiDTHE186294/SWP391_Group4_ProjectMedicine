@@ -3,40 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/LoginController.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/model/ProductPriceQuantity.java</file>
             <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/dal/ProductDAO.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/ForgotController.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/UpdateUserDetails.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/product/addProduct.jsp</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/login.jsp</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/product/showProductPriceQuantity.jsp</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/ProductDetail.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/term.jsp</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/ConfirmResetCodeController.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/showProductPriceQuantity.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/testMenu.jsp</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/model/Product.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/RegisterController.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/ConfirmPassController.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/product/productManageView.jsp</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/AddProduct.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/util/PasswordUtil.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/register.jsp</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/VerifyController.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/model/User.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/profile.jsp</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/LogoutController.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/ChangePassController.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/CategoryController.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/dal/UserDAO.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/dal/DAOCategory.java</file>
             <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/productDetail.jsp</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/dal/CategoryDAO.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/ShowProductInformation.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/WEB-INF/web.xml</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/profileController.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/model/Email.java</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/changeProduct.jsp</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/model/Product.java</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/Update.java</file>
         </group>
     </open-files>
 </project-private>
