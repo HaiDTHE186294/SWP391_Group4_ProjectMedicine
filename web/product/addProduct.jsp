@@ -169,10 +169,6 @@
 
             function addUnitRow() {
                 const table = document.getElementById("unitTable");
-                if (table.rows.length - 1 >= 3) { // Check if there are already 3 unit rows
-                    alert("You can only add up to 3 units.");
-                    return; // Do not add more rows
-                }
 
                 // Validate packaging details before adding a new row
                 if (!checkPackagingDetails()) {

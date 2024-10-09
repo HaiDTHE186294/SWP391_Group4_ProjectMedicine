@@ -61,8 +61,14 @@
         <servlet-class>controller.VerifyController</servlet-class>
     </servlet>
     <servlet>
+
+        <servlet-name>Update</servlet-name>
+        <servlet-class>Update</servlet-class>
+</servlet>
+   <servlet>
         <servlet-name>HomeController</servlet-name>
         <servlet-class>controller.HomeController</servlet-class>
+
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -133,7 +139,13 @@
         <url-pattern>/verify</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+
+        <servlet-name>Update</servlet-name>
+        <url-pattern>/Update</url-pattern>
+    </servlet-mapping>  
+<servlet-mapping>
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/home</url-pattern>
+
     </servlet-mapping>
 </web-app>
