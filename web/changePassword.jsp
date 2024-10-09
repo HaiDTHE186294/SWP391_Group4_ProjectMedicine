@@ -1,46 +1,36 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Change Password</title>
-    <style>
-        table {
-            width: 50%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid black;
-        }
-    </style>
-</head>
-<body>
-    <h2>Change Password</h2>
+<!-- <div class="rounded shadow mt-4">
+                                        <div class="p-4 border-bottom">
+                                            <h5 class="mb-0">Change Password :</h5>
+                                        </div>
 
-    <form action="changePass" method="post">
-        <table>
-            <tr>
-                <th>Old Password</th>
-                <td><input type="password" name="oldPassword" required /></td>
-            </tr>
-            <tr>
-                <th>New Password</th>
-                <td><input type="password" name="newPassword" required /></td>
-            </tr>
-            <tr>
-                <th>Confirm New Password</th>
-                <td><input type="password" name="confirmPassword" required /></td>
-            </tr>
-        </table>
-        <input type="submit" value="Change Password" />
-    </form>
+                                        <div class="p-4">
+                                            <form action="changePass" method="post">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Old password :</label>
+                                                            <input name ="oldPassword" type="password" class="form-control" placeholder="Old password" required="">
+                                                        </div>
+                                                    </div>end col
 
-    <c:if test="${not empty errorMessage}">
-        <p style="color: red;">${errorMessage}</p>
-    </c:if>
-    <c:if test="${not empty successMessage}">
-        <p style="color: green;">${successMessage}</p>
-    </c:if>
-</body>
-</html>
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">New password :</label>
+                                                            <input name ="newPassword" type="password" class="form-control" placeholder="New password" required="">
+                                                        </div>
+                                                    </div>end col
+
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Re-type New password :</label>
+                                                            <input name ="confirmPassword" type="password" class="form-control" placeholder="Re-type New password" required="">
+                                                        </div>
+                                                    </div>end col
+
+                                                    <div class="col-lg-12 mt-2 mb-0">
+                                                        <button type="submit" class="btn btn-primary">Save password</button>
+                                                    </div>end col
+                                                </div>end row
+                                            </form>
+                                        </div>
+                                    </div>-->

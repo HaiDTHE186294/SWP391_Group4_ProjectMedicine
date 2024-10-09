@@ -9,25 +9,37 @@ package model;
  * @author kan3v
  */
 public class Category {
-    private int CategoryID;
+    private String CategoryID;
+    private String Icon;
     private String CategoryName;
-    private int ParentCategoryID;
+    private String ParentCategoryID;
 
     public Category() {
     }
 
-    public Category(int CategoryID, String CategoryName, int ParentCategoryID) {
+
+    public Category(String CategoryID, String Icon, String CategoryName, String ParentCategoryID) {
         this.CategoryID = CategoryID;
+        this.Icon = Icon;
         this.CategoryName = CategoryName;
         this.ParentCategoryID = ParentCategoryID;
     }
 
-    public int getCategoryID() {
+    public String getCategoryID() {
         return CategoryID;
     }
 
-    public void setCategoryID(int CategoryID) {
+    public void setCategoryID(String CategoryID) {
         this.CategoryID = CategoryID;
+    }
+
+
+    public String getIcon() {
+        return Icon;
+    }
+
+    public void setIcon(String Icon) {
+        this.Icon = Icon;
     }
 
     public String getCategoryName() {
@@ -38,18 +50,13 @@ public class Category {
         this.CategoryName = CategoryName;
     }
 
-    public int getParentCategoryID() {
+    public String getParentCategoryID() {
         return ParentCategoryID;
     }
 
-    public void setParentCategoryID(int ParentCategoryID) {
+    public void setParentCategoryID(String ParentCategoryID) {
         this.ParentCategoryID = ParentCategoryID;
     }
 
-    @Override
-    public String toString() {
-        return "Category{" + "CategoryID=" + CategoryID + ", CategoryName=" + CategoryName + ", ParentCategoryID=" + ParentCategoryID + '}';
-    }
-    
     
 }

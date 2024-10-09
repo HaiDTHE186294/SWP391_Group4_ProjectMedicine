@@ -38,10 +38,10 @@ public class LoginController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");
+            out.println("<title>Servlet ForgotController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ForgotController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -94,18 +94,25 @@ public class LoginController extends HttpServlet {
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("User", user);
+                session.setAttribute("username", username);
                 Cookie uC = new Cookie("user", username);
                 Cookie pC = new Cookie("pass", password);
-                if (remember != null) {                   
+                session.setAttribute("userId", user.getUserId());
+                session.setAttribute("userName", user.getUsername());
+                session.setAttribute("userEmail", user.getEmail());
+
+                if (remember != null) {
                     uC.setMaxAge(5 * 60);
-                    pC.setMaxAge(5 * 60);                    
-                }else{
+                    pC.setMaxAge(5 * 60);
+                } else {
                     uC.setMaxAge(0);
                     pC.setMaxAge(0);
                 }
                 response.addCookie(uC);
                 response.addCookie(pC);
-                response.sendRedirect("testMenu.jsp");
+
+                response.sendRedirect("home.jsp");
+
             } else {
                 request.setAttribute("error", "Invalid username or password");
                 request.getRequestDispatcher("login.jsp").forward(request, response);

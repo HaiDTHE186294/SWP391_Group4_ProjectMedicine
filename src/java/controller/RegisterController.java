@@ -11,6 +11,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.Random;
+import model.Email;
 import model.User;
 
 /**
@@ -71,6 +74,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String fullName = request.getParameter("fullName");
         String username = request.getParameter("username");
         String email = request.getParameter("email");
@@ -100,26 +104,53 @@ public class RegisterController extends HttpServlet {
             return;
         }
 
+        session.setAttribute("fullName", fullName);
+        session.setAttribute("phone", phone);
+        session.setAttribute("address", address);
+
         UserDAO userDao = new UserDAO();
 
         // Kiểm tra nếu username hoặc email đã tồn tại
         if (userDao.checkUserExists(username, email)) {
             request.setAttribute("registerError", "Registration failed. Username or email might already be taken!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
-        }else{
-            userDao.createUser(fullName, username, password, email, phone, address, "images/users/user.png");
-            response.sendRedirect("login.jsp");
-        }
+        } else {
+            Email handleEmail = new Email();
+            Random random = new Random();
+            Integer code = 100000 + random.nextInt(900000);
+            String verificationCode = code.toString();
+            String subject = handleEmail.subjectVerification();
+            String msgEmail = handleEmail.messageVerification(code);
 
-//        // Nếu không trùng lặp, tạo người dùng mới
-//        boolean isCreated = userDao.createUser(fullName, username, password, email, phone, address, "images/users/user.png");
-//        if (isCreated) {
-//            response.sendRedirect("login.jsp");
-//        } else {
-//            request.setAttribute("registerError", "Registration failed.");
-//            request.getRequestDispatcher("register.jsp").forward(request, response);
-//        }
-      }
+            boolean isEmailSent = handleEmail.sendEmail(subject, msgEmail, email);
+
+            if (isEmailSent) {
+                session.setAttribute("code", verificationCode);
+                session.setAttribute("codeCreationTime", System.currentTimeMillis()); // Lưu thời gian tạo mã
+
+                User user = new User();
+                user.setFullName(fullName);
+                user.setUsername(username);
+                user.setPassword(password);
+                user.setEmail(email);
+                user.setPhone(phone);
+                user.setAddress(address);
+                user.setImage("images/users/user.png");
+
+                session.setAttribute("registrationData", user);
+                session.setAttribute("username", username);
+                session.setAttribute("email", email);
+
+                request.setAttribute("check", "true");
+                request.setAttribute("message", "EXIST - valid email, check your email to have verify code");
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            } else {
+                request.setAttribute("message", "Failed to send the verification email. Please try again.");
+                request.setAttribute("check", "false");
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            }
+        }
+    }
 
     /**
      * Returns a short description of the servlet.

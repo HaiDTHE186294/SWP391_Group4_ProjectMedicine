@@ -86,11 +86,13 @@ public class ForgotController extends HttpServlet {
             String msgEmail = handleEmail.messageForgotPass(userName, code);
             handleEmail.sendEmail(subject, msgEmail, email);
 
-            // 
+            // Lưu mã code và thời gian tạo mã trong session
             session.setAttribute("code", code_str);
+            session.setAttribute("codeCreationTime", System.currentTimeMillis()); // Lưu thời gian tạo mã
+            
             request.setAttribute("email", emailInput);
             request.setAttribute("check", "true");
-            request.setAttribute("message", "EXIST - valid email, check your email to have resetlink");
+            request.setAttribute("message", "EXIST - valid email, check your email to have reset code");
             request.getRequestDispatcher("forgot.jsp").forward(request, response);
         } else {
             request.setAttribute("message", "NOT EXIST - Invalid email");

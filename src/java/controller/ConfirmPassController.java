@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import util.PasswordUtil;
 
 /**
  *
@@ -74,15 +75,16 @@ public class ConfirmPassController extends HttpServlet {
     UserDAO dao = new UserDAO();
     
     // Check if the user exists
-    if (dao.getUserByUserName(username) == null) {
-        request.setAttribute("error", "User not found.");
-        request.getRequestDispatcher("newpassword.jsp").forward(request, response);
-        return;
-    }
+//    if (dao.getUserByUserName(username) == null) {
+//       request.setAttribute("error", "User not found.");
+//        request.getRequestDispatcher("newpassword.jsp").forward(request, response);
+//        return;
+//    }
 
     // Compare passwords
     if (cfnewpass.equals(newpass)) {
-        dao.updatePassByUserName(newpass, username);
+        String hashedPassword = PasswordUtil.hashPasswordBCrypt(newpass);
+        dao.updatePassByUserName(hashedPassword, username);
         request.setAttribute("successfully", "Change password successfully!");
         request.getRequestDispatcher("login.jsp").forward(request, response);
     } else {
