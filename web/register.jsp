@@ -21,32 +21,40 @@
         <!-- favicon -->
         <link rel="shortcut icon" href="../assets/images/favicon.ico.png">
         <!-- Bootstrap -->
-        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->
-        <link href="../assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
-        <link href="../assets/css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/remixicon.css" rel="stylesheet" type="text/css" />
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
-        <link href="../assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 
     </head>
     <body>
-        <!--
+        <!-- Loader -->
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Loader -->
+        
         <div class="back-to-home rounded d-none d-sm-block">
-            <a href="index.html" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
-        </div>-->
+            <a href="home.jsp" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
+        </div>
 
         <!-- Hero Start -->
-        <section class="bg-half-150 d-table w-100 bg-light align-items-center" 
-                 style="background: url('../assets/images/bg/bg-lines-one.png') center; padding-top: 70px; padding-bottom: 100px;">
-
+        <section class="bg-half-150 d-table w-100 bg-light" style="background: url('assets/images/bg/bg-lines-one.png') center;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-8">
-                        <img src="../assets/images/logo-dark.png" height="24" class="mx-auto d-block" alt="">
+                        <img src="assets/images/logo-dark.png" height="24" class="mx-auto d-block" alt="">
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
                                 <h4 class="text-center">Registration</h4>  
@@ -56,7 +64,7 @@
                                             <div class="col-md-12">
                                                 <div class="mb-3">                                               
                                                     <label class="form-label">Full Name <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" placeholder="Full Name" name="fullName" pattern="^[a-zA-Z\\s]+$" title="Full name should only contain letters and spaces." value="${sessionScope.fullName}" required>
+                                                    <input type="text" class="form-control" placeholder="Full Name" name="fullName" pattern="^[a-zA-Z\s]+$" title="Full name should only contain letters and spaces." value="${sessionScope.fullName}" required>
                                                 </div>
                                             </div>
 
@@ -111,7 +119,7 @@
                                             </div>
 
                                             <div class="mx-auto">
-                                                <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login" class="text-dark fw-bold" style="font-weight: bold;">Log in</a></p>
+                                                <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login" class="text-dark fw-bold">Log in</a></p>
                                             </div>
 
                                         </div>
@@ -157,10 +165,10 @@
         <!-- Hero End -->
 
         <!-- javascript -->
-        <script src="../assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
         <!-- Icons -->
-        <script src="../assets/js/feather.min.js"></script>
+        <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
-        <script src="../assets/js/app.js"></script>
+        <script src="assets/js/app.js"></script>
     </body>
 </html>
