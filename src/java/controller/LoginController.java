@@ -94,6 +94,7 @@ public class LoginController extends HttpServlet {
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("User", user);
+                session.setAttribute("username", username);
                 Cookie uC = new Cookie("user", username);
                 Cookie pC = new Cookie("pass", password);
                 session.setAttribute("userId", user.getUserId());
@@ -110,8 +111,7 @@ public class LoginController extends HttpServlet {
                 response.addCookie(uC);
                 response.addCookie(pC);
 
-
-                response.sendRedirect("testMenu.jsp");
+                response.sendRedirect("home.jsp");
 
             } else {
                 request.setAttribute("error", "Invalid username or password");
