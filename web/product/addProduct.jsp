@@ -146,8 +146,8 @@
 
                 return true; // All packaging details are valid
             }
-            
-            
+
+
 
             // Form validation before submission
             function validateForm() {
@@ -163,8 +163,19 @@
             <input type="text" name="ingredientName[]" placeholder="Ingredient Name *" class="ingredientInput" required>
             <input type="text" name="InUnit[]" placeholder="Unit *" class="ingredientInput" required>
             <input type="number" name="InQuantity[]" min="1" placeholder="Quantity *" class="ingredientInput" required>
+            <button type="button" onclick="removeIngredientRow(this)">Remove</button> <!-- Remove button -->
         `;
                 container.appendChild(newRow);
+            }
+
+            // Function to check if the packaging detail is "1" and show/hide the Based Unit message
+            function checkBasedUnit(input) {
+                const messageSpan = input.nextElementSibling; // Get the next sibling span
+                if (input.value.trim() === "1") {
+                    messageSpan.style.display = "inline"; // Show the message
+                } else {
+                    messageSpan.style.display = "none"; // Hide the message
+                }
             }
 
             function addUnitRow() {
@@ -183,12 +194,35 @@
 
                 // Create a new row with the dropdown and input field for packaging details
                 row.innerHTML = `
-            <td></td> <!-- Empty cell for the unit dropdown -->
-            <td><input type="text" name="packagingDetails[]" placeholder="Packaging details *"></td>
-        `;
+                <td></td> <!-- Empty cell for the unit dropdown -->
+                <td>
+                    <input type="text" name="packagingDetails[]" placeholder="Packaging details *" oninput="checkBasedUnit(this)" required>
+                    <span class="based-unit-message" style="display: none; color: green;">Based Unit</span>
+                </td>
+                <td>
+                    <select name="unitStatus[]">
+                        <option value="1">Available</option>
+                        <option value="0">Unavailable</option>
+                    </select>
+                </td>
+                <td>
+                    <button type="button" onclick="removeUnitRow(this)">Remove</button> <!-- Remove button -->
+                </td>
+            `;
 
                 // Append the dropdown into the first cell of the new row
                 row.cells[0].appendChild(unitOptions);
+            }
+
+            function removeIngredientRow(button) {
+                const row = button.parentElement; // Lấy phần tử dòng cha của nút "Remove"
+                row.remove(); // Xoá dòng nguyên liệu cụ thể
+            }
+
+// Function to remove a unit row
+            function removeUnitRow(button) {
+                const row = button.parentElement.parentElement; // Get the row
+                row.remove(); // Remove the row from the DOM
             }
 
             // Call the function on page load
@@ -315,7 +349,16 @@
                                     </c:forEach>
                                 </select>
                             </td>
-                            <td><input type="text" name="packagingDetails[]" placeholder="Packaging details *"></td>
+                            <td>
+                                <input type="text" name="packagingDetails[]" placeholder="Packaging details *" oninput="checkBasedUnit(this)">
+                                <span class="based-unit-message" style="display: none; color: green;">Based Unit</span>
+                            </td>
+                            <td>
+                                <select name="unitStatus[]">
+                                    <option value="1">Available</option>
+                                    <option value="0">Unavailable</option>
+                                </select>
+                            </td>
                         </tr>
                     </table>
                     <button type="button" onclick="addUnitRow()">+</button>

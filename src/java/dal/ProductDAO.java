@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import model.Ingredient;
 import model.ProductPriceQuantity;
 import model.ProductUnit;
@@ -119,13 +121,14 @@ public class ProductDAO extends DBContext {
     }
 
     public boolean addProductPriceQuantity(ProductPriceQuantity p) {
-        String sql = "INSERT INTO ProductPriceQuantity (ProductUnitID, PackagingDetails, ProductID, UnitID) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO ProductPriceQuantity (ProductUnitID, PackagingDetails, ProductID, UnitID, UnitStatus) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, p.getProductUnitID());
             ps.setString(2, p.getPackagingDetails());
             ps.setString(3, p.getProductID());
             ps.setString(4, p.getUnitID());
+            ps.setInt(5, p.getUnitStatus());
 
             ps.executeUpdate();
             return true;
@@ -260,9 +263,10 @@ public class ProductDAO extends DBContext {
                 String packagingDetails = rs.getString("PackagingDetails");
                 String productID = rs.getString("ProductID");
                 String unitID = rs.getString("UnitID");
+                int unitStatus = rs.getInt("UnitStatus");
 
                 // Tạo đối tượng ProductPriceQuantity và thêm vào danh sách
-                ProductPriceQuantity productPriceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID);
+                ProductPriceQuantity productPriceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus);
                 priceQuantities.add(productPriceQuantity);
             }
         } catch (SQLException e) {
@@ -285,7 +289,8 @@ public class ProductDAO extends DBContext {
                 String productUnitID = rs.getString("ProductUnitID");
                 String packagingDetails = rs.getString("PackagingDetails");
                 String unitID = rs.getString("UnitID");
-                ProductPriceQuantity priceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID);
+                int unitStatus = rs.getInt("UnitStatus");
+                ProductPriceQuantity priceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus);
                 priceQuantities.add(priceQuantity);
             }
         } catch (SQLException e) {
@@ -354,128 +359,182 @@ public class ProductDAO extends DBContext {
         }
     }
 
-    public boolean updateIngredients(String productId, List<Ingredient> ingredients) {
-    String sql = "UPDATE Ingredient SET IngredientName = ?, Quantity = ?, Unit = ? WHERE ProductIngredientID = ? AND ProductID = ?";
-
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        // Set auto-commit to false to manage transactions manually
-        connection.setAutoCommit(false);
-
-        for (Ingredient ingredient : ingredients) {
-            ps.setString(1, ingredient.getIngredientName());
-            ps.setFloat(2, ingredient.getQuantity());
-            ps.setString(3, ingredient.getUnit());
-            ps.setString(4, ingredient.getProductIngredientID());
-            ps.setString(5, productId);
-
-            ps.addBatch(); // Add to batch for bulk execution
-        }
-
-        int[] rowsAffected = ps.executeBatch(); // Execute the batch update
-        connection.commit(); // Commit transaction
-
-        // Check if all updates were successful
-        boolean allSuccess = true;
-        for (int i : rowsAffected) {
-            if (i == PreparedStatement.EXECUTE_FAILED) {
-                allSuccess = false;
-                break;
-            }
-        }
-        return allSuccess;
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        try {
-            connection.rollback(); // Rollback in case of any failure
-        } catch (SQLException rollbackEx) {
-            rollbackEx.printStackTrace();
-        }
-        return false;
-    } finally {
-        try {
-            connection.setAutoCommit(true); // Reset auto-commit
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-}
-
-
-    public boolean updateProductPriceQuantity(String productId, List<ProductPriceQuantity> priceQuantities) {
-    String sql = "UPDATE ProductPriceQuantity SET PackagingDetails = ?, UnitID = ? WHERE ProductUnitID = ? AND ProductID = ?";
-
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        // Set auto-commit to false to manage transactions manually
-        connection.setAutoCommit(false);
-
-        for (ProductPriceQuantity p : priceQuantities) {
-            ps.setString(1, p.getPackagingDetails());
-            ps.setString(2, p.getUnitID());
-            ps.setString(3, p.getProductUnitID());
-            ps.setString(4, productId);
-
-            ps.addBatch(); // Add to batch for bulk execution
-        }
-
-        int[] rowsAffected = ps.executeBatch(); // Execute the batch update
-        connection.commit(); // Commit transaction
-
-        // Check if all updates were successful
-        boolean allSuccess = true;
-        for (int i : rowsAffected) {
-            if (i == PreparedStatement.EXECUTE_FAILED) {
-                allSuccess = false;
-                break;
-            }
-        }
-        return allSuccess;
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        try {
-            connection.rollback(); // Rollback in case of any failure
-        } catch (SQLException rollbackEx) {
-            rollbackEx.printStackTrace();
-        }
-        return false;
-    } finally {
-        try {
-            connection.setAutoCommit(true); // Reset auto-commit
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-}
-
-    
     public boolean beginTransaction() {
-    try {
-        connection.setAutoCommit(false);
-        return true;
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
+        try {
+            connection.setAutoCommit(false);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
 
-public void commitTransaction() {
-    try {
-        connection.commit();
-        connection.setAutoCommit(true);
-    } catch (SQLException e) {
-        e.printStackTrace();
+    public void commitTransaction() {
+        try {
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-}
 
-public void rollbackTransaction() {
-    try {
-        connection.rollback();
-        connection.setAutoCommit(true);
-    } catch (SQLException e) {
-        e.printStackTrace();
+    public void rollbackTransaction() {
+        try {
+            connection.rollback();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-}
 
+// Hàm xóa một Ingredient theo ProductIngredientID
+    public boolean deleteIngredientByID(String productIngredientID) {
+        String sql = "DELETE FROM Ingredient WHERE ProductIngredientID = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, productIngredientID);
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu có ít nhất một dòng bị xóa
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+// Hàm xóa một ProductPriceQuantity theo ProductUnitID
+    public boolean deleteProductPriceQuantityByID(String productUnitID) {
+        String sql = "DELETE FROM ProductPriceQuantity WHERE ProductUnitID = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, productUnitID);
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu có ít nhất một dòng bị xóa
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateIngredients1(String productId, List<Ingredient> ingredients) {
+        String updateSql = "UPDATE Ingredient SET IngredientName = ?, Quantity = ?, Unit = ? WHERE ProductIngredientID = ? AND ProductID = ?";
+        String insertSql = "INSERT INTO Ingredient (ProductIngredientID, ProductID, IngredientName, Quantity, Unit) VALUES (?, ?, ?, ?, ?)";
+
+        Set<String> updatedIngredientIDs = new HashSet<>(); // Set để theo dõi các ID đã cập nhật
+
+        try {
+            connection.setAutoCommit(false);
+
+            // Thực hiện cập nhật
+            try (PreparedStatement updatePs = connection.prepareStatement(updateSql)) {
+                for (Ingredient ingredient : ingredients) {
+                    updatePs.setString(1, ingredient.getIngredientName());
+                    updatePs.setFloat(2, ingredient.getQuantity());
+                    updatePs.setString(3, ingredient.getUnit());
+                    updatePs.setString(4, ingredient.getProductIngredientID());
+                    updatePs.setString(5, productId);
+
+                    int rowsUpdated = updatePs.executeUpdate();
+                    if (rowsUpdated > 0) {
+                        updatedIngredientIDs.add(ingredient.getProductIngredientID()); // Thêm ID vào set nếu đã cập nhật
+                    }
+                }
+            }
+
+            // Thực hiện thêm mới
+            try (PreparedStatement insertPs = connection.prepareStatement(insertSql)) {
+                for (Ingredient ingredient : ingredients) {
+                    // Chỉ thêm mới nếu ID chưa có trong danh sách đã cập nhật
+                    if (!updatedIngredientIDs.contains(ingredient.getProductIngredientID())) {
+                        insertPs.setString(1, ingredient.getProductIngredientID());
+                        insertPs.setString(2, productId);
+                        insertPs.setString(3, ingredient.getIngredientName());
+                        insertPs.setFloat(4, ingredient.getQuantity());
+                        insertPs.setString(5, ingredient.getUnit());
+                        insertPs.executeUpdate();
+                    }
+                }
+            }
+
+            connection.commit(); // Cam kết giao dịch
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                connection.rollback(); // Quay lại nếu có lỗi
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            return false;
+        } finally {
+            try {
+                connection.setAutoCommit(true); // Đặt lại auto-commit
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean updateProductPriceQuantity2(String productId, List<ProductPriceQuantity> priceQuantities) {
+        String updateSql = "UPDATE ProductPriceQuantity SET PackagingDetails = ?, UnitID = ?, UnitStatus = ? WHERE ProductUnitID = ? AND ProductID = ?";
+        String insertSql = "INSERT INTO ProductPriceQuantity (ProductUnitID, ProductID, PackagingDetails, UnitID, UnitStatus) VALUES (?, ?, ?, ?, ?)";
+
+        Set<String> updatedProductUnitIDs = new HashSet<>(); // Set để theo dõi các ID đã cập nhật
+
+        try {
+            connection.setAutoCommit(false);
+
+            // Thực hiện cập nhật
+            try (PreparedStatement updatePs = connection.prepareStatement(updateSql)) {
+                for (ProductPriceQuantity p : priceQuantities) {
+                    updatePs.setString(1, p.getPackagingDetails());
+                    updatePs.setString(2, p.getUnitID());
+                    updatePs.setInt(3, p.getUnitStatus()); // Thêm unitStatus cho câu lệnh update
+                    updatePs.setString(4, p.getProductUnitID());
+                    updatePs.setString(5, productId);
+
+                    int rowsUpdated = updatePs.executeUpdate();
+                    if (rowsUpdated > 0) {
+                        updatedProductUnitIDs.add(p.getProductUnitID()); // Thêm ID vào set nếu đã cập nhật
+                    }
+                }
+            }
+
+            // Thực hiện thêm mới
+            try (PreparedStatement insertPs = connection.prepareStatement(insertSql)) {
+                for (ProductPriceQuantity p : priceQuantities) {
+                    // Chỉ thêm mới nếu ID chưa có trong danh sách đã cập nhật
+                    if (!updatedProductUnitIDs.contains(p.getProductUnitID())) {
+                        insertPs.setString(1, p.getProductUnitID());
+                        insertPs.setString(2, productId);
+                        insertPs.setString(3, p.getPackagingDetails());
+                        insertPs.setString(4, p.getUnitID());
+                        insertPs.setInt(5, p.getUnitStatus()); // Thêm unitStatus cho câu lệnh insert
+                        insertPs.executeUpdate();
+                    }
+                }
+            }
+
+            connection.commit(); // Cam kết giao dịch
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                connection.rollback(); // Quay lại nếu có lỗi
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            return false;
+        } finally {
+            try {
+                connection.setAutoCommit(true); // Đặt lại auto-commit
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

@@ -14,13 +14,32 @@ public class ProductPriceQuantity {
     private String packagingDetails;  // Packaging details for the product
     private String productID;  // Foreign key referencing the Product table
     private String unitID;  // Foreign key referencing the Unit table
+    private int unitStatus;
+
+    public float getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(float salePrice) {
+        this.salePrice = salePrice;
+    }
+    private float salePrice;
 
     // Constructor
-    public ProductPriceQuantity(String productUnitID, String packagingDetails, String productID, String unitID) {
+    public ProductPriceQuantity(String productUnitID, String packagingDetails, String productID, String unitID, int unitStatus) {
         this.productUnitID = productUnitID;
         this.packagingDetails = packagingDetails;
         this.productID = productID;
         this.unitID = unitID;
+        this.unitStatus = unitStatus;
+    }
+
+    public int getUnitStatus() {
+        return unitStatus;
+    }
+
+    public void setUnitStatus(int unitStatus) {
+        this.unitStatus = unitStatus;
     }
 
     // Getters and Setters
