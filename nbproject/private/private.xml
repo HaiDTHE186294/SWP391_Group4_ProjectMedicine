@@ -3,14 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/model/Email.java</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/util/GoogleLogin.java</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/VerifyController.java</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/util/PasswordUtil.java</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/GoogleLoginController.java</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/util/Iconstant.java</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/ForgotController.java</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/ConfirmResetCodeController.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/dal/UserDAO.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/ProductDetail.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/model/Product.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/dal/DAOCategory.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/web/images/products/Screenshot_2024-03-27_194320.png</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/web/header.jsp</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/web/login.jsp</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/AddProduct.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/HomeController.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/dal/ProductDAO.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/dal/DBContext.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/web/footer.jsp</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/Update.java</file>
+            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/dal/CategoryDAO.java</file>
         </group>
     </open-files>
 </project-private>
