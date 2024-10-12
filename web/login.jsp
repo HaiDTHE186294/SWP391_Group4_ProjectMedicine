@@ -152,32 +152,7 @@
             </div> <!--end container-->
         </section><!--end section-->
         <!-- Hero End -->
-<<<<<<< HEAD
-        
-        <!-- javascript -->
-        <script src="../assets/js/bootstrap.bundle.min.js"></script>
-        <!-- Icons -->
-        <script src="../assets/js/feather.min.js"></script>
-        <!-- Main Js -->
-        <script src="../assets/js/app.js"></script>
-<<<<<<< HEAD
-        
-=======
-      
-                <div class="form-group">
-                    <p>Don't have an account? <a href="register">Register here</a></p>
-                </div>
-                
-                <c:if test="${not empty error}">
-                    <h2>${error}</h2>
-                </c:if>
-                <h2>${requestScope.successfully}</h2>
-            </fieldset>
-        </form>
->>>>>>> 8969e9080e19dc8bb3c014b79f4fa0abfeab956a
-    </body>
-=======
->>>>>>> b3a2de7272861ce4c6ce3ec1f6be824ce249c6a4
+
 
         <!-- javascript -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
