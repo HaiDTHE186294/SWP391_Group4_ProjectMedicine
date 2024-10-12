@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Ingredient;
 import model.ProductPriceQuantity;
 import model.ProductUnit;
@@ -317,7 +319,48 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
     
-}
+    }
+    
+    
+    public List<Product> getTop8SoldProduct() {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT TOP 8 * FROM Product ORDER BY sold DESC";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                String categoryID = rs.getString("CategoryID");
+                String brand = rs.getString("Brand");
+                String productID = rs.getString("ProductID");
+                String productName = rs.getString("ProductName");
+                String pharmaceuticalForm = rs.getString("PharmaceuticalForm");
+                String brandOrigin = rs.getString("BrandOrigin");
+                String manufacturer = rs.getString("Manufacturer");
+                String countryOfProduction = rs.getString("CountryOfProduction");
+                String shortDescription = rs.getString("ShortDescription");
+                String registrationNumber = rs.getString("RegistrationNumber");
+                String productDescription = rs.getString("ProductDescription");
+                String contentReviewer = rs.getString("ContentReviewer");
+                String faq = rs.getString("FAQ");
+                String productReviews = rs.getString("ProductReviews");
+                int status = rs.getInt("Status");
+                int sold = rs.getInt("Sold");
+                String dateCreated = rs.getString("DateCreated");
+                int productVersion = rs.getInt("ProductVersion");
+                String prescriptionRequired = rs.getString("PrescriptionRequired");
+                String targetAudience = rs.getString("TargetAudience");
+                String imagePath = rs.getString("ImagePath");
+                Product product = new Product(categoryID, brand, productID, productName, pharmaceuticalForm, brandOrigin,
+                        manufacturer, countryOfProduction, shortDescription, registrationNumber,
+                        productDescription, contentReviewer, faq, productReviews, status, sold,
+                        dateCreated, productVersion, prescriptionRequired, targetAudience, imagePath);
+                list.add(product);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
 
 
 }

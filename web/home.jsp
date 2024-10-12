@@ -112,7 +112,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h5 class="mb-0">Most Sold Products</h5>
+                        <h5 class="mb-0">Sản phẩm bán chạy</h5>
                     </div><!--end col-->
                 </div><!--end row-->
 
@@ -484,7 +484,7 @@
             <div class="container mt-100 mt-60">
                 <div class="row">
                     <div class="col-12">
-                        <h5 class="mb-0">Popular Products</h5>
+                        <h5 class="mb-0">Sản phẩm vừa xem</h5>
                     </div><!--end col-->
                 </div><!--end row-->
 
@@ -625,7 +625,7 @@
             <div class="container mt-100 mt-60">
                 <div class="row">
                     <div class="col-12">
-                        <h5 class="mb-0">Recent Products</h5>
+                        <h5 class="mb-0">Sản phẩm mới</h5>
                     </div><!--end col-->
                 </div><!--end row-->
 
