@@ -1,310 +1,198 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Product" %>
-<%@ page import="model.Ingredient" %>
-<%@ page import="model.ProductPriceQuantity" %>
-<%@ page import="model.ProductUnit" %>
 <%@ page import="model.Category" %>
 
+<!DOCTYPE html>
 <html>
     <head>
-        <a href="http://localhost:8080/MedicineShop/testMenu.jsp" class="button">Home</a>
-        <title>Product Detail</title>
+        <meta charset="UTF-8">
+        <title>Product Management - View Product</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
-                margin: 20px;
-                background-color: #f9f9f9;
             }
-            h1 {
-                color: #333;
+            .container {
+                width: 100%;
+                padding: 20px;
+                overflow: visible;
+            }
+            .form-section {
+                border: 1px solid #ccc;
+                padding: 10px;
+                margin-bottom: 20px;
+            }
+            input[type="text"], select, textarea {
+                width: 100%;
+                padding: 8px;
+                margin: 5px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                background-color: #f9f9f9; /* Màu nền để hiện thị không cho chỉnh sửa */
+                pointer-events: none; /* Không cho phép tương tác với trường nhập liệu */
+            }
+            .grid-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
             }
             table {
                 width: 100%;
                 border-collapse: collapse;
-                margin-top: 20px;
             }
             th, td {
-                border: 1px solid #ccc;
                 padding: 10px;
                 text-align: left;
             }
-            th {
-                background-color: #4CAF50;
-                color: white;
-            }
-            tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
-            tr:hover {
-                background-color: #e9e9e9;
-            }
-            .shortened-text {
-                max-width: 150px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                cursor: pointer;
-                color: blue;
-                text-decoration: underline;
-            }
-            .no-data {
-                text-align: center;
-                font-weight: bold;
-                color: #888;
-            }
             .product-image {
-                max-width: 150px;
-            }
-            .full-description {
+                max-width: 200px;
+                display: block;
                 margin-top: 10px;
+            }
+            .ingredientRow {
+                display: flex; /* Đảm bảo xếp hàng ngang */
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+
+            .ingredientInput {
+                width: 30%;
+                padding: 8px;
                 border: 1px solid #ccc;
-                padding: 10px;
-                background-color: #fff;
-                display: none; /* Bắt đầu ẩn mô tả đầy đủ và FAQ */
+                border-radius: 4px;
+                color: black; /* Đặt màu chữ thành đen */
+            }
+            label {
+                color: black; /* Đặt màu chữ nhãn thành đen */
+            }
+
+            .required {
+                color: black; /* Đặt màu chữ cho các nhãn yêu cầu thành đen */
             }
         </style>
-        <script>
-            function toggleDescription(id) {
-                var fullDescriptionElement = document.getElementById(id);
-                if (fullDescriptionElement.style.display === 'none' || fullDescriptionElement.style.display === '') {
-                    fullDescriptionElement.style.display = 'block'; // Hiện mô tả đầy đủ
-                } else {
-                    fullDescriptionElement.style.display = 'none'; // Ẩn mô tả đầy đủ
-                }
-            }
-        </script>
     </head>
     <body>
+        <div class="container">
+            <h1>View Product Information</h1>
+            <form>
+                <div class="grid-container">
+                    <div>
+                        <label for="productId" class="required">ID - Unique</label>
+                        <input type="text" id="productId" name="productId" value="${product.productID}" readonly>
 
-        <h1>Product Detail</h1>
+                        <label for="targetAudience">Target Audience</label>
+                        <input type="text" id="targetAudience" name="targetAudience" value="${product.targetAudience}">
 
-        <!-- First Row: Displaying basic information -->
-        <table>
-            <tr>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Brand</th>
-            </tr>
-            <tr>
-                <%
-                    Product product = (Product) request.getAttribute("product");
-                    if (product != null) {
-                %>
-                <td><%= product.getProductID() %></td>
-                <td><%= product.getProductName() %></td>
-                <td><%= product.getBrand() %></td>
-                <%
-                    } else {
-                %>
-                <td colspan="3" class="no-data">No product available.</td>
-                <%
-                    }
-                %>
-            </tr>
-        </table>
+                        <label for="brand">Brand</label>
+                        <input type="text" id="brand" name="brand" value="${product.brand}">
 
-        <!-- Second Row: Displaying description and category information -->
-        <table>
-            <tr>
-                <th>Description</th>
-                <th>Category Name</th> 
-                <th>Pharmaceutical Form</th>
-            </tr>
-            <tr>
-                <td class="shortened-text" 
-                    onclick="toggleDescription('fullDescription1')">
-                    <%= product.getProductDescription() != null ? product.getProductDescription() : "No description available." %>
-                </td>
-                <td>
-                    <%
-                        List<Category> categories = (List<Category>) session.getAttribute("categories");
-                        String categoryName = "No category available.";
-                        if (categories != null) {
-                            for (Category category : categories) {
-                                if (category.getCategoryID().equals(product.getCategoryID())) {
-                                    categoryName = category.getCategoryName();
-                                    break;
-                                }
-                            }
-                        }
-                    %>
-                    <%= categoryName %>
-                </td>
-                <td><%= product.getPharmaceuticalForm() %></td>
-            </tr>
-            <tr>
-                <td colspan="3" class="full-description" id="fullDescription1">
-                    <%= product.getProductDescription() != null ? product.getProductDescription() : "No description available." %>
-                </td>
-            </tr>
-        </table>
+                        <label for="productName" class="required">Product Name</label>
+                        <input type="text" id="productName" name="productName" value="${product.productName}">
 
-        <!-- Third Row: Displaying origin and manufacturer -->
-        <table>
-            <tr>
-                <th>Brand Origin</th>
-                <th>Manufacturer</th>
-                <th>Country of Production</th>
-            </tr>
-            <tr>
-                <td><%= product.getBrandOrigin() %></td>
-                <td><%= product.getManufacturer() %></td>
-                <td><%= product.getCountryOfProduction() %></td>
-            </tr>
-        </table>
+                        <label for="imageUpload" class="required">Image</label>
+                        <img id="imagePreview" class="product-image" src="${product.imagePath}" alt="Product Image">
 
-        <!-- Fourth Row: Displaying short description and registration -->
-        <table>
-            <tr>
-                <th>Short Description</th>
-                <th>Registration Number</th>
-            </tr>
-            <tr>
-                <td class="shortened-text" 
-                    onclick="toggleDescription('fullDescription2')">
-                    <%= product.getShortDescription() != null ? product.getShortDescription() : "No short description available." %>
-                </td>
-                <td><%= product.getRegistrationNumber() %></td>
-            </tr>
-            <tr>
-                <td colspan="2" class="full-description" id="fullDescription2">
-                    <%= product.getShortDescription() != null ? product.getShortDescription() : "No short description available." %>
-                </td>
-            </tr>
-        </table>
+                        <label for="shortDescription">Short Description</label>
+                        <textarea id="shortDescription" name="shortDescription" readonly>${product.shortDescription}</textarea>
 
-        <!-- Fifth Row: FAQ and status -->
-        <table>
-            <tr>
-                <th>FAQ</th>
-                <th>Status</th>
-            </tr>
-            <tr>
-                <td class="shortened-text" 
-                    onclick="toggleDescription('fullDescription3')">
-                    <%= product.getProductReviews() != null ? product.getProductReviews() : "No FAQ available." %>
-                </td>
-                <td>
-                    <%
-                        // Chuyển đổi Status từ 1/0 sang "Active"/"Inactive"
-                        String status = product.getStatus() == 1 ? "Active" : "Inactive";
-                    %>
-                    <%= status %>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" class="full-description" id="fullDescription3">
-                    <%= product.getProductReviews() != null ? product.getProductReviews() : "No FAQ available." %>
-                </td>
-            </tr>
-        </table>
+                        <label for="faq">FAQ</label>
+                        <textarea id="faq" name="faq" readonly>${product.faq}</textarea>
 
-        <!-- Sixth Row: Additional product information -->
-        <table>
-            <tr>
-                <th>Sold</th>
-                <th>Date Created</th>
-                <th>Product Version</th>
-            </tr>
-            <tr>
-                <td><%= product.getSold() %></td>
-                <td><%= product.getDateCreated() %></td>
-                <td><%= product.getProductVersion() %></td>
-            </tr>
-        </table>
+                        <label for="description" class="required">Description</label>
+                        <textarea id="productDescription" name="description" readonly>${product.productDescription}</textarea>
+                    </div>
 
-        <!-- Seventh Row: Prescription and audience -->
-        <table>
-            <tr>
-                <th>Prescription Required</th>
-                <th>Target Audience</th>
-                <th>Image</th>
-            </tr>
-            <tr>
-                <td><%= product.getPrescriptionRequired() %></td>
-                <td><%= product.getTargetAudience() %></td>
-                <td><img class="product-image" src="<%= product.getImagePath() %>" alt="Product Image"></td>
-            </tr>
-        </table>
+                    <div>
+                        <label for="pharmaceuticalForm">Pharmaceutical Form</label>
+                        <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm" value="${product.pharmaceuticalForm}">
 
-        <!-- Ingredient List -->
-        <h2>Ingredient List</h2>
-        <table>
-            <tr>
-                <th>Ingredient ID</th>
-                <th>Product ID</th>
-                <th>Ingredient Name</th>
-                <th>Quantity</th>
-                <th>Unit</th>
-            </tr>
-            <%
-                List<Ingredient> ingredients = (List<Ingredient>) request.getAttribute("ingredients");
-                if (ingredients != null && !ingredients.isEmpty()) {
-                    for (Ingredient ingredient : ingredients) {
-            %>
-            <tr>
-                <td><%= ingredient.getProductIngredientID() %></td>
-                <td><%= ingredient.getProductID() %></td>
-                <td><%= ingredient.getIngredientName() %></td>
-                <td><%= ingredient.getQuantity() %></td>
-                <td><%= ingredient.getUnit() %></td>
-            </tr>
-            <%
-                    }
-                } else {
-            %>
-            <tr>
-                <td colspan="5" class="no-data">No ingredients available.</td>
-            </tr>
-            <%
-                }
-            %>
-        </table>
+                        <label for="brandOrigin">Brand Origin</label>
+                        <input type="text" id="brandOrigin" name="brandOrigin" value="${product.brandOrigin}">
 
-        <!-- Product Price Quantity List -->
-        <h2>Product Price Quantity List</h2>
-        <table>
-            <tr>
-                <th>Product Unit ID</th>
-                <th>Packaging Details</th>
-                <th>Product ID</th>
-                <th>Unit Name</th>
-            </tr>
-            <%
-                List<ProductPriceQuantity> priceQuantities = (List<ProductPriceQuantity>) request.getAttribute("priceQuantities");
-                List<ProductUnit> units = (List<ProductUnit>) request.getAttribute("units");
-            
-                if (priceQuantities != null && !priceQuantities.isEmpty()) {
-                    for (ProductPriceQuantity ppq : priceQuantities) {
-                        String unitName = "";
-                    
-                        if (units != null) {
-                            for (ProductUnit unit : units) {
-                                if (unit.getUnitID().equals(ppq.getUnitID())) {
-                                    unitName = unit.getUnitName();
-                                    break;
-                                }
-                            }
-                        }
-            %>
-            <tr>
-                <td><%= ppq.getProductUnitID() %></td>
-                <td><%= ppq.getPackagingDetails() %></td>
-                <td><%= ppq.getProductID() %></td>
-                <td><%= unitName %></td>
-            </tr>
-            <%
-                    }
-                } else {
-            %>
-            <tr>
-                <td colspan="4" class="no-data">No price quantities available.</td>
-            </tr>
-            <%
-                }
-            %>
-        </table>
+                        <label for="manufacturer">Manufacturer</label>
+                        <input type="text" id="manufacturer" name="manufacturer" value="${product.manufacturer}">
 
+                        <label for="countryOfProduction">Country of Production</label>
+                        <input type="text" id="countryOfProduction" name="countryOfProduction" value="${product.countryOfProduction}">
+
+                        <label for="registrationNumber" class="required">Registration Number</label>
+                        <input type="text" id="registrationNumber" name="registrationNumber" value="${product.registrationNumber}">
+
+                        <label for="status" class="required">Status</label>
+                        <select id="status" name="status" disabled>
+                            <option value="1" ${product.status == 1 ? "selected" : ""}>Active</option>
+                            <option value="0" ${product.status == 0 ? "selected" : ""}>Inactive</option>
+                            <option value="3" ${product.status == 3 ? "selected" : ""}>Pending</option>
+                            <option value="4" ${product.status == 4 ? "selected" : ""}>Discontinued</option>
+                        </select>
+
+                        <label for="prescriptionRequired" class="required">Prescription Required</label>
+                        <select id="prescriptionRequired" name="prescriptionRequired" disabled>
+                            <option value="yes" ${product.prescriptionRequired.equals("yes") ? "selected" : ""}>Yes</option>
+                            <option value="no" ${product.prescriptionRequired.equals("no") ? "selected" : ""}>No</option>
+                        </select>
+
+                        <label>Category *</label>
+                        <select id="categoryDropdown" name="categoryId" disabled>
+                            <option value="${product.categoryID}">${categoryName}</option> <!-- Hiển thị tên danh mục -->
+                            <c:forEach var="category" items="${sessionScope.categories}">
+                                <option value="${category.categoryID}" ${category.categoryID == product.categoryID ? "selected" : ""}>${category.categoryName}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Ingredients Section -->
+                <div class="form-section">
+                    <h3>Ingredients</h3>
+                    <div id="ingredientContainer">
+                        <c:forEach var="ingredient" items="${ingredients}">
+                            <div class="ingredientRow">
+                                <input type="text" name="ingredientName[]" value="${ingredient.ingredientName}" readonly class="ingredientInput">
+                                <input type="text" name="InUnit[]" value="${ingredient.unit}" readonly class="ingredientInput">
+                                <input type="number" min="1" name="InQuantity[]" value="${ingredient.quantity}" readonly class="ingredientInput">
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+
+                <!-- Unit Section -->
+                <div class="form-section">
+                    <h3>Unit and Packaging Details</h3>
+                    <table id="unitTable">
+                        <tr>
+                            <th>Unit</th>
+                            <th>Packaging Quantity Details</th>
+                            <th>Unit Status</th>
+                            <th>Sale Price (VND)</th>
+                            
+                        </tr>
+                        <c:forEach var="priceQuantity" items="${priceQuantities}">
+                            <tr>
+                                <td>
+                                    <select name="unit[]" disabled>
+                                        <c:forEach var="unit" items="${units}">
+                                            <option value="${unit.unitID}" ${priceQuantity.unitID == unit.unitID ? "selected" : ""}>${unit.unitName}</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                                <td><input type="number" name="packagingDetails[]" value="${priceQuantity.packagingDetails}" readonly placeholder="Packaging details *"></td>
+                                <td>
+                                    <select name="unitStatus[]" required>
+                                        <option value="1" ${priceQuantity.unitStatus == 1 ? "selected" : ""}>Available</option>
+                                        <option value="0" ${priceQuantity.unitStatus == 0 ? "selected" : ""}>Unavailable</option>
+                                        <option value="2" ${priceQuantity.unitStatus == 2 ? "selected" : ""}>Out of stock</option>
+                                    </select>
+                                </td>
+                                <td><input type="number" name="salePrice[]" value="${priceQuantity.salePrice}" readonly placeholder="Sale Price *"></td> <!-- Ô cho Price -->
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+
+                <button type="button" onclick="window.history.back();">Back</button>
+            </form>
+        </div>
     </body>
 </html>
