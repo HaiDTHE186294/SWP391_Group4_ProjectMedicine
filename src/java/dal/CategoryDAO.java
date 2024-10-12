@@ -30,7 +30,86 @@ public class CategoryDAO extends DBContext {
 
         return categories;
     }
-    
-    
+
+    public List<Category> getAllCategoriesR1() {
+        List<Category> categories = new ArrayList<>();
+        String query = "select * from Category where ParentCategoryID = 'R1'";
+
+        try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Category category = new Category();
+                category.setCategoryID(resultSet.getString("CategoryID"));
+                category.setCategoryName(resultSet.getString("CategoryName"));
+                category.setParentCategoryID(resultSet.getString("ParentCategoryID"));
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categories;
+    }
+
+    public List<Category> getAllCategoriesR2() {
+        List<Category> categories = new ArrayList<>();
+        String query = "select * from Category where ParentCategoryID = 'R2'";
+
+        try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Category category = new Category();
+                category.setCategoryID(resultSet.getString("CategoryID"));
+                category.setCategoryName(resultSet.getString("CategoryName"));
+                category.setParentCategoryID(resultSet.getString("ParentCategoryID"));
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categories;
+    }
+
+    public List<Category> getAllCategoriesR3() {
+        List<Category> categories = new ArrayList<>();
+        String query = "select * from Category where ParentCategoryID = 'R3'";
+
+        try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Category category = new Category();
+                category.setCategoryID(resultSet.getString("CategoryID"));
+                category.setCategoryName(resultSet.getString("CategoryName"));
+                category.setParentCategoryID(resultSet.getString("ParentCategoryID"));
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categories;
+    }
+
+    public List<Category> getSubcategoriesByParent(String parentCategoryID) {
+        List<Category> subcategories = new ArrayList<>();
+        String query = "SELECT * FROM Category WHERE ParentCategoryID = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, parentCategoryID);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Category category = new Category();
+                category.setCategoryID(resultSet.getString("CategoryID"));
+                category.setCategoryName(resultSet.getString("CategoryName"));
+                category.setParentCategoryID(resultSet.getString("ParentCategoryID"));
+                subcategories.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return subcategories;
+    }
 
 }

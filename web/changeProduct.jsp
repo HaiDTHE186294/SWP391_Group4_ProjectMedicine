@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Product" %>
+<%@ page import="model.Category" %>
 
 <!DOCTYPE html>
 <html>
@@ -9,6 +10,13 @@
         <meta charset="UTF-8">
         <title>Product Management - Update Product</title>
         <style>
+            input[type="text"], input[type="number"], select, textarea {
+                width: 100%; /* Ensures full width */
+                padding: 8px;
+                margin: 5px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
             body {
                 font-family: Arial, sans-serif;
             }
@@ -68,26 +76,50 @@
         </style>
 
         <script>
+            // Function to check and display the Based Unit message on page load
+            function checkBasedUnitOnLoad() {
+                const packagingInputs = document.querySelectorAll('input[name="packagingDetails[]"]');
+                packagingInputs.forEach(input => {
+                    const messageSpan = input.nextElementSibling; // Get the next sibling span (Based Unit message)
+                    if (input.value.trim() === "1") {
+                        messageSpan.style.display = "inline"; // Show the message
+                    } else {
+                        messageSpan.style.display = "none"; // Hide the message
+                    }
+                });
+            }
+
+            // Run the function when the page loads
+            window.onload = function () {
+                checkBasedUnitOnLoad();
+            };
+            // Function to check if the packaging detail is "1" and show/hide the Based Unit message
+            function checkBasedUnit(input) {
+                const messageSpan = input.nextElementSibling; // Get the next sibling span
+                if (input.value.trim() === "1") {
+                    messageSpan.style.display = "inline"; // Show the message
+                } else {
+                    messageSpan.style.display = "none"; // Hide the message
+                }
+            }
             // Hàm để hiển thị ảnh người dùng chọn
             function previewImage(input) {
                 const preview = document.getElementById('imagePreview');
-
-                // Kiểm tra nếu có ảnh được chọn
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();
-
-                    // Đọc file và hiển thị trong thẻ img
                     reader.onload = function (e) {
                         preview.src = e.target.result;
                     }
-
-                    reader.readAsDataURL(input.files[0]); // Chuyển file thành base64 URL và hiển thị
+                    reader.readAsDataURL(input.files[0]);
                 } else {
-                    // Nếu người dùng không chọn ảnh mới, hiển thị lại ảnh cũ (có thể là ảnh mặc định)
+                    // If no new image is selected, set preview to the current image
                     preview.src = "${product.imagePath}";
+
+                    // Update a hidden input to carry the current image path
+                    document.querySelector("input[name='imagePath']").value = "${product.imagePath}";
                 }
             }
-            
+
             function addIngredientRow() {
                 const container = document.getElementById('ingredientContainer');
                 const newRow = document.createElement('div');
@@ -100,30 +132,55 @@
                 `;
                 container.appendChild(newRow);
             }
-            
+
 
             function addUnitRow() {
                 const table = document.getElementById("unitTable");
-                const row = table.insertRow(-1);
+                const row = table.insertRow(-1); // Thêm hàng mới vào cuối bảng
+
+                // Tạo các ô (td) cho hàng mới
                 const cell1 = row.insertCell(0);
                 const cell2 = row.insertCell(1);
-                
-                // Validate packaging details before adding a new row
+                const cell3 = row.insertCell(2);
+                const cell4 = row.insertCell(3); // Ô thứ 4 cho Sale Price
+
+                // Validate packaging details trước khi thêm hàng mới
                 if (!checkPackagingDetails()) {
-                    return; // Prevent adding if validation fails
+                    return; // Dừng thêm nếu không hợp lệ
                 }
-                
+
+                // Cell 1: Unit Dropdown và nút Remove
                 cell1.innerHTML = `
-                    <select name="unit[]">
+        <select name="unit[]">
             <c:forEach var="unit" items="${units}">
-                            <option value="${unit.unitID}">${unit.unitName}</option>
+                <option value="${unit.unitID}">${unit.unitName}</option>
             </c:forEach>
-                    </select>
-                    <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
-                `;
-                cell2.innerHTML = `<input type="number" name="packagingDetails[]" placeholder="Packaging details *">`;
-                row.cells[0].appendChild(unitOptions);
+        </select>
+        <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+    `;
+
+                // Cell 2: Packaging Details Input
+                cell2.innerHTML = `
+        <input type="number" name="packagingDetails[]" placeholder="Packaging details *" oninput="checkBasedUnit(this)" required>
+        <span class="based-unit-message" style="display: none; color: green;">Based Unit</span>
+    `;
+
+                // Cell 3: Unit Status Dropdown
+                cell3.innerHTML = `
+        <select name="unitStatus[]" required>
+            <option value="1">Available</option>
+            <option value="0">Unavailable</option>
+            <option value="2">Out of stock</option>
+        </select>
+    `;
+
+                // Cell 4: Sale Price Input
+                cell4.innerHTML = `
+        <input type="number" min="0" name="salePrice[]" placeholder="Sale Price - VND *" required>
+    `;
             }
+
+
 
             function removeRow(button) {
                 const row = button.closest('.ingredientRow') || button.closest('tr');
@@ -188,20 +245,31 @@
 
                 return true; // All packaging details are valid
             }
-            
-            
+
+
 
             // Form validation before submission
             function validateForm() {
-                return checkDuplicateUnits() && checkPackagingDetails(); // Call all check functions
+                const imageUpload = document.getElementById('imageUpload');
+                const imagePathInput = document.querySelector("input[name='currentImagePath']"); // Ensure you're using the correct name
+
+                // If the file input is empty, set the image path to the current value
+                if (!imageUpload.files.length) {
+                    imagePathInput.value = "${product.imagePath}"; // Set the current image path
+                }
+
+                // Call all other check functions for validation
+                return checkDuplicateUnits() && checkPackagingDetails(); // Ensure other checks are also valid
             }
+
+
 
         </script>
     </head>
     <body>
         <div class="container">
             <h1>Update Product Information</h1>
-            <form action="updateProduct" method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
+            <form action="Update" method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
                 <div class="grid-container">
                     <div>
                         <label for="productId" class="required">ID - Unique</label>
@@ -216,10 +284,14 @@
                         <label for="productName" class="required">Product Name</label>
                         <input type="text" id="productName" name="productName" value="${product.productName}" required>
 
-                        <label for="imageUpload" class="required">Upload Image</label>
-                        <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this)">
+                        <label for="imageUpload" class="required">Upload Image *</label>
+                        <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this)" required="">
 
-                        <!-- Thêm thẻ img để hiển thị ảnh cũ hoặc ảnh mới khi người dùng thay đổi -->
+                        <label for="currentImagePath" style="display: none;">Current Image Path</label>
+                        <!-- Hidden input to retain the current image path -->
+                        <input type="hidden" name="currentImagePath" value="${product.imagePath}">
+
+
                         <img id="imagePreview" class="product-image" src="${product.imagePath}" alt="Product Image" style="max-width: 200px; display: block; margin-top: 10px;">
 
 
@@ -262,14 +334,18 @@
                             <option value="yes" ${product.prescriptionRequired.equals("yes") ? "selected" : ""}>Yes</option>
                             <option value="no" ${product.prescriptionRequired.equals("no") ? "selected" : ""}>No</option>
                         </select>
-                        
-                        <label >Category *</label>
+
+
+                        <label>Category *</label>
                         <select id="categoryDropdown" name="categoryId" style="width: 100%;" required>
-                            <option value="">Select Category</option>
+                            <option value="${product.categoryID}">${categoryName}</option> <!-- Hiển thị tên danh mục -->
                             <c:forEach var="category" items="${sessionScope.categories}">
-                                <option value="${category.categoryID}">${category.categoryName}</option>
+                                <option value="${category.categoryID}" ${category.categoryID == product.categoryID ? "selected" : ""}>${category.categoryName}</option>
                             </c:forEach>
                         </select>
+
+
+
                     </div>
                 </div>
 
@@ -296,23 +372,43 @@
                         <tr>
                             <th>Unit</th>
                             <th>Packaging Quantity Details</th>
+                            <th>Unit Status</th>
+                            <th>Sale Price by VND</th>
                         </tr>
+
+                        <!-- Loop through existing units from database -->
                         <c:forEach var="priceQuantity" items="${priceQuantities}">
                             <tr>
                                 <td>
                                     <select name="unit[]">
                                         <c:forEach var="unit" items="${units}">
-                                            <option value="${unit.unitID}" ${priceQuantity.unitID == unit.unitID ? "selected" : ""}>${unit.unitName}</option>
+                                            <option value="${unit.unitID}" ${priceQuantity.unitID == unit.unitID ? "selected" : ""}>
+                                                ${unit.unitName}
+                                            </option>
                                         </c:forEach>
                                     </select>
-                                    <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+                                    <!-- Don't show Remove button for existing units -->
                                 </td>
-                                <td><input type="number" name="packagingDetails[]" value="${priceQuantity.packagingDetails}" placeholder="Packaging details *"></td>
+                                <td>
+                                    <input type="number" name="packagingDetails[]" value="${priceQuantity.packagingDetails}" placeholder="Packaging details *" oninput="checkBasedUnit(this)" required="">
+                                    <span class="based-unit-message" style="display: none; color: green;">Based Unit</span>
+                                <td>
+                                    <select name="unitStatus[]" required>
+                                        <option value="1" ${priceQuantity.unitStatus == 1 ? "selected" : ""}>Available</option>
+                                        <option value="0" ${priceQuantity.unitStatus == 0 ? "selected" : ""}>Unavailable</option>
+                                        <option value="2" ${priceQuantity.unitStatus == 2 ? "selected" : ""}>Out of stock</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" min="0" name="salePrice[]"  value="${priceQuantity.salePrice}" placeholder="Sale Price - VND *" required="">
+                                </td>
                             </tr>
                         </c:forEach>
+
                     </table>
                     <button type="button" onclick="addUnitRow()">Add Unit</button>
                 </div>
+
 
                 <button type="submit" onclick="validateForm()">Update Product</button>
             </form>
