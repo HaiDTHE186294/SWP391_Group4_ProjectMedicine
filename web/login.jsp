@@ -7,12 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<<<<<<< HEAD
-
-<html lang="en">
-=======
 <html>
->>>>>>> 84e7a574b1b486a7b53d87d084b906ba99203b72
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Medicine Shop</title>
