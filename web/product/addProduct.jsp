@@ -285,9 +285,6 @@
                         <label for="pharmaceuticalForm">Pharmaceutical Form</label>
                         <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm">
 
-                        <label for="packagingDetails">Packaging Details *</label>
-                        <input type="text" id="packagingDetails" name="packagingDetails" required>
-
                         <label for="brandOrigin">Brand Origin</label>
                         <input type="text" id="brandOrigin" name="brandOrigin">
 

@@ -128,7 +128,7 @@
                     <input type="text" name="ingredientName[]" placeholder="Ingredient Name *" class="ingredientInput" required>
                     <input type="text" name="InUnit[]" placeholder="Unit *" class="ingredientInput" required>
                     <input type="number" name="InQuantity[]" min="1" placeholder="Quantity *" class="ingredientInput" required>
-                    <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+                    <button type="button" class="remove-btn" onclick="removeRow1(this)">Remove</button>
                 `;
                 container.appendChild(newRow);
             }
@@ -188,6 +188,22 @@
                     row.remove();
                 }
             }
+
+            function removeRow1(button) {
+                const container = document.getElementById('ingredientContainer');
+                const rows = container.getElementsByClassName('ingredientRow');
+
+                // Kiểm tra nếu chỉ còn lại 1 dòng thành phần
+                if (rows.length > 1) {
+                    const row = button.closest('.ingredientRow');
+                    if (row) {
+                        row.remove();
+                    }
+                } else {
+                    alert("You must have at least one ingredient.");
+                }
+            }
+
 
             function confirmSubmission() {
                 return confirm("Are you sure you want to update this product?");
@@ -358,7 +374,7 @@
                                 <input type="text" name="ingredientName[]" value="${ingredient.ingredientName}" class="ingredientInput" required>
                                 <input type="text" name="InUnit[]" value="${ingredient.unit}" class="ingredientInput" required>
                                 <input type="number" min="1" name="InQuantity[]" value="${ingredient.quantity}" class="ingredientInput" required>
-                                <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+                                <button type="button" class="remove-btn" onclick="removeRow1(this)">Remove</button>
                             </div>
                         </c:forEach>
                     </div>
