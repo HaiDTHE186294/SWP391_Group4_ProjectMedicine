@@ -19,7 +19,7 @@
         <meta name="website" content="https://shreethemes.in" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="../assets/images/favicon.ico.png">
+        <link rel="shortcut icon" href="assets/images/favicon.ico.png">
         <!-- Bootstrap -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->
@@ -30,8 +30,6 @@
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-
     </head>
     <body>
         <!-- Loader -->

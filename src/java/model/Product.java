@@ -30,7 +30,7 @@ public class Product {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
-
+      
     // Constructor
     public Product(String categoryID, String brand, String productID, String productName, String pharmaceuticalForm, 
                    String brandOrigin, String manufacturer, String countryOfProduction, String shortDescription, 
