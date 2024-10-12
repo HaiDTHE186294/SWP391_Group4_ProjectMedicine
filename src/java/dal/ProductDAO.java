@@ -121,7 +121,7 @@ public class ProductDAO extends DBContext {
     }
 
     public boolean addProductPriceQuantity(ProductPriceQuantity p) {
-        String sql = "INSERT INTO ProductPriceQuantity (ProductUnitID, PackagingDetails, ProductID, UnitID, UnitStatus) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ProductPriceQuantity (ProductUnitID, PackagingDetails, ProductID, UnitID, UnitStatus, SalePrice) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, p.getProductUnitID());
@@ -129,6 +129,7 @@ public class ProductDAO extends DBContext {
             ps.setString(3, p.getProductID());
             ps.setString(4, p.getUnitID());
             ps.setInt(5, p.getUnitStatus());
+            ps.setFloat(6, p.getSalePrice());
 
             ps.executeUpdate();
             return true;
@@ -264,9 +265,10 @@ public class ProductDAO extends DBContext {
                 String productID = rs.getString("ProductID");
                 String unitID = rs.getString("UnitID");
                 int unitStatus = rs.getInt("UnitStatus");
+                float salePrice = rs.getFloat("SalePrice");
 
                 // Tạo đối tượng ProductPriceQuantity và thêm vào danh sách
-                ProductPriceQuantity productPriceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus);
+                ProductPriceQuantity productPriceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus, salePrice);
                 priceQuantities.add(productPriceQuantity);
             }
         } catch (SQLException e) {
@@ -290,7 +292,8 @@ public class ProductDAO extends DBContext {
                 String packagingDetails = rs.getString("PackagingDetails");
                 String unitID = rs.getString("UnitID");
                 int unitStatus = rs.getInt("UnitStatus");
-                ProductPriceQuantity priceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus);
+                float salePrice = rs.getFloat("SalePrice");
+                ProductPriceQuantity priceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus, salePrice);
                 priceQuantities.add(priceQuantity);
             }
         } catch (SQLException e) {
@@ -478,8 +481,8 @@ public class ProductDAO extends DBContext {
     }
 
     public boolean updateProductPriceQuantity2(String productId, List<ProductPriceQuantity> priceQuantities) {
-        String updateSql = "UPDATE ProductPriceQuantity SET PackagingDetails = ?, UnitID = ?, UnitStatus = ? WHERE ProductUnitID = ? AND ProductID = ?";
-        String insertSql = "INSERT INTO ProductPriceQuantity (ProductUnitID, ProductID, PackagingDetails, UnitID, UnitStatus) VALUES (?, ?, ?, ?, ?)";
+        String updateSql = "UPDATE ProductPriceQuantity SET PackagingDetails = ?, UnitID = ?, UnitStatus = ?, SalePrice = ? WHERE ProductUnitID = ? AND ProductID = ?";
+        String insertSql = "INSERT INTO ProductPriceQuantity (ProductUnitID, ProductID, PackagingDetails, UnitID, UnitStatus, SalePrice) VALUES (?, ?, ?, ?, ?, ?)";
 
         Set<String> updatedProductUnitIDs = new HashSet<>(); // Set để theo dõi các ID đã cập nhật
 
@@ -492,8 +495,9 @@ public class ProductDAO extends DBContext {
                     updatePs.setString(1, p.getPackagingDetails());
                     updatePs.setString(2, p.getUnitID());
                     updatePs.setInt(3, p.getUnitStatus()); // Thêm unitStatus cho câu lệnh update
-                    updatePs.setString(4, p.getProductUnitID());
-                    updatePs.setString(5, productId);
+                    updatePs.setFloat(4,p.getSalePrice());
+                    updatePs.setString(5, p.getProductUnitID());
+                    updatePs.setString(6, productId);
 
                     int rowsUpdated = updatePs.executeUpdate();
                     if (rowsUpdated > 0) {
@@ -512,6 +516,7 @@ public class ProductDAO extends DBContext {
                         insertPs.setString(3, p.getPackagingDetails());
                         insertPs.setString(4, p.getUnitID());
                         insertPs.setInt(5, p.getUnitStatus()); // Thêm unitStatus cho câu lệnh insert
+                        insertPs.setFloat(6, p.getSalePrice());
                         insertPs.executeUpdate();
                     }
                 }

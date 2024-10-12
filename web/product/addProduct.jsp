@@ -12,6 +12,7 @@
         <meta charset="UTF-8">
         <title>Product Management - Add Product</title>
         <style>
+            
             body {
                 font-family: Arial, sans-serif;
             }
@@ -206,6 +207,9 @@
                     </select>
                 </td>
                 <td>
+                    <input type="number" min="0" name="salePrice[]" placeholder="Sale Price - VND">
+                </td>
+                <td>
                     <button type="button" onclick="removeUnitRow(this)">Remove</button> <!-- Remove button -->
                 </td>
             `;
@@ -340,6 +344,8 @@
                         <tr>
                             <th>Unit</th>
                             <th>Packaging Quantity Details</th>
+                            <th>Unit Status</th>
+                            <th>Sale Price by VND</th>
                         </tr>
                         <tr>
                             <td>
@@ -358,6 +364,9 @@
                                     <option value="1">Available</option>
                                     <option value="0">Unavailable</option>
                                 </select>
+                            </td>
+                            <td>
+                                <input type="number" min="0" name="salePrice[]" placeholder="Sale Price - VND">
                             </td>
                         </tr>
                     </table>

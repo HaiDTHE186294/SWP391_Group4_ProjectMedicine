@@ -15,6 +15,7 @@ public class ProductPriceQuantity {
     private String productID;  // Foreign key referencing the Product table
     private String unitID;  // Foreign key referencing the Unit table
     private int unitStatus;
+    private float salePrice;
 
     public float getSalePrice() {
         return salePrice;
@@ -23,15 +24,16 @@ public class ProductPriceQuantity {
     public void setSalePrice(float salePrice) {
         this.salePrice = salePrice;
     }
-    private float salePrice;
+    
 
     // Constructor
-    public ProductPriceQuantity(String productUnitID, String packagingDetails, String productID, String unitID, int unitStatus) {
+    public ProductPriceQuantity(String productUnitID, String packagingDetails, String productID, String unitID, int unitStatus, float salePrice) {
         this.productUnitID = productUnitID;
         this.packagingDetails = packagingDetails;
         this.productID = productID;
         this.unitID = unitID;
         this.unitStatus = unitStatus;
+        this.salePrice = salePrice;
     }
 
     public int getUnitStatus() {

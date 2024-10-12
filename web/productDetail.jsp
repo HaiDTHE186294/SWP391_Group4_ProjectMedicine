@@ -164,6 +164,9 @@
                         <tr>
                             <th>Unit</th>
                             <th>Packaging Quantity Details</th>
+                            <th>Unit Status</th>
+                            <th>Sale Price (VND)</th>
+                            
                         </tr>
                         <c:forEach var="priceQuantity" items="${priceQuantities}">
                             <tr>
@@ -175,6 +178,14 @@
                                     </select>
                                 </td>
                                 <td><input type="number" name="packagingDetails[]" value="${priceQuantity.packagingDetails}" readonly placeholder="Packaging details *"></td>
+                                <td>
+                                    <select name="unitStatus[]" required>
+                                        <option value="1" ${priceQuantity.unitStatus == 1 ? "selected" : ""}>Available</option>
+                                        <option value="0" ${priceQuantity.unitStatus == 0 ? "selected" : ""}>Unavailable</option>
+                                        <option value="2" ${priceQuantity.unitStatus == 2 ? "selected" : ""}>Out of stock</option>
+                                    </select>
+                                </td>
+                                <td><input type="number" name="salePrice[]" value="${priceQuantity.salePrice}" readonly placeholder="Sale Price *"></td> <!-- Ô cho Price -->
                             </tr>
                         </c:forEach>
                     </table>

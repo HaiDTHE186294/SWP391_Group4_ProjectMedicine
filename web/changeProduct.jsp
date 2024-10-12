@@ -136,17 +136,20 @@
 
             function addUnitRow() {
                 const table = document.getElementById("unitTable");
-                const row = table.insertRow(-1);
+                const row = table.insertRow(-1); // Thêm hàng mới vào cuối bảng
+
+                // Tạo các ô (td) cho hàng mới
                 const cell1 = row.insertCell(0);
                 const cell2 = row.insertCell(1);
-                const cell3 = row.insertCell(2); // New cell for Unit Status
+                const cell3 = row.insertCell(2);
+                const cell4 = row.insertCell(3); // Ô thứ 4 cho Sale Price
 
-                // Validate packaging details before adding a new row
+                // Validate packaging details trước khi thêm hàng mới
                 if (!checkPackagingDetails()) {
-                    return; // Prevent adding if validation fails
+                    return; // Dừng thêm nếu không hợp lệ
                 }
 
-                // Cell 1: Unit Dropdown
+                // Cell 1: Unit Dropdown và nút Remove
                 cell1.innerHTML = `
         <select name="unit[]">
             <c:forEach var="unit" items="${units}">
@@ -157,17 +160,26 @@
     `;
 
                 // Cell 2: Packaging Details Input
-                cell2.innerHTML = `<input type="number" name="packagingDetails[]" placeholder="Packaging details *" oninput="checkBasedUnit(this)" required>
-                    <span class="based-unit-message" style="display: none; color: green;">Based Unit</span>`;
+                cell2.innerHTML = `
+        <input type="number" name="packagingDetails[]" placeholder="Packaging details *" oninput="checkBasedUnit(this)" required>
+        <span class="based-unit-message" style="display: none; color: green;">Based Unit</span>
+    `;
 
                 // Cell 3: Unit Status Dropdown
                 cell3.innerHTML = `
         <select name="unitStatus[]" required>
             <option value="1">Available</option>
             <option value="0">Unavailable</option>
+            <option value="2">Out of stock</option>
         </select>
     `;
+
+                // Cell 4: Sale Price Input
+                cell4.innerHTML = `
+        <input type="number" min="0" name="salePrice[]" placeholder="Sale Price - VND *" required>
+    `;
             }
+
 
 
             function removeRow(button) {
@@ -360,6 +372,8 @@
                         <tr>
                             <th>Unit</th>
                             <th>Packaging Quantity Details</th>
+                            <th>Unit Status</th>
+                            <th>Sale Price by VND</th>
                         </tr>
 
                         <!-- Loop through existing units from database -->
@@ -382,8 +396,11 @@
                                     <select name="unitStatus[]" required>
                                         <option value="1" ${priceQuantity.unitStatus == 1 ? "selected" : ""}>Available</option>
                                         <option value="0" ${priceQuantity.unitStatus == 0 ? "selected" : ""}>Unavailable</option>
+                                        <option value="2" ${priceQuantity.unitStatus == 2 ? "selected" : ""}>Out of stock</option>
                                     </select>
                                 </td>
+                                <td>
+                                    <input type="number" min="0" name="salePrice[]"  value="${priceQuantity.salePrice}" placeholder="Sale Price - VND *" required="">
                                 </td>
                             </tr>
                         </c:forEach>

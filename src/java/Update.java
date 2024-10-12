@@ -185,6 +185,7 @@ public class Update extends HttpServlet {
         String[] units = request.getParameterValues("unit[]");
         String[] packagingDetails = request.getParameterValues("packagingDetails[]");
         String[] unitStatus = request.getParameterValues("unitStatus[]");
+        String[] salePrices = request.getParameterValues("salePrice[]");
 
         if (units != null && packagingDetails != null && units.length == packagingDetails.length) {
             List<ProductPriceQuantity> priceQuantities = new ArrayList<>();
@@ -193,9 +194,10 @@ public class Update extends HttpServlet {
                 String packagingDetail = packagingDetails[i];
                 String unit = units[i];
                 int UStatus = Integer.parseInt(unitStatus[i]);
+                float sPrice = Float.parseFloat(salePrices[i]);
 
                 // Create ProductPriceQuantity object
-                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit, UStatus);
+                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit, UStatus, sPrice);
                 priceQuantities.add(p);
             }
             // Add all price-quantity details to the database

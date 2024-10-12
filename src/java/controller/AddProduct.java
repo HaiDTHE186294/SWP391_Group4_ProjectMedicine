@@ -140,6 +140,7 @@ public class AddProduct extends HttpServlet {
         String[] units = request.getParameterValues("unit[]");
         String[] packagingDetails = request.getParameterValues("packagingDetails[]");
         String[] unitStatus = request.getParameterValues("unitStatus[]");
+        String[] salePrices = request.getParameterValues("salePrice[]");
 
 // Kiểm tra và thêm dữ liệu vào ProductPriceQuantity
         if (units != null && packagingDetails != null && unitStatus != null
@@ -148,6 +149,7 @@ public class AddProduct extends HttpServlet {
                 String productUnitId = productID + "_U" + i;
                 String packagingDetail = packagingDetails[i];
                 String unit = units[i];
+                String salePrice = salePrices[i];
 
                 // Kiểm tra unitStatus có hợp lệ hay không trước khi chuyển đổi
                 int UStatus;
@@ -157,9 +159,17 @@ public class AddProduct extends HttpServlet {
                     UStatus = 0; // Hoặc giá trị mặc định nếu không chuyển đổi được
                     e.printStackTrace();
                 }
+                
+                float sPrice;
+                try {
+                    sPrice = Float.parseFloat(salePrices[i]); // Chuyển đổi từ chuỗi sang số nguyên
+                } catch (NumberFormatException e) {
+                    sPrice = 0; // Hoặc giá trị mặc định nếu không chuyển đổi được
+                    e.printStackTrace();
+                }
 
                 // Tạo đối tượng ProductPriceQuantity
-                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit, UStatus);
+                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit, UStatus, sPrice);
                 productDAO.addProductPriceQuantity(p);
             }
         } else {
