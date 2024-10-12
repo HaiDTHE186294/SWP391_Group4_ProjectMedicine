@@ -89,34 +89,41 @@ public class Update extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductDAO productDAO = new ProductDAO();
-        // Tạo đường dẫn để lưu ảnh
+
+        // Create the upload path for saving the image
         String originalPath = getServletContext().getRealPath("");
         String modifiedPath = originalPath.replace("\\build\\web\\", "\\web\\");
         String uploadPath = modifiedPath + File.separator + UPLOAD_DIRECTORY;
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
-            uploadDir.mkdir();  // Tạo thư mục nếu chưa tồn tại
+            uploadDir.mkdir();  // Create the directory if it doesn't exist
         }
 
-        // Xử lý upload ảnh
-        Part filePart = request.getPart("imageUpload");  // Lấy file từ request
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // Lấy tên file
-        fileName = fileName.replaceAll("[^a-zA-Z0-9.\\-_]", "_"); // Thay thế ký tự không hợp lệ
+        // Handle image upload
+        
+        Part filePart = request.getPart("imageUpload");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        fileName = fileName.replaceAll("[^a-zA-Z0-9.\\-_]", "_"); // Replace invalid characters
         String filePath = uploadPath + File.separator + fileName;
 
-        // Lưu file vào thư mục
+        // Save the file
         filePart.write(filePath);
 
-        // Nhận dữ liệu từ form
-        String categoryID = request.getParameter("categoryId");
-        String brand = request.getParameter("brand");
+        // Retrieve data from the form
         String productID = request.getParameter("productId");
-        if (productDAO.getProductByID(productID) != null) {
-            String noti = "Duplicate Product ID";
+
+        // Check if the product exists
+        Product existingProduct = productDAO.getProductByID(productID);
+        if (existingProduct == null) {
+            String noti = "Product ID not found!";
             request.setAttribute("noti", noti);
             request.getRequestDispatcher("changeProduct.jsp").forward(request, response);
             return;
         }
+
+        // Collect the rest of the form data
+        String categoryID = request.getParameter("categoryId");
+        String brand = request.getParameter("brand");
         String productName = request.getParameter("productName");
         String pharmaceuticalForm = request.getParameter("pharmaceuticalForm");
         String brandOrigin = request.getParameter("brandOrigin");
@@ -127,34 +134,42 @@ public class Update extends HttpServlet {
         String productDescription = request.getParameter("description");
         String contentReviewer = "none";
         String faq = request.getParameter("faq");
-        String productReviews = "";  // Không có reviews khi tạo sản phẩm
         int status = Integer.parseInt(request.getParameter("status"));
-        int sold = 0;  // Giá trị mặc định cho số lượng bán
-        String dateCreated = java.time.LocalDate.now().toString();
-        int productVersion = 1;  // Phiên bản sản phẩm mặc định
         String prescriptionRequired = request.getParameter("prescriptionRequired");
         String targetAudience = request.getParameter("targetAudience");
 
-        // Tạo đối tượng Product từ dữ liệu nhận được
-        Product product = new Product(categoryID, brand, productID, productName, pharmaceuticalForm, brandOrigin,
-                manufacturer, countryOfProduction, shortDescription, registrationNumber,
-                productDescription, contentReviewer, faq, productReviews, status, sold,
-                dateCreated, productVersion, prescriptionRequired, targetAudience);
+        // Update the existing product object
+        existingProduct.setCategoryID(categoryID);
+        existingProduct.setBrand(brand);
+        existingProduct.setProductName(productName);
+        existingProduct.setPharmaceuticalForm(pharmaceuticalForm);
+        existingProduct.setBrandOrigin(brandOrigin);
+        existingProduct.setManufacturer(manufacturer);
+        existingProduct.setCountryOfProduction(countryOfProduction);
+        existingProduct.setShortDescription(shortDescription);
+        existingProduct.setRegistrationNumber(registrationNumber);
+        existingProduct.setProductDescription(productDescription);
+        existingProduct.setFaq(faq);
+        existingProduct.setStatus(status);
+        existingProduct.setPrescriptionRequired(prescriptionRequired);
+        existingProduct.setTargetAudience(targetAudience);
 
-        // Thêm sản phẩm vào cơ sở dữ liệu
-        productDAO.addProduct(product);
+        // Update the product in the database
+        productDAO.updateProduct(existingProduct);
 
-        // Lưu đường dẫn ảnh vào cơ sở dữ liệu
-        productDAO.saveImagePath(productID, UPLOAD_DIRECTORY + "/" + fileName);
+        // Save image path in the database if a new image was uploaded
+        if (filePart.getSize() > 0) {
+            productDAO.saveImagePath(productID, UPLOAD_DIRECTORY + "/" + fileName);
+        }
 
-        // Lấy dữ liệu nguyên liệu từ form
+        // Handle ingredients update
         String[] ingredientNames = request.getParameterValues("ingredientName[]");
         String[] InQuantities = request.getParameterValues("InQuantity[]");
         String[] InUnits = request.getParameterValues("InUnit[]");
 
-        // Tạo danh sách các nguyên liệu
-        List<Ingredient> ingredients = new ArrayList<>();
+        // Add updated ingredients
         if (ingredientNames != null) {
+            List<Ingredient> ingredients = new ArrayList<>();
             for (int i = 0; i < ingredientNames.length; i++) {
                 if (ingredientNames[i] != null && !ingredientNames[i].isEmpty()) {
                     Ingredient ingredient = new Ingredient(productID, i + 1, ingredientNames[i],
@@ -162,29 +177,35 @@ public class Update extends HttpServlet {
                     ingredients.add(ingredient);
                 }
             }
+            // Clear existing ingredients
+            productDAO.updateIngredients1(productID, ingredients);
         }
 
-        // Thêm nguyên liệu vào cơ sở dữ liệu
-        productDAO.addIngredients(productID, ingredients);
-
-        // Lấy dữ liệu từ form cho ProductPriceQuantity
+        // Handle ProductPriceQuantity update
         String[] units = request.getParameterValues("unit[]");
         String[] packagingDetails = request.getParameterValues("packagingDetails[]");
+        String[] unitStatus = request.getParameterValues("unitStatus[]");
+        String[] salePrices = request.getParameterValues("salePrice[]");
 
-        // Kiểm tra và thêm dữ liệu vào ProductPriceQuantity
         if (units != null && packagingDetails != null && units.length == packagingDetails.length) {
+            List<ProductPriceQuantity> priceQuantities = new ArrayList<>();
             for (int i = 0; i < units.length; i++) {
                 String productUnitId = productID + "_U" + i;
                 String packagingDetail = packagingDetails[i];
                 String unit = units[i];
+                int UStatus = Integer.parseInt(unitStatus[i]);
+                float sPrice = Float.parseFloat(salePrices[i]);
 
-                // Tạo đối tượng ProductPriceQuantity
-                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit);
-                productDAO.addProductPriceQuantity(p);
+                // Create ProductPriceQuantity object
+                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit, UStatus, sPrice);
+                priceQuantities.add(p);
             }
+            // Add all price-quantity details to the database
+            productDAO.updateProductPriceQuantity2(productID, priceQuantities); // Modify this method to accept a list
         }
 
-        // Chuyển hướng đến trang hiển thị thông tin sản phẩm
+        // Redirect to the product management view
         response.sendRedirect("http://localhost:8080/MedicineShop/showProductManageView");
     }
+
 }
