@@ -283,10 +283,7 @@
             }
 
             $(document).ready(function () {
-                $('#targetAudience').select2({
-                    placeholder: "Select Audience",
-                    allowClear: true // Tùy chọn cho phép xóa
-                });
+
                 $('#brandOrigin').select2({
                     placeholder: "Select Country",
                     allowClear: true
@@ -313,15 +310,32 @@
                         <label for="productId" class="required">ID - Unique</label>
                         <input type="text" id="productId" name="productId" value="${product.productID}" readonly required>
 
-          
-                        
+
+
                         <label for="targetAudience">Target Audience *</label>
                         <select id="targetAudience" name="targetAudience" style="width: 100%;" required>
-                            <option value="${product.targetAudience}">${product.targetAudience}</option> <!-- Placeholder -->
-                            <c:forEach var="audience" items="${sessionScope.audiences}">
-                                <option value="${audience}">${audience}</option>
-                            </c:forEach>
+                            <option value="${product.targetAudience}">${product.targetAudience}</option> <!-- Placeholder -->                          
                         </select>
+
+
+                        <div id="targetAudience" style="width: 100%;">
+                            <c:forEach var="audience" items="${sessionScope.audiences}">
+                                <label>
+                                    <input type="checkbox" class="targetAudienceCheckbox" value="${audience}" onchange="updateTargetAudience()"> <!-- Gọi hàm cập nhật -->
+                                    ${audience}
+                                </label>
+                            </c:forEach>
+                        </div>
+                        <input type="hidden" id="targetAudienceInput" name="targetAudience" value="">
+                        <script>
+                            function updateTargetAudience() {
+                                const checkboxes = document.querySelectorAll('.targetAudienceCheckbox:checked'); // Sử dụng class để chọn tất cả checkbox
+                                const values = Array.from(checkboxes).map(cb => cb.value);
+                                document.getElementById('targetAudienceInput').value = values.join(','); // Nối các giá trị bằng dấu phẩy
+                            }
+                        </script>
+
+
 
                         <label for="brand">Brand</label>
                         <input type="text" id="brand" name="brand" value="${product.brand}">
@@ -354,7 +368,7 @@
                         <label for="pharmaceuticalForm">Pharmaceutical Form</label>
                         <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm" value="${product.pharmaceuticalForm}">
 
-                        
+
                         <label for="brandOrigin">Brand Origin *</label>
                         <select id="brandOrigin" name="brandOrigin" style="width: 100%;" required>
                             <option value="${product.brandOrigin}">${product.brandOrigin}</option> <!-- Placeholder -->
@@ -373,7 +387,7 @@
                                 <option value="${country}">${country}</option>
                             </c:forEach>
                         </select>
-                        
+
                         <label for="registrationNumber" class="required">Registration Number</label>
                         <input type="text" id="registrationNumber" name="registrationNumber" value="${product.registrationNumber}" required>
 
@@ -399,7 +413,7 @@
                                 <option value="${category.categoryID}" ${category.categoryID == product.categoryID ? "selected" : ""}>${category.categoryName}</option>
                             </c:forEach>
                         </select>
-                            
+
 
 
                     </div>
