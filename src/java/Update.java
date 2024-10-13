@@ -19,6 +19,7 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Category;
@@ -57,6 +58,19 @@ public class Update extends HttpServlet {
         List<ProductUnit> units = productDAO.getAllUnits(); // Lấy danh sách Unit
         List<Category> categories = categoryDAO.getAllCategories();
         List<Product> products = productDAO.getAllProducts();
+
+        try {
+            // Lấy danh sách quốc gia và nhóm đối tượng
+            List<String> countries = productDAO.getAllCountries();
+            List<String> audiences = productDAO.getAllAudiences();
+
+            // Đưa danh sách quốc gia và đối tượng vào session
+            session.setAttribute("countries", countries);
+            session.setAttribute("audiences", audiences);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         Gson gson = new Gson();
         String categoriesJSON = gson.toJson(categoryDAO.getAllCategories());
@@ -100,7 +114,6 @@ public class Update extends HttpServlet {
         }
 
         // Handle image upload
-        
         Part filePart = request.getPart("imageUpload");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         fileName = fileName.replaceAll("[^a-zA-Z0-9.\\-_]", "_"); // Replace invalid characters
@@ -111,57 +124,118 @@ public class Update extends HttpServlet {
 
         // Retrieve data from the form
         String productID = request.getParameter("productId");
-
-        // Check if the product exists
         Product existingProduct = productDAO.getProductByID(productID);
+
+
         if (existingProduct == null) {
             String noti = "Product ID not found!";
             request.setAttribute("noti", noti);
             request.getRequestDispatcher("changeProduct.jsp").forward(request, response);
             return;
         }
+        
+//Kiểm tra nếu đổi name thì đổi cả
+        if (existingProduct.getSold() != 0 && !existingProduct.getProductName().equals(request.getParameter("productName"))) {
+            // Prepare to add a new product (modify productID and productVersion as needed)
 
+            int newVersion = existingProduct.getProductVersion() + 1; // Increment the version for the new product
+            String newProductID;
+            if (productID.contains("_")) {
+                // If the ID has underscores, reset to the base ID (part before the first underscore)
+                newProductID = productID.split("_")[0] + "_" + newVersion; // Keep the base ID and add new version
+            } else {
+                // If the ID is just a number, append the new version
+                newProductID = productID + "_" + newVersion;
+            }
+
+            // Check for uniqueness of newProductID
+            int counter = 1;
+            while (productDAO.getProductByID(newProductID) != null) {
+                // If the ID already exists, append the counter
+                newProductID = newProductID.split("_")[0] + "_" + newVersion + "_" + counter;
+                counter++;
+            }
+
+            existingProduct.setProductID(newProductID);
+            existingProduct.setProductVersion(newVersion); // Assuming there's a setVersion() method in the Product class
+
+            // Add new product details
+            addProduct(request, existingProduct, filePart, productDAO, fileName);
+
+            // Add ingredients for the new product
+            addIngredients(request, newProductID, productDAO);
+
+            // Add product price quantity for the new product
+            addProductPriceQuantity(request, newProductID, productDAO);
+        } else {
+            // Update product details
+            updateProduct(request, existingProduct, filePart, productDAO, fileName);
+
+            // Update ingredients
+            updateIngredients(request, productID, productDAO);
+
+            // Update ProductPriceQuantity
+            updateProductPriceQuantity(request, productID, productDAO);
+        } 
+
+        // Redirect to the product management view
+        response.sendRedirect("http://localhost:8080/MedicineShop/showProductManageView");
+    }
+
+    private void updateProduct(HttpServletRequest request, Product existingProduct, Part filePart, ProductDAO productDAO, String fileName) {
         // Collect the rest of the form data
-        String categoryID = request.getParameter("categoryId");
-        String brand = request.getParameter("brand");
-        String productName = request.getParameter("productName");
-        String pharmaceuticalForm = request.getParameter("pharmaceuticalForm");
-        String brandOrigin = request.getParameter("brandOrigin");
-        String manufacturer = request.getParameter("manufacturer");
-        String countryOfProduction = request.getParameter("countryOfProduction");
-        String shortDescription = request.getParameter("shortDescription");
-        String registrationNumber = request.getParameter("registrationNumber");
-        String productDescription = request.getParameter("description");
-        String contentReviewer = "none";
-        String faq = request.getParameter("faq");
-        int status = Integer.parseInt(request.getParameter("status"));
-        String prescriptionRequired = request.getParameter("prescriptionRequired");
-        String targetAudience = request.getParameter("targetAudience");
-
-        // Update the existing product object
-        existingProduct.setCategoryID(categoryID);
-        existingProduct.setBrand(brand);
-        existingProduct.setProductName(productName);
-        existingProduct.setPharmaceuticalForm(pharmaceuticalForm);
-        existingProduct.setBrandOrigin(brandOrigin);
-        existingProduct.setManufacturer(manufacturer);
-        existingProduct.setCountryOfProduction(countryOfProduction);
-        existingProduct.setShortDescription(shortDescription);
-        existingProduct.setRegistrationNumber(registrationNumber);
-        existingProduct.setProductDescription(productDescription);
-        existingProduct.setFaq(faq);
-        existingProduct.setStatus(status);
-        existingProduct.setPrescriptionRequired(prescriptionRequired);
-        existingProduct.setTargetAudience(targetAudience);
+        existingProduct.setCategoryID(request.getParameter("categoryId"));
+        existingProduct.setBrand(request.getParameter("brand"));
+        existingProduct.setProductName(request.getParameter("productName"));
+        existingProduct.setPharmaceuticalForm(request.getParameter("pharmaceuticalForm"));
+        existingProduct.setBrandOrigin(request.getParameter("brandOrigin"));
+        existingProduct.setManufacturer(request.getParameter("manufacturer"));
+        existingProduct.setCountryOfProduction(request.getParameter("countryOfProduction"));
+        existingProduct.setShortDescription(request.getParameter("shortDescription"));
+        existingProduct.setRegistrationNumber(request.getParameter("registrationNumber"));
+        existingProduct.setProductDescription(request.getParameter("description"));
+        existingProduct.setFaq(request.getParameter("faq"));
+        existingProduct.setStatus(Integer.parseInt(request.getParameter("status")));
+        existingProduct.setPrescriptionRequired(request.getParameter("prescriptionRequired"));
+        existingProduct.setTargetAudience(request.getParameter("targetAudience"));
 
         // Update the product in the database
         productDAO.updateProduct(existingProduct);
 
         // Save image path in the database if a new image was uploaded
         if (filePart.getSize() > 0) {
-            productDAO.saveImagePath(productID, UPLOAD_DIRECTORY + "/" + fileName);
+            productDAO.saveImagePath(existingProduct.getProductID(), UPLOAD_DIRECTORY + "/" + fileName);
         }
+    }
 
+    private void addProduct(HttpServletRequest request, Product existingProduct, Part filePart, ProductDAO productDAO, String fileName) {
+        // Collect the rest of the form data
+        existingProduct.setCategoryID(request.getParameter("categoryId"));
+        existingProduct.setBrand(request.getParameter("brand"));
+        existingProduct.setProductName(request.getParameter("productName"));
+        existingProduct.setPharmaceuticalForm(request.getParameter("pharmaceuticalForm"));
+        existingProduct.setBrandOrigin(request.getParameter("brandOrigin"));
+        existingProduct.setManufacturer(request.getParameter("manufacturer"));
+        existingProduct.setCountryOfProduction(request.getParameter("countryOfProduction"));
+        existingProduct.setShortDescription(request.getParameter("shortDescription"));
+        existingProduct.setRegistrationNumber(request.getParameter("registrationNumber"));
+        existingProduct.setProductDescription(request.getParameter("description"));
+        existingProduct.setFaq(request.getParameter("faq"));
+        existingProduct.setStatus(Integer.parseInt(request.getParameter("status")));
+        existingProduct.setPrescriptionRequired(request.getParameter("prescriptionRequired"));
+        existingProduct.setTargetAudience(request.getParameter("targetAudience"));
+        existingProduct.setSold(0);
+
+        // Update the product in the database
+        productDAO.addProduct(existingProduct);
+
+        // Save image path in the database if a new image was uploaded
+        if (filePart.getSize() > 0) {
+            productDAO.saveImagePath(existingProduct.getProductID(), UPLOAD_DIRECTORY + "/" + fileName);
+        }
+    }
+
+    private void updateIngredients(HttpServletRequest request, String productID, ProductDAO productDAO) {
         // Handle ingredients update
         String[] ingredientNames = request.getParameterValues("ingredientName[]");
         String[] InQuantities = request.getParameterValues("InQuantity[]");
@@ -180,7 +254,30 @@ public class Update extends HttpServlet {
             // Clear existing ingredients
             productDAO.updateIngredients1(productID, ingredients);
         }
+    }
 
+    private void addIngredients(HttpServletRequest request, String productID, ProductDAO productDAO) {
+        // Handle ingredients update
+        String[] ingredientNames = request.getParameterValues("ingredientName[]");
+        String[] InQuantities = request.getParameterValues("InQuantity[]");
+        String[] InUnits = request.getParameterValues("InUnit[]");
+
+        // Add updated ingredients
+        if (ingredientNames != null) {
+            List<Ingredient> ingredients = new ArrayList<>();
+            for (int i = 0; i < ingredientNames.length; i++) {
+                if (ingredientNames[i] != null && !ingredientNames[i].isEmpty()) {
+                    Ingredient ingredient = new Ingredient(productID, i + 1, ingredientNames[i],
+                            Float.parseFloat(InQuantities[i]), InUnits[i]);
+                    ingredients.add(ingredient);
+                }
+            }
+            // Clear existing ingredients
+            productDAO.addIngredients(productID, ingredients);
+        }
+    }
+
+    private void updateProductPriceQuantity(HttpServletRequest request, String productID, ProductDAO productDAO) {
         // Handle ProductPriceQuantity update
         String[] units = request.getParameterValues("unit[]");
         String[] packagingDetails = request.getParameterValues("packagingDetails[]");
@@ -203,9 +300,30 @@ public class Update extends HttpServlet {
             // Add all price-quantity details to the database
             productDAO.updateProductPriceQuantity2(productID, priceQuantities); // Modify this method to accept a list
         }
+    }
 
-        // Redirect to the product management view
-        response.sendRedirect("http://localhost:8080/MedicineShop/showProductManageView");
+    private void addProductPriceQuantity(HttpServletRequest request, String productID, ProductDAO productDAO) {
+        // Handle ProductPriceQuantity update
+        String[] units = request.getParameterValues("unit[]");
+        String[] packagingDetails = request.getParameterValues("packagingDetails[]");
+        String[] unitStatus = request.getParameterValues("unitStatus[]");
+        String[] salePrices = request.getParameterValues("salePrice[]");
+
+        if (units != null && packagingDetails != null && units.length == packagingDetails.length) {
+            List<ProductPriceQuantity> priceQuantities = new ArrayList<>();
+            for (int i = 0; i < units.length; i++) {
+                String productUnitId = productID + "_U" + i;
+                String packagingDetail = packagingDetails[i];
+                String unit = units[i];
+                int UStatus = Integer.parseInt(unitStatus[i]);
+                float sPrice = Float.parseFloat(salePrices[i]);
+
+                // Create ProductPriceQuantity object
+                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit, UStatus, sPrice);
+                productDAO.addProductPriceQuantity(p);
+            }
+
+        }
     }
 
 }

@@ -57,5 +57,7 @@
     <a href="http://localhost:8080/MedicineShop/register" class="button">Register</a>
     <a href="http://localhost:8080/MedicineShop/showProductManageView" class="button">Product Manage Menu</a>
     <a href="http://localhost:8080/MedicineShop/CategoryURL" class="button">Category List</a>
+    <a href="http://localhost:8080/MedicineShop/stock.jsp" class="button">Stock</a>
+    
 </body>
 </html>
