@@ -3,6 +3,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.Product" %>
 <%@ page import="model.Category" %>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
 
 <!DOCTYPE html>
 <html>
@@ -278,6 +282,24 @@
                 return checkDuplicateUnits() && checkPackagingDetails(); // Ensure other checks are also valid
             }
 
+            $(document).ready(function () {
+                $('#targetAudience').select2({
+                    placeholder: "Select Audience",
+                    allowClear: true // Tùy chọn cho phép xóa
+                });
+                $('#brandOrigin').select2({
+                    placeholder: "Select Country",
+                    allowClear: true
+                });
+                $('#countryOfProduction').select2({
+                    placeholder: "Select Country",
+                    allowClear: true
+                });
+                $('#categoryDropdown').select2({
+                    placeholder: "Select Category",
+                    allowClear: true
+                });
+            });
 
 
         </script>
@@ -291,8 +313,15 @@
                         <label for="productId" class="required">ID - Unique</label>
                         <input type="text" id="productId" name="productId" value="${product.productID}" readonly required>
 
-                        <label for="targetAudience">Target Audience</label>
-                        <input type="text" id="targetAudience" name="targetAudience" value="${product.targetAudience}">
+          
+                        
+                        <label for="targetAudience">Target Audience *</label>
+                        <select id="targetAudience" name="targetAudience" style="width: 100%;" required>
+                            <option value="${product.targetAudience}">${product.targetAudience}</option> <!-- Placeholder -->
+                            <c:forEach var="audience" items="${sessionScope.audiences}">
+                                <option value="${audience}">${audience}</option>
+                            </c:forEach>
+                        </select>
 
                         <label for="brand">Brand</label>
                         <input type="text" id="brand" name="brand" value="${product.brand}">
@@ -325,15 +354,26 @@
                         <label for="pharmaceuticalForm">Pharmaceutical Form</label>
                         <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm" value="${product.pharmaceuticalForm}">
 
-                        <label for="brandOrigin">Brand Origin</label>
-                        <input type="text" id="brandOrigin" name="brandOrigin" value="${product.brandOrigin}">
+                        
+                        <label for="brandOrigin">Brand Origin *</label>
+                        <select id="brandOrigin" name="brandOrigin" style="width: 100%;" required>
+                            <option value="${product.brandOrigin}">${product.brandOrigin}</option> <!-- Placeholder -->
+                            <c:forEach var="country" items="${sessionScope.countries}">
+                                <option value="${country}">${country}</option>
+                            </c:forEach>
+                        </select>
 
                         <label for="manufacturer">Manufacturer</label>
                         <input type="text" id="manufacturer" name="manufacturer" value="${product.manufacturer}">
 
-                        <label for="countryOfProduction">Country of Production</label>
-                        <input type="text" id="countryOfProduction" name="countryOfProduction" value="${product.countryOfProduction}">
-
+                        <label for="countryOfProduction">Country of Production *</label>
+                        <select id="countryOfProduction" name="countryOfProduction" style="width: 100%;" required>
+                            <option value="${product.countryOfProduction}">${product.countryOfProduction}</option> <!-- Placeholder -->
+                            <c:forEach var="country" items="${sessionScope.countries}">
+                                <option value="${country}">${country}</option>
+                            </c:forEach>
+                        </select>
+                        
                         <label for="registrationNumber" class="required">Registration Number</label>
                         <input type="text" id="registrationNumber" name="registrationNumber" value="${product.registrationNumber}" required>
 
@@ -352,14 +392,14 @@
                         </select>
 
 
-                        <label>Category *</label>
+                        <label for="categoryDropdown">Category *</label>
                         <select id="categoryDropdown" name="categoryId" style="width: 100%;" required>
                             <option value="${product.categoryID}">${categoryName}</option> <!-- Hiển thị tên danh mục -->
                             <c:forEach var="category" items="${sessionScope.categories}">
                                 <option value="${category.categoryID}" ${category.categoryID == product.categoryID ? "selected" : ""}>${category.categoryName}</option>
                             </c:forEach>
                         </select>
-
+                            
 
 
                     </div>

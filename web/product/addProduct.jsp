@@ -2,6 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Product" %>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 <%
     List<Product> products = (List<Product>) session.getAttribute("products");
@@ -12,7 +15,7 @@
         <meta charset="UTF-8">
         <title>Product Management - Add Product</title>
         <style>
-            
+
             body {
                 font-family: Arial, sans-serif;
             }
@@ -98,7 +101,6 @@
             function checkDuplicateUnits() {
                 const unitSelects = document.querySelectorAll('select[name="unit[]"]');
                 const unitValues = [];
-
                 for (let select of unitSelects) {
                     const value = select.value;
                     if (value) { // Only consider non-empty values
@@ -118,7 +120,6 @@
             // Function to check packaging details
             function checkPackagingDetails() {
                 const packagingInputs = document.querySelectorAll('input[name="packagingDetails[]"]');
-
                 let countOne = 0; // Count of packaging details with value "1"
                 const nonNumericRegex = /[^0-9]/; // Regex to check for non-numeric characters
 
@@ -181,7 +182,6 @@
 
             function addUnitRow() {
                 const table = document.getElementById("unitTable");
-
                 // Validate packaging details before adding a new row
                 if (!checkPackagingDetails()) {
                     return; // Prevent adding if validation fails
@@ -233,6 +233,26 @@
             window.onload = function () {
                 preventNegativeNumbers();
             };
+
+            $(document).ready(function () {
+                $('#targetAudience').select2({
+                    placeholder: "Select Audience",
+                    allowClear: true // Tùy chọn cho phép xóa
+                });
+                $('#brandOrigin').select2({
+                    placeholder: "Select Country",
+                    allowClear: true
+                });
+                $('#countryOfProduction').select2({
+                    placeholder: "Select Country",
+                    allowClear: true
+                });
+                $('#categoryDropdown').select2({
+                    placeholder: "Select Category",
+                    allowClear: true
+                });
+            });
+
         </script>
 
 
@@ -257,8 +277,13 @@
                         <label for="productId">ID - Unique *</label>
                         <input type="text" id="productId" name="productId" required>
 
-                        <label for="targetAudience">Target Audience</label>
-                        <input type="text" id="targetAudience" name="targetAudience">
+                        <label for="targetAudience">Target Audience *</label>
+                        <select id="targetAudience" name="targetAudience" style="width: 100%;" required>
+                            <option value=""></option> <!-- Placeholder -->
+                            <c:forEach var="audience" items="${sessionScope.audiences}">
+                                <option value="${audience}">${audience}</option>
+                            </c:forEach>
+                        </select>
 
                         <label for="brand">Brand</label>
                         <input type="text" id="brand" name="brand">
@@ -285,14 +310,25 @@
                         <label for="pharmaceuticalForm">Pharmaceutical Form</label>
                         <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm">
 
-                        <label for="brandOrigin">Brand Origin</label>
-                        <input type="text" id="brandOrigin" name="brandOrigin">
+                        <label for="brandOrigin">Brand Origin *</label>
+                        <select id="brandOrigin" name="brandOrigin" style="width: 100%;" required>
+                            <option value=""></option> <!-- Placeholder -->
+                            <c:forEach var="country" items="${sessionScope.countries}">
+                                <option value="${country}">${country}</option>
+                            </c:forEach>
+                        </select>
+
 
                         <label for="manufacturer">Manufacturer</label>
                         <input type="text" id="manufacturer" name="manufacturer">
 
-                        <label for="countryOfProduction">Country of Production</label>
-                        <input type="text" id="countryOfProduction" name="countryOfProduction">
+                        <label for="countryOfProduction">Country of Production *</label>
+                        <select id="countryOfProduction" name="countryOfProduction" style="width: 100%;" required>
+                            <option value=""></option> <!-- Placeholder -->
+                            <c:forEach var="country" items="${sessionScope.countries}">
+                                <option value="${country}">${country}</option>
+                            </c:forEach>
+                        </select>
 
                         <label for="registrationNumber">Registration Number *</label>
                         <input type="text" id="registrationNumber" name="registrationNumber" required>
@@ -311,9 +347,9 @@
                             <option value="no">No</option>
                         </select>
 
-                        <label >Category *</label>
+                        <label for="categoryDropdown">Category *</label>
                         <select id="categoryDropdown" name="categoryId" style="width: 100%;" required>
-                            <option value="">Select Category</option>
+                            <option value=""></option> <!-- Placeholder -->
                             <c:forEach var="category" items="${sessionScope.categories}">
                                 <option value="${category.categoryID}">${category.categoryName}</option>
                             </c:forEach>

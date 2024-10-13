@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -327,50 +329,62 @@ public class ProductDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    
+
     }
-    
-    
-    public List<Product> getTop8SoldProduct() {
-        List<Product> list = new ArrayList<>();
-        String sql = "SELECT TOP 8 * FROM Product ORDER BY sold DESC";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
+
+    // Method to get the top 8 sold products
+    public List<Map<String, Object>> getTop8SoldProducts() {
+        List<Map<String, Object>> productList = new ArrayList<>();
+        String sql = "SELECT TOP 8 p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+                + "FROM Product p "
+                + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
+                + "JOIN Unit u ON pp.UnitID = u.UnitID "
+                + "WHERE pp.PackagingDetails = 1 "
+                + "ORDER BY p.Sold DESC";
+
+        try (PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
-                String categoryID = rs.getString("CategoryID");
-                String brand = rs.getString("Brand");
-                String productID = rs.getString("ProductID");
-                String productName = rs.getString("ProductName");
-                String pharmaceuticalForm = rs.getString("PharmaceuticalForm");
-                String brandOrigin = rs.getString("BrandOrigin");
-                String manufacturer = rs.getString("Manufacturer");
-                String countryOfProduction = rs.getString("CountryOfProduction");
-                String shortDescription = rs.getString("ShortDescription");
-                String registrationNumber = rs.getString("RegistrationNumber");
-                String productDescription = rs.getString("ProductDescription");
-                String contentReviewer = rs.getString("ContentReviewer");
-                String faq = rs.getString("FAQ");
-                String productReviews = rs.getString("ProductReviews");
-                int status = rs.getInt("Status");
-                int sold = rs.getInt("Sold");
-                String dateCreated = rs.getString("DateCreated");
-                int productVersion = rs.getInt("ProductVersion");
-                String prescriptionRequired = rs.getString("PrescriptionRequired");
-                String targetAudience = rs.getString("TargetAudience");
-                String imagePath = rs.getString("ImagePath");
-                Product product = new Product(categoryID, brand, productID, productName, pharmaceuticalForm, brandOrigin,
-                        manufacturer, countryOfProduction, shortDescription, registrationNumber,
-                        productDescription, contentReviewer, faq, productReviews, status, sold,
-                        dateCreated, productVersion, prescriptionRequired, targetAudience, imagePath);
-                list.add(product);
+                Map<String, Object> productDetails = new HashMap<>();
+                productDetails.put("ProductID", rs.getString("ProductID"));
+                productDetails.put("productName", rs.getString("ProductName"));
+                productDetails.put("imagePath", rs.getString("ImagePath"));
+                productDetails.put("salePrice", rs.getFloat("SalePrice"));
+                productDetails.put("unitName", rs.getString("UnitName"));
+
+                productList.add(productDetails);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return list;
+        return productList;
     }
 
+    // Method to get the top 8 latest products
+    public List<Map<String, Object>> getLatest8Products() {
+        List<Map<String, Object>> productList = new ArrayList<>();
+        String sql = "SELECT TOP 8 p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+                + "FROM Product p "
+                + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
+                + "JOIN Unit u ON pp.UnitID = u.UnitID "
+                + "WHERE pp.PackagingDetails = 1 "
+                + "ORDER BY p.DateCreated ASC";
+
+        try (PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                Map<String, Object> productData = new HashMap<>();
+                productData.put("ProductID", rs.getString("ProductID"));
+                productData.put("ProductName", rs.getString("ProductName"));
+                productData.put("ImagePath", rs.getString("ImagePath"));
+                productData.put("SalePrice", rs.getFloat("salePrice"));
+                productData.put("UnitName", rs.getString("UnitName"));
+
+                productList.add(productData);  // Add to the list
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return productList;
+    }
     
 
     public boolean updateProduct(Product product) {
@@ -578,6 +592,38 @@ public class ProductDAO extends DBContext {
                 e.printStackTrace();
             }
         }
+    }
+    
+    // Lấy danh sách quốc gia
+    public List<String> getAllCountries() throws SQLException {
+        List<String> countries = new ArrayList<>();
+        String sql = "SELECT CountryName FROM Country";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String country = rs.getString("CountryName");
+                countries.add(country);
+            }
+        }
+        return countries;
+    }
+
+    // Lấy danh sách nhóm đối tượng
+    public List<String> getAllAudiences() throws SQLException {
+        List<String> audiences = new ArrayList<>();
+        String sql = "SELECT TargetAudience FROM Audience";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String audience = rs.getString("TargetAudience");
+                audiences.add(audience);
+            }
+        }
+        return audiences;
     }
 
 }
