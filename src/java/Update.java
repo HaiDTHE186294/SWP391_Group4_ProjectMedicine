@@ -19,6 +19,7 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Category;
@@ -57,6 +58,19 @@ public class Update extends HttpServlet {
         List<ProductUnit> units = productDAO.getAllUnits(); // Lấy danh sách Unit
         List<Category> categories = categoryDAO.getAllCategories();
         List<Product> products = productDAO.getAllProducts();
+
+        try {
+            // Lấy danh sách quốc gia và nhóm đối tượng
+            List<String> countries = productDAO.getAllCountries();
+            List<String> audiences = productDAO.getAllAudiences();
+
+            // Đưa danh sách quốc gia và đối tượng vào session
+            session.setAttribute("countries", countries);
+            session.setAttribute("audiences", audiences);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         Gson gson = new Gson();
         String categoriesJSON = gson.toJson(categoryDAO.getAllCategories());
@@ -100,7 +114,6 @@ public class Update extends HttpServlet {
         }
 
         // Handle image upload
-        
         Part filePart = request.getPart("imageUpload");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         fileName = fileName.replaceAll("[^a-zA-Z0-9.\\-_]", "_"); // Replace invalid characters

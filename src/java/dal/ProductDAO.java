@@ -579,5 +579,37 @@ public class ProductDAO extends DBContext {
             }
         }
     }
+    
+    // Lấy danh sách quốc gia
+    public List<String> getAllCountries() throws SQLException {
+        List<String> countries = new ArrayList<>();
+        String sql = "SELECT CountryName FROM Country";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String country = rs.getString("CountryName");
+                countries.add(country);
+            }
+        }
+        return countries;
+    }
+
+    // Lấy danh sách nhóm đối tượng
+    public List<String> getAllAudiences() throws SQLException {
+        List<String> audiences = new ArrayList<>();
+        String sql = "SELECT TargetAudience FROM Audience";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String audience = rs.getString("TargetAudience");
+                audiences.add(audience);
+            }
+        }
+        return audiences;
+    }
 
 }
