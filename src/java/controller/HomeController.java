@@ -99,10 +99,13 @@ public class HomeController extends HttpServlet {
         }
         session.setAttribute("subcategoriesMapR3", subcategoriesMapR3);
 
-        // 4. Get the top 8 sold products
+         // Fetch the top 8 sold products
         ProductDAO productDao = new ProductDAO();
-        List<Product> listTop8SoldProduct = productDao.getTop8SoldProduct();
-        request.setAttribute("listTop8SoldProduct", listTop8SoldProduct);
+        List<Map<String, Object>> listTop8SoldProducts = productDao.getTop8SoldProducts();
+        request.setAttribute("listTop8SoldProducts", listTop8SoldProducts);
+        
+        List<Map<String, Object>> latestProducts = productDao.getLatest8Products();
+        request.setAttribute("latestProducts", latestProducts);
 
         // Forward the request to the home.jsp page
         request.getRequestDispatcher("home.jsp").forward(request, response);
