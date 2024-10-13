@@ -20,8 +20,11 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Category;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -41,6 +44,19 @@ public class AddProduct extends HttpServlet {
         List<Category> categories = categoryDAO.getAllCategories();
         List<Product> products = productDAO.getAllProducts();
 
+        try {
+            // Lấy danh sách quốc gia và nhóm đối tượng
+            List<String> countries = productDAO.getAllCountries();
+            List<String> audiences = productDAO.getAllAudiences();
+
+            // Đưa danh sách quốc gia và đối tượng vào session
+            session.setAttribute("countries", countries);
+            session.setAttribute("audiences", audiences);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+        
         Gson gson = new Gson();
         String categoriesJSON = gson.toJson(categoryDAO.getAllCategories());
         session.setAttribute("categoriesJSON", categoriesJSON);
@@ -159,7 +175,7 @@ public class AddProduct extends HttpServlet {
                     UStatus = 0; // Hoặc giá trị mặc định nếu không chuyển đổi được
                     e.printStackTrace();
                 }
-                
+
                 float sPrice;
                 try {
                     sPrice = Float.parseFloat(salePrices[i]); // Chuyển đổi từ chuỗi sang số nguyên
