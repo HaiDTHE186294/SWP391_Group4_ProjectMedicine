@@ -93,6 +93,9 @@ public class importServlet extends HttpServlet {
         // Call the importProduct method from ImportDAO
         stockDAO stockDao = new stockDAO();
         boolean success = stockDao.importProduct(importData);
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/stockView");
+        dispatcher.forward(request, response);
 
     }
 

@@ -313,7 +313,7 @@
                     <!-- Left Section -->
                     <div>
                         <label for="productId">ID - Unique *</label>
-                        <input type="text" id="productId" name="productId" required>
+                        <input type="text" id="productId" name="productId" required maxlength="15">
 
                         <label for="targetAudience">Target Audience *</label>
                         <div id="targetAudience" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 5px;">
