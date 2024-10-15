@@ -43,5 +43,7 @@
     <a href="http://localhost:8080/MedicineShop/confirmpass" class="button">Confirm Password</a>
     <a href="http://localhost:8080/MedicineShop/showProductManageView" class="button">Product Manage Menu</a>
     <a href="http://localhost:8080/MedicineShop/CategoryURL?service=listAllCategory" class="button">Category List</a>
+    <a href="http://localhost:8080/MedicineShop/AccountURL" class="button">Account List</a>
+    <a href="http://localhost:8080/MedicineShop/StaffURL" class="button">Staff   List</a>
 </body>
 </html>

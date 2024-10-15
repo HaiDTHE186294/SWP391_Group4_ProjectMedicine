@@ -9,7 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Category;
 
 /**
@@ -18,20 +19,26 @@ import model.Category;
  */
 public class DAOCategory extends DBContext {
 
-    public void removeCategory(int CategoryID) {
-        String sql = "DELETE FROM [dbo].[Category] WHERE [CategoryID] = ?";
+    public int removeCategory(String CategoryID) {
+        int n = 0;
         try {
-            PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setInt(1, CategoryID);
-            pre.executeUpdate();
+            String sql = """
+                         UPDATE Category
+                         SET Status = '0'
+                         WHERE CategoryID = 
+                         """ + CategoryID;
+
+            Statement state = connection.createStatement();
+            n = state.executeUpdate(sql);
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(DAOCategory.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return n;
     }
 
     public boolean insertCategory(Category category) {
         String sql = "INSERT INTO [dbo].[Category]\n"
-                + "           ([CategoryID], [Icon], [CategoryName], [ParentCategoryID])"
+                + "           ([CategoryID], [Icon], [CategoryName], [ParentCategoryID],[Status])"
                 + "     VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
@@ -39,6 +46,7 @@ public class DAOCategory extends DBContext {
             pre.setString(2, category.getIcon());
             pre.setString(3, category.getCategoryName());
             pre.setString(4, category.getParentCategoryID());
+            pre.setInt(4, 1);
             int rowsAffected = pre.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException ex) {
@@ -67,8 +75,8 @@ public class DAOCategory extends DBContext {
         }
     }
 
-    public List<Category> getCategory(String sql) {
-        List<Category> list = new ArrayList<>();
+    public ArrayList<Category> getCategory(String sql) {
+        ArrayList<Category> list = new ArrayList<>();
         try {
             Statement state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
@@ -78,7 +86,8 @@ public class DAOCategory extends DBContext {
                 String icon = rs.getString(2);
                 String catename = rs.getString(3);
                 String pcateid = rs.getString(4);
-                Category category = new Category(cateid, icon, catename, pcateid);
+                int status = rs.getInt(5);
+                Category category = new Category(cateid, icon, catename, pcateid,status);
                 list.add(category);
             }
         } catch (SQLException ex) {
@@ -86,33 +95,10 @@ public class DAOCategory extends DBContext {
         }
         return list;
     }
-    
-    public int addCategory(Category pro) {
-        int n = 0;
-        String sql = "INSERT INTO [dbo].[Category]\n"
-                + "           ([CategoryID]\n"
-                + "           ,[Icon]\n"
-                + "           ,[CategoryName]\n"
-                + "           ,[ParentCategoryID]\n"
-                + "     VALUES(?,?,?,?)";
-        try {
-            PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setString(1, pro.getCategoryID());
-            pre.setString(2, pro.getIcon());
-            pre.setString(3, pro.getCategoryName());
-            pre.setString(4, pro.getParentCategoryID());
 
-            n = pre.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
-        return n;
-    }
-    
-    public List<Category> getAllCategories() {
-        List<Category> categories = new ArrayList<>();
-        String sql = "SELECT CategoryID, icon, CategoryName, ParentCategoryID FROM Category";
+    public ArrayList<Category> getAllCategories() {
+        ArrayList<Category> categories = new ArrayList<>();
+        String sql = "SELECT CategoryID, icon, CategoryName, ParentCategoryID ,Status FROM Category";
 
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -120,9 +106,9 @@ public class DAOCategory extends DBContext {
                 String icon = rs.getString("icon");
                 String categoryName = rs.getString("CategoryName");
                 String parentCategoryID = rs.getString("ParentCategoryID");
-
+                int status = rs.getInt("Status");
                 // Tạo đối tượng Category và thêm vào danh sách
-                categories.add(new Category(categoryID, icon, categoryName, parentCategoryID));
+                categories.add(new Category(categoryID, icon, categoryName, parentCategoryID,status));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -131,21 +117,4 @@ public class DAOCategory extends DBContext {
         return categories;
     }
 
-    public void listAll() {
-        String sql = "select * from Category";
-        try {
-            Statement state = connection.createStatement();
-            ResultSet rs = state.executeQuery(sql);
-            while (rs.next()) {
-                String categoryid = rs.getString(1);
-                String icon = rs.getString(2);
-                String categoryname = rs.getString(3);
-                String pcategoryid = rs.getString(4);
-                Category category = new Category(categoryid, icon, categoryname, pcategoryid);
-                System.out.println(category);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
 }

@@ -15,7 +15,7 @@
     </head>
     <body>
 
-        <form action="../CategoryURL" method="post">
+        <form action="CategoryURL" method="post">
             <input type="hidden" name="service" value="insertCategory">
             <table>
                 <caption>Add Category Table</caption>

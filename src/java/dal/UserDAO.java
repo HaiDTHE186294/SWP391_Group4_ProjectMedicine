@@ -8,6 +8,8 @@ import model.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import org.mindrot.jbcrypt.BCrypt;
 import util.PasswordUtil;
 
@@ -194,4 +196,60 @@ public class UserDAO extends DBContext {
         }
         return user;
     }
+    
+    public int removeUser(String UserID) {
+        int n = 0;
+        try {
+            String sql = """
+                         UPDATE users
+                         SET status = '0'
+                         WHERE user_id = """ + UserID;
+
+            Statement state = connection.createStatement();
+            n = state.executeUpdate(sql);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return n;
+    }
+    
+    public void insertUser(String fullname, String username, String password, String email,int roleId, String phone, String address, String image) {
+
+        String hashedPassword = PasswordUtil.hashPasswordBCrypt(password);
+        String sql = "INSERT INTO Users (full_name, username, password, email, role_id, status, phone, address, image) VALUES (?, ?, ?, ?, ?, 1, ?, ?, ?)";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, fullname);
+            st.setString(2, username);
+            st.setString(3, hashedPassword);
+            st.setString(4, email);
+            st.setInt(5, roleId);
+            st.setString(6, phone);
+            st.setString(7, address);
+            st.setString(8, image);
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public ArrayList<User> getAllUsers(String sql) {
+        ArrayList<User> users = new ArrayList<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                String full_name = rs.getString("full_name");
+                String image = rs.getString("image");
+                int role_id = rs.getInt("role_id");
+                int status = rs.getInt("status");
+                users.add(new User(full_name, image, role_id, status));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
+    }
+    
 }

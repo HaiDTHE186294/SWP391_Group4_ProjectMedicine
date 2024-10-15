@@ -12,7 +12,7 @@ public class CategoryDAO extends DBContext {
     // Phương thức để lấy tất cả danh mục từ cơ sở dữ liệu
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
-        String sql = "SELECT CategoryID, icon, CategoryName, ParentCategoryID FROM Category";
+        String sql = "SELECT CategoryID, icon, CategoryName, ParentCategoryID , Status FROM Category";
 
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -20,9 +20,9 @@ public class CategoryDAO extends DBContext {
                 String icon = rs.getString("icon");
                 String categoryName = rs.getString("CategoryName");
                 String parentCategoryID = rs.getString("ParentCategoryID");
-
+                int status = rs.getInt("Status");
                 // Tạo đối tượng Category và thêm vào danh sách
-                categories.add(new Category(categoryID, icon, categoryName, parentCategoryID));
+                categories.add(new Category(categoryID, icon, categoryName, parentCategoryID,status));
             }
         } catch (SQLException e) {
             e.printStackTrace();
