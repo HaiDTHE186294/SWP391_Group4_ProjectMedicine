@@ -239,6 +239,7 @@
                     <select name="unitStatus[]">
                         <option value="1">Available</option>
                         <option value="0">Unavailable</option>
+                        <option value="2">OutOfStock</option>
                     </select>
                 </td>
                 <td>
@@ -291,7 +292,7 @@
             });
 
         </script>
-
+    <%@ include file="dashboardHeader.jsp" %>
 
 
     </head>
@@ -335,8 +336,8 @@
 
 
 
-                        <label for="brand">Brand</label>
-                        <input type="text" id="brand" name="brand">
+                        <label for="brand">Brand *</label>
+                        <input type="text" id="brand" name="brand" required>
 
                         <label for="productName">Product Name *</label>
                         <input type="text" id="productName" name="productName" required>
@@ -354,8 +355,8 @@
 
                     <!-- Right Section -->
                     <div>
-                        <label for="pharmaceuticalForm">Pharmaceutical Form</label>
-                        <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm">
+                        <label for="pharmaceuticalForm">Pharmaceutical Form *</label>
+                        <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm" required>
 
                         <label for="brandOrigin">Brand Origin *</label>
                         <select id="brandOrigin" name="brandOrigin" style="width: 100%;" required>
@@ -401,6 +402,9 @@
                                 <option value="${category.categoryID}">${category.categoryName}</option>
                             </c:forEach>
                         </select>
+                        
+                        <label for="ing">Ingredient per Unit *</label>
+                        <input type="text" id="ing" name="ing" placeholder="Unit *" required>
 
                         <label for="imageUpload" >Upload Image *</label>
                         <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this)" required>

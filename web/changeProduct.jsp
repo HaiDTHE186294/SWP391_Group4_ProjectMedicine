@@ -166,21 +166,22 @@
                 const cell1 = row.insertCell(0);
                 const cell2 = row.insertCell(1);
                 const cell3 = row.insertCell(2);
-                const cell4 = row.insertCell(3); // Ô thứ 4 cho Sale Price
+                const cell4 = row.insertCell(3);
+                const cell5 = row.insertCell(4);// Ô thứ 4 cho Sale Price
 
                 // Validate packaging details trước khi thêm hàng mới
                 if (!checkPackagingDetails()) {
                     return; // Dừng thêm nếu không hợp lệ
                 }
 
-                // Cell 1: Unit Dropdown và nút Remove
+                // Cell 1: Unit Dropdown 
                 cell1.innerHTML = `
         <select name="unit[]">
             <c:forEach var="unit" items="${units}">
                 <option value="${unit.unitID}">${unit.unitName}</option>
             </c:forEach>
         </select>
-        <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+        
     `;
 
                 // Cell 2: Packaging Details Input
@@ -201,6 +202,9 @@
                 // Cell 4: Sale Price Input
                 cell4.innerHTML = `
         <input type="number" min="0" name="salePrice[]" placeholder="Sale Price - VND *" required>
+    `;
+                cell5.innerHTML = `
+        <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
     `;
             }
 
@@ -320,6 +324,7 @@
 
 
         </script>
+        <%@ include file="dashboardHeader.jsp" %>
     </head>
     <body>
         <div class="container">
@@ -358,10 +363,10 @@
                         </script>
 
 
-                        <label for="brand">Brand</label>
-                        <input type="text" id="brand" name="brand" value="${product.brand}">
+                        <label for="brand">Brand *</label>
+                        <input type="text" id="brand" name="brand" value="${product.brand}" required>
 
-                        <label for="productName" class="required">Product Name</label>
+                        <label for="productName" class="required">Product Name *</label>
                         <input type="text" id="productName" name="productName" value="${product.productName}" required>
 
                         <label for="shortDescription">Short Description</label>
@@ -375,8 +380,8 @@
                     </div>
 
                     <div>
-                        <label for="pharmaceuticalForm">Pharmaceutical Form</label>
-                        <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm" value="${product.pharmaceuticalForm}">
+                        <label for="pharmaceuticalForm">Pharmaceutical Form *</label>
+                        <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm" value="${product.pharmaceuticalForm}" required>
 
 
                         <label for="brandOrigin">Brand Origin *</label>
@@ -398,10 +403,10 @@
                             </c:forEach>
                         </select>
 
-                        <label for="registrationNumber" class="required">Registration Number</label>
+                        <label for="registrationNumber" class="required">Registration Number *</label>
                         <input type="text" id="registrationNumber" name="registrationNumber" value="${product.registrationNumber}" required>
 
-                        <label for="status" class="required">Status</label>
+                        <label for="status" class="required">Status *</label>
                         <select id="status" name="status" required>
                             <option value="1" ${product.status == 1 ? "selected" : ""}>Active</option>
                             <option value="0" ${product.status == 0 ? "selected" : ""}>Inactive</option>
@@ -409,7 +414,7 @@
                             <option value="4" ${product.status == 4 ? "selected" : ""}>Discontinued</option>
                         </select>
 
-                        <label for="prescriptionRequired" class="required">Prescription Required</label>
+                        <label for="prescriptionRequired" class="required">Prescription Required *</label>
                         <select id="prescriptionRequired" name="prescriptionRequired" required>
                             <option value="yes" ${product.prescriptionRequired.equals("yes") ? "selected" : ""}>Yes</option>
                             <option value="no" ${product.prescriptionRequired.equals("no") ? "selected" : ""}>No</option>
@@ -423,6 +428,9 @@
                                 <option value="${category.categoryID}" ${category.categoryID == product.categoryID ? "selected" : ""}>${category.categoryName}</option>
                             </c:forEach>
                         </select>
+
+                        <label for="ing">Ingredient per Unit *</label>
+                        <input type="text" id="ing" name="ing" value="${product.ing}" required>
 
                         <label for="imageUpload" class="required">Upload Image *</label>
                         <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this)" required="">
@@ -441,7 +449,7 @@
 
                 <!-- Ingredient Section -->
                 <div class="form-section">
-                    <h3>Ingredients</h3>
+                    <h3>Thành phần có trong ${product.ing}</h3>
                     <div id="ingredientContainer">
                         <c:forEach var="ingredient" items="${ingredients}">
                             <div class="ingredientRow">
@@ -457,7 +465,7 @@
 
                 <!-- Unit Section -->
                 <div class="form-section">
-                    <h3>Unit and Packaging Details</h3>
+                    <h3>Chi tiết đóng gói</h3>
                     <table id="unitTable">
                         <tr>
                             <th>Unit</th>
