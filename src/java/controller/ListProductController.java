@@ -177,7 +177,7 @@ public class ListProductController extends HttpServlet {
     private List<Map<String, Object>> filterBySalePrice(List<Map<String, Object>> productList, String salePrice) {
         List<Map<String, Object>> filteredProducts = new ArrayList<>();
         for (Map<String, Object> product : productList) {
-            double price = (Double) product.get("salePrice");  // Assuming 'salePrice' is the key
+            float price = (Float) product.get("salePrice");  // Assuming 'salePrice' is the key
 
             switch (salePrice) {
                 case "duoi100": // Under 100,000đ

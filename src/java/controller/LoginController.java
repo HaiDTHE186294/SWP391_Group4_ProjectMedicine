@@ -100,6 +100,7 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("userId", user.getUserId());
                 session.setAttribute("userName", user.getUsername());
                 session.setAttribute("userEmail", user.getEmail());
+                session.setAttribute("userRoleID", user.getRoleId());
 
                 if (remember != null) {
                     uC.setMaxAge(5 * 60);
@@ -111,7 +112,7 @@ public class LoginController extends HttpServlet {
                 response.addCookie(uC);
                 response.addCookie(pC);
 
-                response.sendRedirect("home.jsp");
+                response.sendRedirect("home");
 
             } else {
                 request.setAttribute("error", "Invalid username or password");

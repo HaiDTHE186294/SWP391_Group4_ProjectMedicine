@@ -19,7 +19,7 @@
     <servlet>
         <servlet-name>ForgotController</servlet-name>
         <servlet-class>controller.ForgotController</servlet-class>
-    </servlet>
+    </servlet> 
     <servlet>
         <servlet-name>ConfirmPassController</servlet-name>
         <servlet-class>controller.ConfirmPassController</servlet-class>

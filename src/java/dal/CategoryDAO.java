@@ -119,7 +119,7 @@ public class CategoryDAO extends DBContext {
     public List<Map<String, Object>> getProductsByCategory(String categoryID) {
         List<Map<String, Object>> productList = new ArrayList<>();
 
-        String sql = "SELECT p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+        String sql = "SELECT p.Manufacturer, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
                 + "FROM Product p "
                 + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
                 + "JOIN Unit u ON pp.UnitID = u.UnitID "
@@ -138,6 +138,8 @@ public class CategoryDAO extends DBContext {
                     productDetails.put("imagePath", rs.getString("ImagePath"));
                     productDetails.put("salePrice", rs.getFloat("SalePrice"));
                     productDetails.put("unitName", rs.getString("UnitName"));
+                    productDetails.put("manufacturer", rs.getString("Manufacturer"));
+                    productDetails.put("audience", rs.getString("TargetAudience"));
 
                     productList.add(productDetails);
                 }
@@ -164,7 +166,7 @@ public class CategoryDAO extends DBContext {
     public List<Map<String, Object>> getProductsByParentCategory(String parentCategoryID) {
         List<Map<String, Object>> productList = new ArrayList<>();
 
-        String sql = "SELECT p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+        String sql = "SELECT p.Manufacturer, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
                 + "FROM Product p "
                 + "JOIN Category c on p.CategoryID = c.CategoryID "
                 + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
@@ -184,6 +186,8 @@ public class CategoryDAO extends DBContext {
                     productDetails.put("imagePath", rs.getString("ImagePath"));
                     productDetails.put("salePrice", rs.getFloat("SalePrice"));
                     productDetails.put("unitName", rs.getString("UnitName"));
+                    productDetails.put("manufacturer", rs.getString("Manufacturer"));
+                    productDetails.put("audience", rs.getString("TargetAudience"));
 
                     productList.add(productDetails);
                 }
