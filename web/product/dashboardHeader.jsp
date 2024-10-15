@@ -7,6 +7,7 @@
         <a href="http://localhost:8080/MedicineShop/stockView">Stock</a>
         <a href="http://localhost:8080/MedicineShop/CategoryURL">Category List</a>
         <a href="http://localhost:8080/MedicineShop/changeProfile">Profile</a>
+        <a href="http://localhost:8080/MedicineShop/login">Login</a>
         <a href="#" onclick="confirmLogout()">Logout</a>
     </div>
 </div>

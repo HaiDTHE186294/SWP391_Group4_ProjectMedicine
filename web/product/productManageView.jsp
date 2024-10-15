@@ -86,6 +86,16 @@
             .pagination a:hover {
                 text-decoration: underline;
             }
+
+            td {
+                padding: 10px; /* Khoảng cách bên trong */
+                height: 50px; /* Chiều cao cố định */
+            }
+
+            .actions button {
+                margin-bottom: 8px; /* Khoảng cách giữa các nút theo chiều dọc */
+            }
+
         </style>
         <%@ include file="dashboardHeader.jsp" %>
     </head>
@@ -102,7 +112,7 @@
         %>
 
         <div class="container">
-            <h2>Manage > Product Manage</h2>
+            <h2>Product Manage Menu</h2>
             <div class="search-bar">
                 <th>
                     <button type="button" onclick="sortByDate()">Sort by date</button>
@@ -212,31 +222,31 @@
                         </td>
                         <td class="actions">
                             <!-- Thay nút Delete bằng biểu tượng thùng rác -->
-                            <button type="button" onclick="deleteProduct('<%= product.getProductID() %>')">
+                            <button type="button" onclick="deleteProduct('<%= product.getProductID() %>')" style="margin-right: 10px;">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
 
                             <!-- Thay nút Detail bằng biểu tượng con mắt -->
-                            <button type="button">
+                            <button type="button" style="margin-right: 10px;">
                                 <a href="ProductDetail?productID=<%= product.getProductID() %>">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </button>
 
-                            <button type="button">
+                            <button type="button" style="margin-right: 10px;">
                                 <a href="Update?productID=<%= product.getProductID() %>">
                                     <i class="fas fa-edit"></i>
                                 </a>
-
                             </button>
 
                             <form action="importServlet" method="get" style="display:inline;">
                                 <input type="hidden" name="productID" value="<%= product.getProductID() %>">
-                                <button type="submit" onclick="return confirm('Are you sure you want to import this product?');">
+                                <button type="submit" onclick="return confirm('Are you sure you want to import this product?');" style="margin-right: 10px;">
                                     <i class="fas fa-download"></i> <!-- Use an icon for the import button -->
                                 </button>
                             </form>
                         </td>
+
                     </tr>
                     <%
                             }
