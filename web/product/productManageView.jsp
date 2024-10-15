@@ -14,10 +14,30 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+
 <html>
-    <head>
+    <head> 
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript">
+            var kommunicateSettings = {
+                "appId": "19a459080780f8a3e18a542ff44c64e9f",
+                "userId": "<%= session.getAttribute("userId") %>",
+                "email": "<%= session.getAttribute("userEmail") %>",
+                "userName": "<%= session.getAttribute("userName") %>"
+            };
+
+            (function (d, m) {
+                var s = document.createElement("script");
+                s.type = "text/javascript";
+                s.async = true;
+                s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+                var h = document.getElementsByTagName("head")[0];
+                h.appendChild(s);
+                window.kommunicate = m;
+                m._globals = kommunicateSettings;
+            })(document, window.kommunicate || {});
+        </script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <a href="http://localhost:8080/MedicineShop/testMenu.jsp" class="button">Home</a>
         <title>Product Manage</title>
         <style>
             body {
@@ -66,11 +86,33 @@
             .pagination a:hover {
                 text-decoration: underline;
             }
+
+            td {
+                padding: 10px; /* Khoảng cách bên trong */
+                height: 50px; /* Chiều cao cố định */
+            }
+
+            .actions button {
+                margin-bottom: 8px; /* Khoảng cách giữa các nút theo chiều dọc */
+            }
+
         </style>
+        <%@ include file="dashboardHeader.jsp" %>
     </head>
     <body>
+        <% 
+            String message = (String) request.getAttribute("message");
+            if (message != null) {
+        %>
+        <div class="alert alert-success" role="alert">
+            <%= message %>
+        </div>
+        <% 
+            }
+        %>
+
         <div class="container">
-            <h2>Manage > Product Manage</h2>
+            <h2>Product Manage Menu</h2>
             <div class="search-bar">
                 <th>
                     <button type="button" onclick="sortByDate()">Sort by date</button>
@@ -180,17 +222,31 @@
                         </td>
                         <td class="actions">
                             <!-- Thay nút Delete bằng biểu tượng thùng rác -->
-                            <button type="button" onclick="deleteProduct('<%= product.getProductID() %>')">
+                            <button type="button" onclick="deleteProduct('<%= product.getProductID() %>')" style="margin-right: 10px;">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
 
                             <!-- Thay nút Detail bằng biểu tượng con mắt -->
-                            <button type="button">
+                            <button type="button" style="margin-right: 10px;">
                                 <a href="ProductDetail?productID=<%= product.getProductID() %>">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </button>
+
+                            <button type="button" style="margin-right: 10px;">
+                                <a href="Update?productID=<%= product.getProductID() %>">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </button>
+
+                            <form action="importServlet" method="get" style="display:inline;">
+                                <input type="hidden" name="productID" value="<%= product.getProductID() %>">
+                                <button type="submit" onclick="return confirm('Are you sure you want to import this product?');" style="margin-right: 10px;">
+                                    <i class="fas fa-download"></i> <!-- Use an icon for the import button -->
+                                </button>
+                            </form>
                         </td>
+
                     </tr>
                     <%
                             }
@@ -358,6 +414,7 @@
                     document.getElementById('deleteForm').submit();
                 }
             }
+
 
             $(document).ready(function () {
                 $('#categoryFilter').select2({

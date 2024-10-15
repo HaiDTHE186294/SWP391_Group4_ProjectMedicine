@@ -20,8 +20,11 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Category;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -40,11 +43,24 @@ public class AddProduct extends HttpServlet {
         List<ProductUnit> units = productDAO.getAllUnits(); // Lấy danh sách Unit
         List<Category> categories = categoryDAO.getAllCategories();
         List<Product> products = productDAO.getAllProducts();
+
+        try {
+            // Lấy danh sách quốc gia và nhóm đối tượng
+            List<String> countries = productDAO.getAllCountries();
+            List<String> audiences = productDAO.getAllAudiences();
+
+            // Đưa danh sách quốc gia và đối tượng vào session
+            session.setAttribute("countries", countries);
+            session.setAttribute("audiences", audiences);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
         
         Gson gson = new Gson();
         String categoriesJSON = gson.toJson(categoryDAO.getAllCategories());
         session.setAttribute("categoriesJSON", categoriesJSON);
-         // Đưa danh sách units vào request
+        // Đưa danh sách units vào request
         session.setAttribute("units", units);
         session.setAttribute("products", products);
         session.setAttribute("categories", categories);
@@ -56,7 +72,7 @@ public class AddProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
- ProductDAO productDAO = new ProductDAO();
+        ProductDAO productDAO = new ProductDAO();
         // Tạo đường dẫn để lưu ảnh
         String originalPath = getServletContext().getRealPath("");
         String modifiedPath = originalPath.replace("\\build\\web\\", "\\web\\");
@@ -79,12 +95,12 @@ public class AddProduct extends HttpServlet {
         String categoryID = request.getParameter("categoryId");
         String brand = request.getParameter("brand");
         String productID = request.getParameter("productId");
-        if(productDAO.getProductByID(productID) != null) {
+        if (productDAO.getProductByID(productID) != null) {
             String noti = "Duplicate Product ID";
             request.setAttribute("noti", noti);
             request.getRequestDispatcher("addProduct.jsp").forward(request, response);
             return;
-        } 
+        }
         String productName = request.getParameter("productName");
         String pharmaceuticalForm = request.getParameter("pharmaceuticalForm");
         String brandOrigin = request.getParameter("brandOrigin");
@@ -102,6 +118,8 @@ public class AddProduct extends HttpServlet {
         int productVersion = 1;  // Phiên bản sản phẩm mặc định
         String prescriptionRequired = request.getParameter("prescriptionRequired");
         String targetAudience = request.getParameter("targetAudience");
+        String ing = request.getParameter("ing");
+        System.out.println(ing);
 
         // Tạo đối tượng Product từ dữ liệu nhận được
         Product product = new Product(categoryID, brand, productID, productName, pharmaceuticalForm, brandOrigin,
@@ -110,8 +128,8 @@ public class AddProduct extends HttpServlet {
                 dateCreated, productVersion, prescriptionRequired, targetAudience);
 
         // Thêm sản phẩm vào cơ sở dữ liệu
-       
         productDAO.addProduct(product);
+        productDAO.addIng(productID, ing);
 
         // Lưu đường dẫn ảnh vào cơ sở dữ liệu
         productDAO.saveImagePath(productID, UPLOAD_DIRECTORY + "/" + fileName);
@@ -137,20 +155,45 @@ public class AddProduct extends HttpServlet {
         productDAO.addIngredients(productID, ingredients);
 
         // Lấy dữ liệu từ form cho ProductPriceQuantity
+        // Lấy dữ liệu từ form cho ProductPriceQuantity
         String[] units = request.getParameterValues("unit[]");
         String[] packagingDetails = request.getParameterValues("packagingDetails[]");
+        String[] unitStatus = request.getParameterValues("unitStatus[]");
+        String[] salePrices = request.getParameterValues("salePrice[]");
 
-        // Kiểm tra và thêm dữ liệu vào ProductPriceQuantity
-        if (units != null && packagingDetails != null && units.length == packagingDetails.length) {
+// Kiểm tra và thêm dữ liệu vào ProductPriceQuantity
+        if (units != null && packagingDetails != null && unitStatus != null
+                && units.length == packagingDetails.length && units.length == unitStatus.length) {
             for (int i = 0; i < units.length; i++) {
                 String productUnitId = productID + "_U" + i;
                 String packagingDetail = packagingDetails[i];
                 String unit = units[i];
+                String salePrice = salePrices[i];
+
+                // Kiểm tra unitStatus có hợp lệ hay không trước khi chuyển đổi
+                int UStatus;
+                try {
+                    UStatus = Integer.parseInt(unitStatus[i]); // Chuyển đổi từ chuỗi sang số nguyên
+                } catch (NumberFormatException e) {
+                    UStatus = 0; // Hoặc giá trị mặc định nếu không chuyển đổi được
+                    e.printStackTrace();
+                }
+
+                float sPrice;
+                try {
+                    sPrice = Float.parseFloat(salePrices[i]); // Chuyển đổi từ chuỗi sang số nguyên
+                } catch (NumberFormatException e) {
+                    sPrice = 0; // Hoặc giá trị mặc định nếu không chuyển đổi được
+                    e.printStackTrace();
+                }
 
                 // Tạo đối tượng ProductPriceQuantity
-                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit);
+                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit, UStatus, sPrice);
                 productDAO.addProductPriceQuantity(p);
             }
+        } else {
+            // Xử lý lỗi khi độ dài các mảng không khớp
+            System.out.println("Error: Mismatch in array lengths for units, packagingDetails, and unitStatus.");
         }
 
         // Chuyển hướng đến trang hiển thị thông tin sản phẩm

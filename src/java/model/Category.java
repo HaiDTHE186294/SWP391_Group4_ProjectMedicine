@@ -13,6 +13,7 @@ public class Category {
     private String Icon;
     private String CategoryName;
     private String ParentCategoryID;
+    
 
     public Category() {
     }
@@ -57,6 +58,6 @@ public class Category {
     public void setParentCategoryID(String ParentCategoryID) {
         this.ParentCategoryID = ParentCategoryID;
     }
-
+    
     
 }
