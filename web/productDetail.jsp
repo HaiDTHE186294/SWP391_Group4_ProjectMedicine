@@ -10,11 +10,38 @@
         <meta charset="UTF-8">
         <title>Product Management - View Product</title>
         <style>
+            label {
+                margin-top: 20px; /* Điều chỉnh khoảng cách này theo nhu cầu */
+                margin-bottom: 5px; /* Khoảng cách dưới label */
+                display: block; /* Đảm bảo nhãn được hiển thị dưới dạng khối */
+            }
+
+            img.product-image {
+                max-width: 100%; /* Đảm bảo hình ảnh không vượt quá chiều rộng của container */
+            }
+            textarea {
+                width: 100%; /* Đặt độ rộng textarea bằng với độ rộng container */
+                height: 150px; /* Chiều cao ban đầu */
+                padding: 10px; /* Khoảng cách giữa văn bản và biên textarea */
+                font-size: 14px; /* Cỡ chữ */
+                border-radius: 4px; /* Bo tròn các góc */
+                border: 1px solid #ccc; /* Đường viền */
+                resize: vertical; /* Cho phép người dùng thay đổi chiều cao */
+            }
+
+            input[type="text"], input[type="number"], select, textarea {
+                width: 100%; /* Ensures full width */
+                padding: 8px;
+                margin: 5px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
             body {
                 font-family: Arial, sans-serif;
             }
             .container {
-                width: 100%;
+                width: 95%;
+                margin: 0 auto; /* Căn giữa container */
                 padding: 20px;
                 overflow: visible;
             }
@@ -29,8 +56,6 @@
                 margin: 5px 0;
                 border: 1px solid #ccc;
                 border-radius: 4px;
-                background-color: #f9f9f9; /* Màu nền để hiện thị không cho chỉnh sửa */
-                pointer-events: none; /* Không cho phép tương tác với trường nhập liệu */
             }
             .grid-container {
                 display: grid;
@@ -45,30 +70,28 @@
                 padding: 10px;
                 text-align: left;
             }
-            .product-image {
-                max-width: 200px;
-                display: block;
-                margin-top: 10px;
+            button {
+                padding: 10px 20px;
+                margin-top: 20px;
             }
-            .ingredientRow {
-                display: flex; /* Đảm bảo xếp hàng ngang */
+            .ingredientRow, .unitRow {
+                display: flex;
                 gap: 10px;
                 margin-bottom: 10px;
             }
-
-            .ingredientInput {
+            .ingredientInput, .unitInput {
                 width: 30%;
                 padding: 8px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
-                color: black; /* Đặt màu chữ thành đen */
             }
-            label {
-                color: black; /* Đặt màu chữ nhãn thành đen */
-            }
-
-            .required {
-                color: black; /* Đặt màu chữ cho các nhãn yêu cầu thành đen */
+            .remove-btn {
+                background-color: red;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                padding: 5px;
             }
         </style>
     </head>
@@ -90,17 +113,15 @@
                         <label for="productName" class="required">Product Name</label>
                         <input type="text" id="productName" name="productName" value="${product.productName}">
 
-                        <label for="imageUpload" class="required">Image</label>
-                        <img id="imagePreview" class="product-image" src="${product.imagePath}" alt="Product Image">
-
                         <label for="shortDescription">Short Description</label>
-                        <textarea id="shortDescription" name="shortDescription" readonly>${product.shortDescription}</textarea>
+                        <textarea id="shortDescription" name="shortDescription" readonly style="min-height:150px; overflow:auto;">${product.shortDescription}</textarea>
 
                         <label for="faq">FAQ</label>
-                        <textarea id="faq" name="faq" readonly>${product.faq}</textarea>
+                        <textarea id="faq" name="faq" readonly style="min-height:150px; overflow:auto;">${product.faq}</textarea>
 
                         <label for="description" class="required">Description</label>
-                        <textarea id="productDescription" name="description" readonly>${product.productDescription}</textarea>
+                        <textarea id="productDescription" name="description" readonly style="min-height:150px; overflow:auto;">${product.productDescription}</textarea>
+
                     </div>
 
                     <div>
@@ -140,6 +161,9 @@
                                 <option value="${category.categoryID}" ${category.categoryID == product.categoryID ? "selected" : ""}>${category.categoryName}</option>
                             </c:forEach>
                         </select>
+
+                        <label for="imageUpload" class="required">Image</label>
+                        <img id="imagePreview" class="product-image" src="${product.imagePath}" alt="Product Image">
                     </div>
                 </div>
 
@@ -166,7 +190,7 @@
                             <th>Packaging Quantity Details</th>
                             <th>Unit Status</th>
                             <th>Sale Price (VND)</th>
-                            
+
                         </tr>
                         <c:forEach var="priceQuantity" items="${priceQuantities}">
                             <tr>

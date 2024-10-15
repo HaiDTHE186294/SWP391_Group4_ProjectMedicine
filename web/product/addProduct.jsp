@@ -15,12 +15,39 @@
         <meta charset="UTF-8">
         <title>Product Management - Add Product</title>
         <style>
+            
+            label {
+                margin-top: 20px; /* Điều chỉnh khoảng cách này theo nhu cầu */
+                margin-bottom: 5px; /* Khoảng cách dưới label */
+                display: block; /* Đảm bảo nhãn được hiển thị dưới dạng khối */
+            }
 
+            img.product-image {
+                max-width: 100%; /* Đảm bảo hình ảnh không vượt quá chiều rộng của container */
+            }
+            textarea {
+                width: 100%; /* Đặt độ rộng textarea bằng với độ rộng container */
+                height: 150px; /* Chiều cao ban đầu */
+                padding: 10px; /* Khoảng cách giữa văn bản và biên textarea */
+                font-size: 14px; /* Cỡ chữ */
+                border-radius: 4px; /* Bo tròn các góc */
+                border: 1px solid #ccc; /* Đường viền */
+                resize: vertical; /* Cho phép người dùng thay đổi chiều cao */
+            }
+
+            input[type="text"], input[type="number"], select, textarea {
+                width: 100%; /* Ensures full width */
+                padding: 8px;
+                margin: 5px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
             body {
                 font-family: Arial, sans-serif;
             }
             .container {
-                width: 100%;
+                width: 95%;
+                margin: 0 auto; /* Căn giữa container */
                 padding: 20px;
                 overflow: visible;
             }
@@ -53,16 +80,24 @@
                 padding: 10px 20px;
                 margin-top: 20px;
             }
-            .ingredientRow {
+            .ingredientRow, .unitRow {
                 display: flex;
                 gap: 10px;
                 margin-bottom: 10px;
             }
-            .ingredientInput {
+            .ingredientInput, .unitInput {
                 width: 30%;
                 padding: 8px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
+            }
+            .remove-btn {
+                background-color: red;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                padding: 5px;
             }
         </style>
         <script>
@@ -280,10 +315,10 @@
                         <input type="text" id="productId" name="productId" required>
 
                         <label for="targetAudience">Target Audience *</label>
-                        <div id="targetAudience" style="width: 100%;">
+                        <div id="targetAudience" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 5px;">
                             <c:forEach var="audience" items="${sessionScope.audiences}">
                                 <label>
-                                    <input type="checkbox" class="targetAudienceCheckbox" value="${audience}" onchange="updateTargetAudience()"> <!-- Gọi hàm cập nhật -->
+                                    <input type="checkbox" class="targetAudienceCheckbox" value="${audience}" onchange="updateTargetAudience()">
                                     ${audience}
                                 </label>
                             </c:forEach>
@@ -306,9 +341,6 @@
                         <label for="productName">Product Name *</label>
                         <input type="text" id="productName" name="productName" required>
 
-
-                        <label for="imageUpload">Upload Image *</label>
-                        <input type="file" id="imageUpload" name="imageUpload" required>
 
                         <label for="shortDescription">Short Description</label>
                         <textarea id="shortDescription" name="shortDescription"></textarea>
@@ -369,6 +401,29 @@
                                 <option value="${category.categoryID}">${category.categoryName}</option>
                             </c:forEach>
                         </select>
+
+                        <label for="imageUpload" >Upload Image *</label>
+                        <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this)" required>
+
+                        <!-- Thẻ img để hiển thị hình ảnh đã chọn -->
+                        <img id="imagePreview" src="#" alt="Preview Image" style="max-width: 200px; display: none; margin-top: 10px;">
+
+                        <script>
+                            // Hàm để hiển thị ảnh người dùng chọn
+                            function previewImage(input) {
+                                const preview = document.getElementById('imagePreview');
+                                if (input.files && input.files[0]) {
+                                    const reader = new FileReader();
+                                    reader.onload = function (e) {
+                                        preview.src = e.target.result;
+                                        preview.style.display = 'block'; // Hiển thị thẻ img
+                                    }
+                                    reader.readAsDataURL(input.files[0]);
+                                } else {
+                                    preview.style.display = 'none'; // Ẩn thẻ img nếu không có file được chọn
+                                }
+                            }
+                        </script>
                     </div>
                 </div>
 
