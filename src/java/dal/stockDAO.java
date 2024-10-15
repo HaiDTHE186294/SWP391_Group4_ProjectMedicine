@@ -301,5 +301,37 @@ public class stockDAO extends DBContext {
 
         return finalPrice;
     }
+    
+    public List<Import> getAllImport() {
+    String selectAllImportsSQL = "SELECT O_id, NCC, Pid, Base_unit_ID, Batch_no, Date_manufacture, Date_expired, Price_import, Importer, Quantity FROM Import";
+    List<Import> importList = new ArrayList<>();
+
+    try (PreparedStatement stmt = connection.prepareStatement(selectAllImportsSQL);
+         ResultSet rs = stmt.executeQuery()) {
+
+        // Loop through the result set and add each import record to the list
+        while (rs.next()) {
+            Import importData = new Import();
+            importData.setOrderId(rs.getString("O_id"));
+            importData.setProvider(rs.getString("NCC"));
+            importData.setProductId(rs.getString("Pid"));
+            importData.setBaseUnitId(rs.getString("Base_unit_ID"));
+            importData.setBatchNo(rs.getString("Batch_no"));
+            importData.setDateManufacture(rs.getString("Date_manufacture"));
+            importData.setDateExpired(rs.getString("Date_expired"));
+            importData.setPriceImport(rs.getFloat("Price_import"));
+            importData.setImporter(rs.getInt("Importer"));
+            importData.setQuantity(rs.getFloat("Quantity"));
+
+            // Add the import record to the list
+            importList.add(importData);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return importList;
+}
+
 
 }

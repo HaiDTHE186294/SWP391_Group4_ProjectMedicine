@@ -5,6 +5,7 @@
         <a href="http://localhost:8080/MedicineShop/showProductManageView">Product Manage Menu</a>       
         <a href="http://localhost:8080/MedicineShop/product/addxx">Add Product</a>       
         <a href="http://localhost:8080/MedicineShop/stockView">Stock</a>
+        <a href="http://localhost:8080/MedicineShop/viewImports">Import History</a>
         <a href="http://localhost:8080/MedicineShop/CategoryURL">Category List</a>
         <a href="http://localhost:8080/MedicineShop/changeProfile">Profile</a>
         <a href="http://localhost:8080/MedicineShop/login">Login</a>

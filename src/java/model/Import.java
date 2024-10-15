@@ -31,6 +31,9 @@ public class Import {
         this.quantity = quantity;
     }
 
+    public Import() {
+    }
+
     public float getQuantity() {
         return quantity;
     }
