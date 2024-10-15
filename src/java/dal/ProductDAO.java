@@ -286,6 +286,29 @@ public class ProductDAO extends DBContext {
 
         return priceQuantities;
     }
+    
+     public ProductPriceQuantity getProductPriceQuantitiesByProductIDforImport(String productID) {
+        String sql = "SELECT * FROM ProductPriceQuantity WHERE ProductID = ? and PackagingDetails = 1";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, productID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                // Tạo đối tượng ProductPriceQuantity và thêm vào danh sách
+                String productUnitID = rs.getString("ProductUnitID");
+                String packagingDetails = rs.getString("PackagingDetails");
+                String unitID = rs.getString("UnitID");
+                int unitStatus = rs.getInt("UnitStatus");
+                float salePrice = rs.getFloat("SalePrice");
+                ProductPriceQuantity priceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus, salePrice);
+                return priceQuantity;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public List<ProductPriceQuantity> getProductPriceQuantitiesByProductID(String productID) {
         List<ProductPriceQuantity> priceQuantities = new ArrayList<>();

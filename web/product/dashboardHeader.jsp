@@ -4,7 +4,7 @@
         <a href="#" onclick="confirmNavigation('http://localhost:8080/MedicineShop/home')">Home</a>
         <a href="http://localhost:8080/MedicineShop/showProductManageView">Product Manage Menu</a>       
         <a href="http://localhost:8080/MedicineShop/product/addxx">Add Product</a>       
-        <a href="http://localhost:8080/MedicineShop/stock.jsp">Stock</a>
+        <a href="http://localhost:8080/MedicineShop/stockView">Stock</a>
         <a href="http://localhost:8080/MedicineShop/CategoryURL">Category List</a>
         <a href="http://localhost:8080/MedicineShop/changeProfile">Profile</a>
         <a href="#" onclick="confirmLogout()">Logout</a>
