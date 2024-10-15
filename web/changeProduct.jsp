@@ -14,6 +14,25 @@
         <meta charset="UTF-8">
         <title>Product Management - Update Product</title>
         <style>
+            label {
+                margin-top: 20px; /* Điều chỉnh khoảng cách này theo nhu cầu */
+                margin-bottom: 5px; /* Khoảng cách dưới label */
+                display: block; /* Đảm bảo nhãn được hiển thị dưới dạng khối */
+            }
+
+            img.product-image {
+                max-width: 100%; /* Đảm bảo hình ảnh không vượt quá chiều rộng của container */
+            }
+            textarea {
+                width: 100%; /* Đặt độ rộng textarea bằng với độ rộng container */
+                height: 150px; /* Chiều cao ban đầu */
+                padding: 10px; /* Khoảng cách giữa văn bản và biên textarea */
+                font-size: 14px; /* Cỡ chữ */
+                border-radius: 4px; /* Bo tròn các góc */
+                border: 1px solid #ccc; /* Đường viền */
+                resize: vertical; /* Cho phép người dùng thay đổi chiều cao */
+            }
+
             input[type="text"], input[type="number"], select, textarea {
                 width: 100%; /* Ensures full width */
                 padding: 8px;
@@ -25,7 +44,8 @@
                 font-family: Arial, sans-serif;
             }
             .container {
-                width: 100%;
+                width: 95%;
+                margin: 0 auto; /* Căn giữa container */
                 padding: 20px;
                 overflow: visible;
             }
@@ -283,10 +303,7 @@
             }
 
             $(document).ready(function () {
-                $('#targetAudience').select2({
-                    placeholder: "Select Audience",
-                    allowClear: true // Tùy chọn cho phép xóa
-                });
+
                 $('#brandOrigin').select2({
                     placeholder: "Select Country",
                     allowClear: true
@@ -313,32 +330,39 @@
                         <label for="productId" class="required">ID - Unique</label>
                         <input type="text" id="productId" name="productId" value="${product.productID}" readonly required>
 
-          
-                        
-                        <label for="targetAudience">Target Audience *</label>
-                        <select id="targetAudience" name="targetAudience" style="width: 100%;" required>
-                            <option value="${product.targetAudience}">${product.targetAudience}</option> <!-- Placeholder -->
-                            <c:forEach var="audience" items="${sessionScope.audiences}">
-                                <option value="${audience}">${audience}</option>
-                            </c:forEach>
+
+
+                        <label>Target Audience *</label>
+                        <select style="width: 100%;">
+                            <option value="${product.targetAudience}">${product.targetAudience}</option> <!-- Placeholder -->                          
                         </select>
+
+
+                        <div id="targetAudience" style="display: flex; flex-wrap: wrap; gap: 15px; max-width: 600px;"> <!-- Điều chỉnh max-width theo nhu cầu -->
+                            <c:forEach var="audience" items="${sessionScope.audiences}">
+                                <label style="flex: 1 1 30%; /* Điều chỉnh kích thước theo nhu cầu */">
+                                    <input type="checkbox" class="targetAudienceCheckbox" value="${audience}" onchange="updateTargetAudience()">
+                                    ${audience}
+                                </label>
+                            </c:forEach>
+                        </div>
+
+                        <input type="hidden" id="targetAudienceInput" name="targetAudience" value="">
+
+                        <script>
+                            function updateTargetAudience() {
+                                const checkboxes = document.querySelectorAll('.targetAudienceCheckbox:checked'); // Sử dụng class để chọn tất cả checkbox
+                                const values = Array.from(checkboxes).map(cb => cb.value);
+                                document.getElementById('targetAudienceInput').value = values.join(', '); // Nối các giá trị bằng dấu phẩy
+                            }
+                        </script>
+
 
                         <label for="brand">Brand</label>
                         <input type="text" id="brand" name="brand" value="${product.brand}">
 
                         <label for="productName" class="required">Product Name</label>
                         <input type="text" id="productName" name="productName" value="${product.productName}" required>
-
-                        <label for="imageUpload" class="required">Upload Image *</label>
-                        <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this)" required="">
-
-                        <label for="currentImagePath" style="display: none;">Current Image Path</label>
-                        <!-- Hidden input to retain the current image path -->
-                        <input type="hidden" name="currentImagePath" value="${product.imagePath}">
-
-
-                        <img id="imagePreview" class="product-image" src="${product.imagePath}" alt="Product Image" style="max-width: 200px; display: block; margin-top: 10px;">
-
 
                         <label for="shortDescription">Short Description</label>
                         <textarea id="shortDescription" name="shortDescription">${product.shortDescription}</textarea>
@@ -354,7 +378,7 @@
                         <label for="pharmaceuticalForm">Pharmaceutical Form</label>
                         <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm" value="${product.pharmaceuticalForm}">
 
-                        
+
                         <label for="brandOrigin">Brand Origin *</label>
                         <select id="brandOrigin" name="brandOrigin" style="width: 100%;" required>
                             <option value="${product.brandOrigin}">${product.brandOrigin}</option> <!-- Placeholder -->
@@ -373,7 +397,7 @@
                                 <option value="${country}">${country}</option>
                             </c:forEach>
                         </select>
-                        
+
                         <label for="registrationNumber" class="required">Registration Number</label>
                         <input type="text" id="registrationNumber" name="registrationNumber" value="${product.registrationNumber}" required>
 
@@ -399,7 +423,17 @@
                                 <option value="${category.categoryID}" ${category.categoryID == product.categoryID ? "selected" : ""}>${category.categoryName}</option>
                             </c:forEach>
                         </select>
-                            
+
+                        <label for="imageUpload" class="required">Upload Image *</label>
+                        <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this)" required="">
+
+                        <label for="currentImagePath" style="display: none;">Current Image Path</label>
+                        <!-- Hidden input to retain the current image path -->
+                        <input type="hidden" name="currentImagePath" value="${product.imagePath}">
+
+
+                        <img id="imagePreview" class="product-image" src="${product.imagePath}" alt="Product Image" style="max-width: 200px; display: block; margin-top: 10px;">
+
 
 
                     </div>
