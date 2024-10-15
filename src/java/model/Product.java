@@ -22,7 +22,6 @@ public class Product {
     private String prescriptionRequired;
     private String targetAudience;
     private String imagePath;
-    private String ing;
 
     public String getImagePath() {
         return imagePath;
@@ -32,15 +31,10 @@ public class Product {
         this.imagePath = imagePath;
     }
 
-    public String getIng() {
-        return ing;
+    public Product() {
     }
-
-    public void setIng(String ing) {
-        this.ing = ing;
-    }
-
       
+    
     // Constructor
     public Product(String categoryID, String brand, String productID, String productName, String pharmaceuticalForm, 
                    String brandOrigin, String manufacturer, String countryOfProduction, String shortDescription, 
@@ -70,62 +64,7 @@ public class Product {
         this.imagePath = imagePath;
     }
     
-    public Product(String categoryID, String brand, String productID, String productName, String pharmaceuticalForm, 
-                   String brandOrigin, String manufacturer, String countryOfProduction, String shortDescription, 
-                   String registrationNumber, String productDescription, String contentReviewer, String faq, 
-                   String productReviews, int status, int sold, String dateCreated, int productVersion, 
-                   String prescriptionRequired, String targetAudience, String imagePath, String ing) {
-        this.categoryID = categoryID;
-        this.brand = brand;
-        this.productID = productID;
-        this.productName = productName;
-        this.pharmaceuticalForm = pharmaceuticalForm;
-        this.brandOrigin = brandOrigin;
-        this.manufacturer = manufacturer;
-        this.countryOfProduction = countryOfProduction;
-        this.shortDescription = shortDescription;
-        this.registrationNumber = registrationNumber;
-        this.productDescription = productDescription;
-        this.contentReviewer = contentReviewer;
-        this.faq = faq;
-        this.productReviews = productReviews;
-        this.status = status;
-        this.sold = sold;
-        this.dateCreated = dateCreated;
-        this.productVersion = productVersion;
-        this.prescriptionRequired = prescriptionRequired;
-        this.targetAudience = targetAudience;
-        this.imagePath = imagePath;
-        this.ing = ing;
-    }
     
-    
-    public Product(String categoryID, String brand, String productID, String productName, String pharmaceuticalForm, 
-                   String brandOrigin, String manufacturer, String countryOfProduction, String shortDescription, 
-                   String registrationNumber, String productDescription, String contentReviewer, String faq, 
-                   String productReviews, int status, int sold, String dateCreated, int productVersion, 
-                   String prescriptionRequired, String targetAudience) {
-        this.categoryID = categoryID;
-        this.brand = brand;
-        this.productID = productID;
-        this.productName = productName;
-        this.pharmaceuticalForm = pharmaceuticalForm;
-        this.brandOrigin = brandOrigin;
-        this.manufacturer = manufacturer;
-        this.countryOfProduction = countryOfProduction;
-        this.shortDescription = shortDescription;
-        this.registrationNumber = registrationNumber;
-        this.productDescription = productDescription;
-        this.contentReviewer = contentReviewer;
-        this.faq = faq;
-        this.productReviews = productReviews;
-        this.status = status;
-        this.sold = sold;
-        this.dateCreated = dateCreated;
-        this.productVersion = productVersion;
-        this.prescriptionRequired = prescriptionRequired;
-        this.targetAudience = targetAudience;
-    }
 
     // Getters and Setters
     public String getCategoryID() {
@@ -287,4 +226,7 @@ public class Product {
     public void setTargetAudience(String targetAudience) {
         this.targetAudience = targetAudience;
     }
+
+  
+    
 }

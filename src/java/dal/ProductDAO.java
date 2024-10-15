@@ -661,5 +661,55 @@ public class ProductDAO extends DBContext {
         }
         return audiences;
     }
+ public Product getProductByID1(String productID) {
+    Product product = null;
+    String sql = "SELECT p.CategoryID, p.Brand, p.ProductID, p.ProductName, p.PharmaceuticalForm, "
+               + "p.BrandOrigin, p.Manufacturer, p.CountryOfProduction, p.ShortDescription, "
+               + "p.RegistrationNumber, p.ProductDescription, p.ContentReviewer, p.FAQ, "
+               + "p.ProductReviews, p.Status, p.Sold, p.DateCreated, p.ProductVersion, "
+               + "p.PrescriptionRequired, p.TargetAudience, p.ImagePath, ppq.SalePrice " // Lưu ý phải viết đúng tên cột (chữ hoa SalePrice)
+               + "FROM Product p "
+               + "JOIN ProductPriceQuantity ppq ON p.ProductID = ppq.ProductID "
+               + "WHERE p.ProductID = ?";
+
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        // Sử dụng setInt để truyền productID là kiểu int vào câu lệnh SQL
+        st.setString(1, productID);
+
+        try (ResultSet rs = st.executeQuery()) {
+            if (rs.next()) {
+                // Tạo đối tượng Product và gán các giá trị từ kết quả truy vấn
+                product = new Product();
+                product.setCategoryID(rs.getString("CategoryID"));
+                product.setBrand(rs.getString("Brand"));
+                product.setProductID(rs.getString("ProductID")); 
+                product.setProductName(rs.getString("ProductName"));
+                product.setPharmaceuticalForm(rs.getString("PharmaceuticalForm"));
+                product.setBrandOrigin(rs.getString("BrandOrigin"));
+                product.setManufacturer(rs.getString("Manufacturer"));
+                product.setCountryOfProduction(rs.getString("CountryOfProduction"));
+                product.setShortDescription(rs.getString("ShortDescription"));
+                product.setRegistrationNumber(rs.getString("RegistrationNumber"));
+                product.setProductDescription(rs.getString("ProductDescription"));
+                product.setContentReviewer(rs.getString("ContentReviewer"));
+                product.setFaq(rs.getString("FAQ"));
+                product.setProductReviews(rs.getString("ProductReviews"));
+                product.setStatus(rs.getInt("Status"));
+                product.setSold(rs.getInt("Sold"));
+                product.setDateCreated(rs.getString("DateCreated"));
+                product.setProductVersion(rs.getInt("ProductVersion"));
+                product.setPrescriptionRequired(rs.getString("PrescriptionRequired"));
+                product.setTargetAudience(rs.getString("TargetAudience"));
+                product.setImagePath(rs.getString("ImagePath"));
+                             
+
+
+            }
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return product;
+}
 
 }

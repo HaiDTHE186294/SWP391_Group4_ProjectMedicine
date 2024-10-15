@@ -3,10 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/web/header.jsp</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/dal/CategoryDAO.java</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/web/listproduct.jsp</file>
-            <file>file:/C:/Users/trant/Downloads/SWP291_Group4_ProjectMedicine-master%20(1)/SWP291_Group4_ProjectMedicine-master/SWP291_Group4_ProjectMedicine/src/java/controller/ListProductController.java</file>
+            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/web/home.jsp</file>
+            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/src/java/ControllerCustomer/productDetailCusController.java</file>
+            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/src/java/dal/ProductDAO.java</file>
+            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/src/java/model/Product.java</file>
+            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/web/WEB-INF/web.xml</file>
+            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/web/productDetailCustomer.jsp</file>
+            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/src/java/dal/DBContext.java</file>
+            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/src/java/controller/AddProduct.java</file>
         </group>
     </open-files>
 </project-private>

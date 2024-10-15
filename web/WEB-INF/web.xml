@@ -19,7 +19,7 @@
     <servlet>
         <servlet-name>ForgotController</servlet-name>
         <servlet-class>controller.ForgotController</servlet-class>
-    </servlet> 
+    </servlet>
     <servlet>
         <servlet-name>ConfirmPassController</servlet-name>
         <servlet-class>controller.ConfirmPassController</servlet-class>
@@ -79,6 +79,10 @@
     <servlet>
         <servlet-name>ListProductController</servlet-name>
         <servlet-class>controller.ListProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>productDetailCusController</servlet-name>
+        <servlet-class>ControllerCustomer.productDetailCusController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -167,5 +171,9 @@
     <servlet-mapping>
         <servlet-name>ListProductController</servlet-name>
         <url-pattern>/listproduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>productDetailCusController</servlet-name>
+        <url-pattern>/prodetails</url-pattern>
     </servlet-mapping>
 </web-app>
