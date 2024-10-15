@@ -94,6 +94,7 @@
                 padding: 5px;
             }
         </style>
+        <%@ include file="dashboardHeader.jsp" %>
     </head>
     <body>
         <div class="container">
@@ -169,7 +170,7 @@
 
                 <!-- Ingredients Section -->
                 <div class="form-section">
-                    <h3>Ingredients</h3>
+                    <h3>Thành phần có trong ${product.ing}</h3>
                     <div id="ingredientContainer">
                         <c:forEach var="ingredient" items="${ingredients}">
                             <div class="ingredientRow">
@@ -183,7 +184,7 @@
 
                 <!-- Unit Section -->
                 <div class="form-section">
-                    <h3>Unit and Packaging Details</h3>
+                    <h3>Chi tiết đóng gói</h3>
                     <table id="unitTable">
                         <tr>
                             <th>Unit</th>
