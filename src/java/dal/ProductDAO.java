@@ -403,7 +403,7 @@ public class ProductDAO extends DBContext {
                 + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
                 + "JOIN Unit u ON pp.UnitID = u.UnitID "
                 + "WHERE pp.PackagingDetails = 1 "
-                + "ORDER BY p.DateCreated ASC";
+                + "ORDER BY p.DateCreated DESC";
 
         try (PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
