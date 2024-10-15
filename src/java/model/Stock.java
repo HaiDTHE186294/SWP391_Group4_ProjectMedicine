@@ -12,13 +12,13 @@ public class Stock {
     private String batchNo;      // Corresponds to Batch_no
     private String productId;    // Corresponds to Pid
     private String baseUnitId;   // Corresponds to Base_unit_ID
-    private int quantity;        // Corresponds to Quantity
+    private float quantity;        // Corresponds to Quantity
     private float priceImport;   // Corresponds to Price_import
     private String dateManufacture; // Corresponds to Date_manufacture
     private String dateExpired;    // Corresponds to Date_expired
 
     // Constructor
-    public Stock(String batchNo, String productId, String baseUnitId, int quantity, float priceImport, String dateManufacture, String dateExpired) {
+    public Stock(String batchNo, String productId, String baseUnitId, float quantity, float priceImport, String dateManufacture, String dateExpired) {
         this.batchNo = batchNo;
         this.productId = productId;
         this.baseUnitId = baseUnitId;
@@ -56,11 +56,11 @@ public class Stock {
         this.baseUnitId = baseUnitId;
     }
 
-    public int getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 
