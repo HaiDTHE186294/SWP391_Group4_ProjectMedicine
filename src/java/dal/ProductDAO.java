@@ -482,65 +482,55 @@ public class ProductDAO extends DBContext {
         }
     }
 
-    public boolean updateIngredients1(String productId, List<Ingredient> ingredients) {
-        String updateSql = "UPDATE Ingredient SET IngredientName = ?, Quantity = ?, Unit = ? WHERE ProductIngredientID = ? AND ProductID = ?";
-        String insertSql = "INSERT INTO Ingredient (ProductIngredientID, ProductID, IngredientName, Quantity, Unit) VALUES (?, ?, ?, ?, ?)";
+   public boolean updateIngredients1(String productId, List<Ingredient> ingredients) {
+    // Câu SQL để xóa tất cả các nguyên liệu của sản phẩm
+    String deleteSql = "DELETE FROM Ingredient WHERE ProductID = ?";
+    // Câu SQL để thêm các nguyên liệu mới
+    String insertSql = "INSERT INTO Ingredient (ProductIngredientID, ProductID, IngredientName, Quantity, Unit) VALUES (?, ?, ?, ?, ?)";
 
-        Set<String> updatedIngredientIDs = new HashSet<>(); // Set để theo dõi các ID đã cập nhật
+    try {
+        // Bắt đầu một giao dịch
+        connection.setAutoCommit(false);
 
-        try {
-            connection.setAutoCommit(false);
+        // Xóa các nguyên liệu hiện tại
+        try (PreparedStatement deletePs = connection.prepareStatement(deleteSql)) {
+            deletePs.setString(1, productId);
+            deletePs.executeUpdate();
+        }
 
-            // Thực hiện cập nhật
-            try (PreparedStatement updatePs = connection.prepareStatement(updateSql)) {
-                for (Ingredient ingredient : ingredients) {
-                    updatePs.setString(1, ingredient.getIngredientName());
-                    updatePs.setFloat(2, ingredient.getQuantity());
-                    updatePs.setString(3, ingredient.getUnit());
-                    updatePs.setString(4, ingredient.getProductIngredientID());
-                    updatePs.setString(5, productId);
-
-                    int rowsUpdated = updatePs.executeUpdate();
-                    if (rowsUpdated > 0) {
-                        updatedIngredientIDs.add(ingredient.getProductIngredientID()); // Thêm ID vào set nếu đã cập nhật
-                    }
-                }
-            }
-
-            // Thực hiện thêm mới
-            try (PreparedStatement insertPs = connection.prepareStatement(insertSql)) {
-                for (Ingredient ingredient : ingredients) {
-                    // Chỉ thêm mới nếu ID chưa có trong danh sách đã cập nhật
-                    if (!updatedIngredientIDs.contains(ingredient.getProductIngredientID())) {
-                        insertPs.setString(1, ingredient.getProductIngredientID());
-                        insertPs.setString(2, productId);
-                        insertPs.setString(3, ingredient.getIngredientName());
-                        insertPs.setFloat(4, ingredient.getQuantity());
-                        insertPs.setString(5, ingredient.getUnit());
-                        insertPs.executeUpdate();
-                    }
-                }
-            }
-
-            connection.commit(); // Cam kết giao dịch
-            return true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                connection.rollback(); // Quay lại nếu có lỗi
-            } catch (SQLException rollbackEx) {
-                rollbackEx.printStackTrace();
-            }
-            return false;
-        } finally {
-            try {
-                connection.setAutoCommit(true); // Đặt lại auto-commit
-            } catch (SQLException e) {
-                e.printStackTrace();
+        // Thêm các nguyên liệu mới
+        try (PreparedStatement insertPs = connection.prepareStatement(insertSql)) {
+            for (Ingredient ingredient : ingredients) {
+                insertPs.setString(1, ingredient.getProductIngredientID());
+                insertPs.setString(2, productId);
+                insertPs.setString(3, ingredient.getIngredientName());
+                insertPs.setFloat(4, ingredient.getQuantity());
+                insertPs.setString(5, ingredient.getUnit());
+                insertPs.executeUpdate();
             }
         }
+
+        // Commit giao dịch sau khi tất cả các hoạt động thành công
+        connection.commit();
+        return true;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        try {
+            connection.rollback(); // Rollback nếu có lỗi xảy ra
+        } catch (SQLException rollbackEx) {
+            rollbackEx.printStackTrace();
+        }
+        return false;
+    } finally {
+        try {
+            connection.setAutoCommit(true); // Đặt lại chế độ auto-commit
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+}
+
 
     public boolean updateProductPriceQuantity2(String productId, List<ProductPriceQuantity> priceQuantities) {
         String updateSql = "UPDATE ProductPriceQuantity SET PackagingDetails = ?, UnitID = ?, UnitStatus = ?, SalePrice = ? WHERE ProductUnitID = ? AND ProductID = ?";
@@ -602,6 +592,38 @@ public class ProductDAO extends DBContext {
                 e.printStackTrace();
             }
         }
+    }
+    
+    // Lấy danh sách quốc gia
+    public List<String> getAllCountries() throws SQLException {
+        List<String> countries = new ArrayList<>();
+        String sql = "SELECT CountryName FROM Country";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String country = rs.getString("CountryName");
+                countries.add(country);
+            }
+        }
+        return countries;
+    }
+
+    // Lấy danh sách nhóm đối tượng
+    public List<String> getAllAudiences() throws SQLException {
+        List<String> audiences = new ArrayList<>();
+        String sql = "SELECT TargetAudience FROM Audience";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String audience = rs.getString("TargetAudience");
+                audiences.add(audience);
+            }
+        }
+        return audiences;
     }
 
 }
