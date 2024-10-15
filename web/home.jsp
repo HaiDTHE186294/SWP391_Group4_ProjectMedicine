@@ -138,14 +138,7 @@
                                 <div class="card-body content pt-4 p-2">
                                     <a href="pharmacy-product-detail.html" class="text-dark product-name h6">${product.productName}</a>
                                     <div class="d-flex justify-content-between mt-1">
-                                        <h6 class="text-muted small font-italic mb-0 mt-1">${product.salePrice} / ${product.unitName} </h6>
-                                        <ul class="list-unstyled text-warning mb-0">
-                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        </ul>
+                                        <h6 class="text-muted small font-italic mb-0 mt-1">${product.salePrice}đ / ${product.unitName} </h6>
                                     </div>
                                 </div>
                             </div>
@@ -426,14 +419,7 @@
                                 <div class="card-body content pt-4 p-2">
                                     <a href="pharmacy-product-detail.html" class="text-dark product-name h6">${product.ProductName}</a>
                                     <div class="d-flex justify-content-between mt-1">
-                                        <h6 class="text-muted small font-italic mb-0 mt-1">${product.SalePrice} / ${product.UnitName} </h6>
-                                        <ul class="list-unstyled text-warning mb-0">
-                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        </ul>
+                                        <h6 class="text-muted small font-italic mb-0 mt-1">${product.SalePrice}đ / ${product.UnitName} </h6>
                                     </div>
                                 </div>
                             </div>
