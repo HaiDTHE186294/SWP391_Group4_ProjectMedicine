@@ -114,6 +114,15 @@
                     <input type="text" id="baseUnitId" name="baseUnitId" value="<%= ppq != null ? ppq.getUnitID() : "" %>" readonly class="readonly">
                 </div>
                 <div>
+                <%
+    String baseUnitName = (String) request.getAttribute("baseUnitName");
+                %>
+
+                <!-- Display the baseUnitName in the form -->
+                <label for="baseUnitName">Base Unit Name:</label>
+                <input type="text" id="baseUnitName" name="baseUnitName" value="<%= baseUnitName %>" readonly class="readonly">
+                </div>
+                <div>
                     <label for="productUnitID">Product Unit ID:</label>
                     <input type="text" id="productUnitID" name="productUnitID" value="<%= ppq != null ? ppq.getProductUnitID() : "" %>" readonly class="readonly">
                 </div>
@@ -163,7 +172,7 @@
 
             <label for="importer">Importer:</label>
             <input type="number" min="0" id="importer" name="importer" value="<%= userId %>" readonly class="readonly">
-            
+
             <label for="quantity">Quantity</label>
             <input type="number" min="0" id="quantity" name="quantity" required="">
 
@@ -180,6 +189,5 @@
             }
         %>
 
-        <a href="ProductList.jsp" class="back-link">Back to Product List</a>
     </body>
 </html>

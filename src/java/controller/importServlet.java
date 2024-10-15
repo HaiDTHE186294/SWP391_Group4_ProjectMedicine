@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.*;
 
@@ -31,9 +32,25 @@ public class importServlet extends HttpServlet {
         request.setAttribute("ppq", ppq);
         List<Stock> stocks = sdao.getAllStocksByPid(productID);
         request.setAttribute("stocks", stocks);
+        List<ProductUnit> units = dao.getAllUnits();
 
-        // Forward the request to the import JSP page
-        RequestDispatcher dispatcher = request.getRequestDispatcher("importProduct.jsp");
+        String baseUnitID = ppq != null ? ppq.getUnitID() : null;
+        String baseUnitName = "";
+        if (baseUnitID != null && !baseUnitID.isEmpty()) {
+            // Loop through the units to find the corresponding unit name
+            for (ProductUnit unit : units) {
+                if (baseUnitID.equals(unit.getUnitID())) {
+                    baseUnitName = unit.getUnitName();
+                    break; // Once found, no need to continue looping
+                }
+            }
+        }
+
+        HttpSession session = request.getSession(true);
+        request.setAttribute("baseUnitName", baseUnitName);
+        request.setAttribute("units", units);
+        session.setAttribute("units", units);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/importProduct.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -70,11 +87,8 @@ public class importServlet extends HttpServlet {
                 Integer.parseInt(importer), // Assuming the importer is an integer User ID
                 quantity
         );
-        
-        
 
         boolean success1 = importDAO.addImport(importData);
-
 
         // Call the importProduct method from ImportDAO
         stockDAO stockDao = new stockDAO();
