@@ -56,10 +56,10 @@ public class LogoutController extends HttpServlet {
     throws ServletException, IOException {
         //processRequest(request, response);
         HttpSession session = request.getSession();
-        if (session.getAttribute("User") != null) {
-            session.removeAttribute("User");
+        if (session.getAttribute("username") != null) {
+            session.removeAttribute("username");
         }
-        response.sendRedirect("testMenu.jsp");
+        response.sendRedirect("home");
     } 
 
     /** 

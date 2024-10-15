@@ -1,0 +1,20 @@
++ Product manage view: 
+Đổi thứ tự ID->Name
+Thêm view product detail (chi tiết)
+Category phải hiển thị name chứ không phải ID
+Điều chỉnh dropbar của category tang tính trực quan
+!thêm nhiều product status, không hiển thị 0 1 mà hiển thị chữ
+đảm bảo trực quan
+hiển thị đường dẫn trên đầu màn hình
+
++ Màn hình Add
+Kiểm tra trùng ID
+!Unit and packaging detail: Ở phần detail chỉ cho chọn số, quy định rõ rang từng đơn vị trên unit nhằm mục đích tính toan số lượng và giá cả, đảm bảo quy đổi tất cả về đơn vị nhỏ nhất
+Bỏ content reviewer sang một màn hình khác (màn hình manage việc add vì add->kiểm duyệt (đúng)->Push (sai)->Return về bước add (một màn hình riêng)
+Sửa FAQ,Description sang text trong database
+Total sold là dạng tiền tệ không phải là dạng đơn vị
+
++import: giá của từng đơn vị
+
+Chỉ có 3 loại đơn vị: Đơn vị có 1 luôn là đơn vị lớn
+Đơn vị nhiều nhất luôn là cuối

@@ -19,6 +19,7 @@ public class Category {
     }
 
     public Category(String CategoryID, String Icon, String CategoryName, String ParentCategoryID, int status) {
+
         this.CategoryID = CategoryID;
         this.Icon = Icon;
         this.CategoryName = CategoryName;
@@ -41,6 +42,7 @@ public class Category {
     public void setCategoryID(String CategoryID) {
         this.CategoryID = CategoryID;
     }
+
 
     public String getIcon() {
         return Icon;
@@ -65,6 +67,6 @@ public class Category {
     public void setParentCategoryID(String ParentCategoryID) {
         this.ParentCategoryID = ParentCategoryID;
     }
-
+    
     
 }
