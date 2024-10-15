@@ -189,6 +189,5 @@
             }
         %>
 
-        <a href="ProductList.jsp" class="back-link">Back to Product List</a>
     </body>
 </html>

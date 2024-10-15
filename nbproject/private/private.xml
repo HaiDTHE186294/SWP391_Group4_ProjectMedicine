@@ -3,9 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/importView.jsp</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/dashboardHeader.jsp</file>
             <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/model/Import.java</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/product/dashboardHeader.jsp</file>
             <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/stock.jsp</file>
             <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/dal/stockDAO.java</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/product/productManageView.jsp</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/ViewImportsServlet.java</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/importProduct.jsp</file>
         </group>
     </open-files>
 </project-private>
