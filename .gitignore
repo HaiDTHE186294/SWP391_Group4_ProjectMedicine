@@ -10,5 +10,6 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-src/dal/DBContext.java
+/src/dal/DBContext.java
+
 # End of https://www.toptal.com/developers/gitignore/api/netbeans

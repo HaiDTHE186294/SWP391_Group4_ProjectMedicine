@@ -118,6 +118,8 @@ public class AddProduct extends HttpServlet {
         int productVersion = 1;  // Phiên bản sản phẩm mặc định
         String prescriptionRequired = request.getParameter("prescriptionRequired");
         String targetAudience = request.getParameter("targetAudience");
+        String ing = request.getParameter("ing");
+        System.out.println(ing);
 
         // Tạo đối tượng Product từ dữ liệu nhận được
         Product product = new Product(categoryID, brand, productID, productName, pharmaceuticalForm, brandOrigin,
@@ -127,6 +129,7 @@ public class AddProduct extends HttpServlet {
 
         // Thêm sản phẩm vào cơ sở dữ liệu
         productDAO.addProduct(product);
+        productDAO.addIng(productID, ing);
 
         // Lưu đường dẫn ảnh vào cơ sở dữ liệu
         productDAO.saveImagePath(productID, UPLOAD_DIRECTORY + "/" + fileName);

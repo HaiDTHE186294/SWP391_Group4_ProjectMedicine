@@ -174,12 +174,13 @@ public class ProductDAO extends DBContext {
                 String prescriptionRequired = rs.getString("PrescriptionRequired");
                 String targetAudience = rs.getString("TargetAudience");
                 String imagePath = rs.getString("ImagePath");
+                String ing = rs.getString("Ing");
 
                 // Initialize the Product object and add it to the list
                 Product product = new Product(categoryID, brand, productID, productName, pharmaceuticalForm, brandOrigin,
                         manufacturer, countryOfProduction, shortDescription, registrationNumber,
                         productDescription, contentReviewer, faq, productReviews, status, sold,
-                        dateCreated, productVersion, prescriptionRequired, targetAudience, imagePath);
+                        dateCreated, productVersion, prescriptionRequired, targetAudience, imagePath, ing);
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -220,12 +221,13 @@ public class ProductDAO extends DBContext {
                 String prescriptionRequired = rs.getString("PrescriptionRequired");
                 String targetAudience = rs.getString("TargetAudience");
                 String imagePath = rs.getString("ImagePath");
+                String ing = rs.getString("Ing");
 
                 // Initialize the Product object and add it to the list
                 Product product = new Product(categoryID, brand, productID, productName, pharmaceuticalForm, brandOrigin,
                         manufacturer, countryOfProduction, shortDescription, registrationNumber,
                         productDescription, contentReviewer, faq, productReviews, status, sold,
-                        dateCreated, productVersion, prescriptionRequired, targetAudience, imagePath);
+                        dateCreated, productVersion, prescriptionRequired, targetAudience, imagePath, ing);
                 return product;
             }
         } catch (SQLException e) {
@@ -313,6 +315,17 @@ public class ProductDAO extends DBContext {
         String sql = "UPDATE product SET imagepath = ? WHERE productid = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, imagePath);
+            ps.setString(2, productID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void addIng(String productID, String ing) {
+        String sql = "UPDATE product SET ing = ? WHERE productid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, ing);
             ps.setString(2, productID);
             ps.executeUpdate();
         } catch (Exception e) {

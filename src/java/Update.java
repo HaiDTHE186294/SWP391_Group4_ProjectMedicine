@@ -198,9 +198,11 @@ public class Update extends HttpServlet {
         existingProduct.setStatus(Integer.parseInt(request.getParameter("status")));
         existingProduct.setPrescriptionRequired(request.getParameter("prescriptionRequired"));
         existingProduct.setTargetAudience(request.getParameter("targetAudience"));
+        existingProduct.setIng(request.getParameter("ing"));
 
         // Update the product in the database
         productDAO.updateProduct(existingProduct);
+        productDAO.addIng(existingProduct.getProductID(), existingProduct.getIng());
 
         // Save image path in the database if a new image was uploaded
         if (filePart.getSize() > 0) {
@@ -224,10 +226,12 @@ public class Update extends HttpServlet {
         existingProduct.setStatus(Integer.parseInt(request.getParameter("status")));
         existingProduct.setPrescriptionRequired(request.getParameter("prescriptionRequired"));
         existingProduct.setTargetAudience(request.getParameter("targetAudience"));
+        existingProduct.setIng(request.getParameter("ing"));
         existingProduct.setSold(0);
 
         // Update the product in the database
         productDAO.addProduct(existingProduct);
+        productDAO.addIng(existingProduct.getProductID(), existingProduct.getIng());
 
         // Save image path in the database if a new image was uploaded
         if (filePart.getSize() > 0) {
