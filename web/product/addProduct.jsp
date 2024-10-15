@@ -15,12 +15,39 @@
         <meta charset="UTF-8">
         <title>Product Management - Add Product</title>
         <style>
+            
+            label {
+                margin-top: 20px; /* Điều chỉnh khoảng cách này theo nhu cầu */
+                margin-bottom: 5px; /* Khoảng cách dưới label */
+                display: block; /* Đảm bảo nhãn được hiển thị dưới dạng khối */
+            }
 
+            img.product-image {
+                max-width: 100%; /* Đảm bảo hình ảnh không vượt quá chiều rộng của container */
+            }
+            textarea {
+                width: 100%; /* Đặt độ rộng textarea bằng với độ rộng container */
+                height: 150px; /* Chiều cao ban đầu */
+                padding: 10px; /* Khoảng cách giữa văn bản và biên textarea */
+                font-size: 14px; /* Cỡ chữ */
+                border-radius: 4px; /* Bo tròn các góc */
+                border: 1px solid #ccc; /* Đường viền */
+                resize: vertical; /* Cho phép người dùng thay đổi chiều cao */
+            }
+
+            input[type="text"], input[type="number"], select, textarea {
+                width: 100%; /* Ensures full width */
+                padding: 8px;
+                margin: 5px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
             body {
                 font-family: Arial, sans-serif;
             }
             .container {
-                width: 100%;
+                width: 95%;
+                margin: 0 auto; /* Căn giữa container */
                 padding: 20px;
                 overflow: visible;
             }
@@ -53,148 +80,156 @@
                 padding: 10px 20px;
                 margin-top: 20px;
             }
-            .ingredientRow {
+            .ingredientRow, .unitRow {
                 display: flex;
                 gap: 10px;
                 margin-bottom: 10px;
             }
-            .ingredientInput {
+            .ingredientInput, .unitInput {
                 width: 30%;
                 padding: 8px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
             }
+            .remove-btn {
+                background-color: red;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                padding: 5px;
+            }
         </style>
         <script>
             const existingProductIds = [
             <% for (Product product : products) { %>
-                '<%= product.getProductID() %>',
+            '<%= product.getProductID() %>',
             <% } %>
             ];
             // Function to check for duplicate product IDs
             function checkDuplicateProductId() {
-                const productIdInput = document.getElementById("productId").value;
-                if (existingProductIds.includes(productIdInput)) {
-                    alert("The Product ID already exists. Please use a unique ID.");
-                    return false; // Prevent form submission
-                }
-                return true; // Allow form submission
+            const productIdInput = document.getElementById("productId").value;
+            if (existingProductIds.includes(productIdInput)) {
+            alert("The Product ID already exists. Please use a unique ID.");
+            return false; // Prevent form submission
+            }
+            return true; // Allow form submission
             }
 
             // Function to prevent negative numbers in quantity and packaging inputs
             function preventNegativeNumbers() {
-                const quantityInputs = document.querySelectorAll('input[name="InQuantity[]"], input[name="packagingDetails[]"]');
-                quantityInputs.forEach(input => {
-                    input.addEventListener('input', function () {
-                        const positiveIntegerRegex = /^[1-9]\d*$/; // Matches integers 1 and above
-                        if (this.value === '' || positiveIntegerRegex.test(this.value)) {
-                            return; // Valid input, do nothing
-                        } else {
-                            alert("Please enter a positive integer.");
-                            this.value = ''; // Reset the value
-                        }
-                    });
-                });
+            const quantityInputs = document.querySelectorAll('input[name="InQuantity[]"], input[name="packagingDetails[]"]');
+            quantityInputs.forEach(input => {
+            input.addEventListener('input', function () {
+            const positiveIntegerRegex = /^[1-9]\d*$/; // Matches integers 1 and above
+            if (this.value === '' || positiveIntegerRegex.test(this.value)) {
+            return; // Valid input, do nothing
+            } else {
+            alert("Please enter a positive integer.");
+            this.value = ''; // Reset the value
+            }
+            });
+            });
             }
 
             // Function to check for duplicate units
             function checkDuplicateUnits() {
-                const unitSelects = document.querySelectorAll('select[name="unit[]"]');
-                const unitValues = [];
-                for (let select of unitSelects) {
-                    const value = select.value;
-                    if (value) { // Only consider non-empty values
-                        const selectedOption = Array.from(select.options).find(option => option.value === value);
-                        const unitName = selectedOption ? selectedOption.text : ''; // Get the name or set to empty if not found
+            const unitSelects = document.querySelectorAll('select[name="unit[]"]');
+            const unitValues = [];
+            for (let select of unitSelects) {
+            const value = select.value;
+            if (value) { // Only consider non-empty values
+            const selectedOption = Array.from(select.options).find(option => option.value === value);
+            const unitName = selectedOption ? selectedOption.text : ''; // Get the name or set to empty if not found
 
-                        if (unitValues.includes(value)) {
-                            alert("Duplicate unit found: " + unitName); // Show unit name
-                            return false; // Duplicate found
-                        }
-                        unitValues.push(value);
-                    }
-                }
-                return true; // No duplicates found
+            if (unitValues.includes(value)) {
+            alert("Duplicate unit found: " + unitName); // Show unit name
+            return false; // Duplicate found
+            }
+            unitValues.push(value);
+            }
+            }
+            return true; // No duplicates found
             }
 
             // Function to check packaging details
             function checkPackagingDetails() {
-                const packagingInputs = document.querySelectorAll('input[name="packagingDetails[]"]');
-                let countOne = 0; // Count of packaging details with value "1"
-                const nonNumericRegex = /[^0-9]/; // Regex to check for non-numeric characters
+            const packagingInputs = document.querySelectorAll('input[name="packagingDetails[]"]');
+            let countOne = 0; // Count of packaging details with value "1"
+            const nonNumericRegex = /[^0-9]/; // Regex to check for non-numeric characters
 
-                for (let input of packagingInputs) {
-                    if (!input.value.trim()) { // Check for empty packaging detail
-                        alert("All packaging details must be filled out.");
-                        return false; // Prevent form submission
-                    }
+            for (let input of packagingInputs) {
+            if (!input.value.trim()) { // Check for empty packaging detail
+            alert("All packaging details must be filled out.");
+            return false; // Prevent form submission
+            }
 
-                    // Check for non-numeric characters
-                    if (nonNumericRegex.test(input.value)) {
-                        alert("Packaging details must contain only numeric values.");
-                        return false; // Prevent form submission
-                    }
+            // Check for non-numeric characters
+            if (nonNumericRegex.test(input.value)) {
+            alert("Packaging details must contain only numeric values.");
+            return false; // Prevent form submission
+            }
 
-                    // Count how many have the value "1"
-                    if (input.value.trim() === "1") {
-                        countOne++;
-                    }
-                }
+            // Count how many have the value "1"
+            if (input.value.trim() === "1") {
+            countOne++;
+            }
+            }
 
-                if (countOne !== 1) { // Check if there's exactly one "1"
-                    alert("There must be exactly one packaging detail with a value of '1'.");
-                    return false; // Prevent form submission
-                }
+            if (countOne !== 1) { // Check if there's exactly one "1"
+            alert("There must be exactly one packaging detail with a value of '1'.");
+            return false; // Prevent form submission
+            }
 
-                return true; // All packaging details are valid
+            return true; // All packaging details are valid
             }
 
 
 
             // Form validation before submission
             function validateForm() {
-                return checkDuplicateProductId() && checkDuplicateUnits() && checkPackagingDetails(); // Call all check functions
+            return checkDuplicateProductId() && checkDuplicateUnits() && checkPackagingDetails(); // Call all check functions
             }
 
             // Function to add ingredient row
             function addIngredientRow() {
-                const container = document.getElementById('ingredientContainer');
-                const newRow = document.createElement('div');
-                newRow.className = 'ingredientRow';
-                newRow.innerHTML = `
+            const container = document.getElementById('ingredientContainer');
+            const newRow = document.createElement('div');
+            newRow.className = 'ingredientRow';
+            newRow.innerHTML = `
             <input type="text" name="ingredientName[]" placeholder="Ingredient Name *" class="ingredientInput" required>
             <input type="text" name="InUnit[]" placeholder="Unit *" class="ingredientInput" required>
             <input type="number" name="InQuantity[]" min="1" placeholder="Quantity *" class="ingredientInput" required>
             <button type="button" onclick="removeIngredientRow(this)">Remove</button> <!-- Remove button -->
         `;
-                container.appendChild(newRow);
+            container.appendChild(newRow);
             }
 
             // Function to check if the packaging detail is "1" and show/hide the Based Unit message
             function checkBasedUnit(input) {
-                const messageSpan = input.nextElementSibling; // Get the next sibling span
-                if (input.value.trim() === "1") {
-                    messageSpan.style.display = "inline"; // Show the message
-                } else {
-                    messageSpan.style.display = "none"; // Hide the message
-                }
+            const messageSpan = input.nextElementSibling; // Get the next sibling span
+            if (input.value.trim() === "1") {
+            messageSpan.style.display = "inline"; // Show the message
+            } else {
+            messageSpan.style.display = "none"; // Hide the message
+            }
             }
 
             function addUnitRow() {
-                const table = document.getElementById("unitTable");
-                // Validate packaging details before adding a new row
-                if (!checkPackagingDetails()) {
-                    return; // Prevent adding if validation fails
-                }
+            const table = document.getElementById("unitTable");
+            // Validate packaging details before adding a new row
+            if (!checkPackagingDetails()) {
+            return; // Prevent adding if validation fails
+            }
 
-                const row = table.insertRow(-1);
-                // Clone the select options from the hidden template
-                const unitOptions = document.getElementById("unitOptions").cloneNode(true);
-                unitOptions.style.display = "block";
-                unitOptions.name = "unit[]"; // Ensure the name attribute is added for form submission
+            const row = table.insertRow( - 1);
+            // Clone the select options from the hidden template
+            const unitOptions = document.getElementById("unitOptions").cloneNode(true);
+            unitOptions.style.display = "block";
+            unitOptions.name = "unit[]"; // Ensure the name attribute is added for form submission
 
-                // Create a new row with the dropdown and input field for packaging details
-                row.innerHTML = `
+            // Create a new row with the dropdown and input field for packaging details
+            row.innerHTML = `
                 <td></td> <!-- Empty cell for the unit dropdown -->
                 <td>
                     <input type="text" name="packagingDetails[]" placeholder="Packaging details *" oninput="checkBasedUnit(this)" required>
@@ -222,6 +257,12 @@
                 const row = button.parentElement; // Lấy phần tử dòng cha của nút "Remove"
                 row.remove(); // Xoá dòng nguyên liệu cụ thể
             }
+            
+            function updateTargetAudience() {
+                const checkboxes = document.querySelectorAll('input[name="targetAudience"]:checked');
+                const values = Array.from(checkboxes).map(cb => cb.value);
+                document.getElementById('targetAudienceInput').value = values.join(',');
+            }
 
 // Function to remove a unit row
             function removeUnitRow(button) {
@@ -235,10 +276,6 @@
             };
 
             $(document).ready(function () {
-                $('#targetAudience').select2({
-                    placeholder: "Select Audience",
-                    allowClear: true // Tùy chọn cho phép xóa
-                });
                 $('#brandOrigin').select2({
                     placeholder: "Select Country",
                     allowClear: true
@@ -278,12 +315,25 @@
                         <input type="text" id="productId" name="productId" required>
 
                         <label for="targetAudience">Target Audience *</label>
-                        <select id="targetAudience" name="targetAudience" style="width: 100%;" required>
-                            <option value=""></option> <!-- Placeholder -->
+                        <div id="targetAudience" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 5px;">
                             <c:forEach var="audience" items="${sessionScope.audiences}">
-                                <option value="${audience}">${audience}</option>
+                                <label>
+                                    <input type="checkbox" class="targetAudienceCheckbox" value="${audience}" onchange="updateTargetAudience()">
+                                    ${audience}
+                                </label>
                             </c:forEach>
-                        </select>
+                        </div>
+                        <input type="hidden" id="targetAudienceInput" name="targetAudience" value="">
+
+                        <script>
+                            function updateTargetAudience() {
+                                const checkboxes = document.querySelectorAll('.targetAudienceCheckbox:checked'); // Sử dụng class để chọn tất cả checkbox
+                                const values = Array.from(checkboxes).map(cb => cb.value);
+                                document.getElementById('targetAudienceInput').value = values.join(', '); // Nối các giá trị bằng dấu phẩy
+                            }
+                        </script>
+
+
 
                         <label for="brand">Brand</label>
                         <input type="text" id="brand" name="brand">
@@ -291,9 +341,6 @@
                         <label for="productName">Product Name *</label>
                         <input type="text" id="productName" name="productName" required>
 
-
-                        <label for="imageUpload">Upload Image *</label>
-                        <input type="file" id="imageUpload" name="imageUpload" required>
 
                         <label for="shortDescription">Short Description</label>
                         <textarea id="shortDescription" name="shortDescription"></textarea>
@@ -354,6 +401,29 @@
                                 <option value="${category.categoryID}">${category.categoryName}</option>
                             </c:forEach>
                         </select>
+
+                        <label for="imageUpload" >Upload Image *</label>
+                        <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this)" required>
+
+                        <!-- Thẻ img để hiển thị hình ảnh đã chọn -->
+                        <img id="imagePreview" src="#" alt="Preview Image" style="max-width: 200px; display: none; margin-top: 10px;">
+
+                        <script>
+                            // Hàm để hiển thị ảnh người dùng chọn
+                            function previewImage(input) {
+                                const preview = document.getElementById('imagePreview');
+                                if (input.files && input.files[0]) {
+                                    const reader = new FileReader();
+                                    reader.onload = function (e) {
+                                        preview.src = e.target.result;
+                                        preview.style.display = 'block'; // Hiển thị thẻ img
+                                    }
+                                    reader.readAsDataURL(input.files[0]);
+                                } else {
+                                    preview.style.display = 'none'; // Ẩn thẻ img nếu không có file được chọn
+                                }
+                            }
+                        </script>
                     </div>
                 </div>
 
