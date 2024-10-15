@@ -6,7 +6,14 @@
         <a href="http://localhost:8080/MedicineShop/product/addxx">Add Product</a>       
         <a href="http://localhost:8080/MedicineShop/stockView">Stock</a>
         <a href="http://localhost:8080/MedicineShop/viewImports">Import History</a>
-        <a href="http://localhost:8080/MedicineShop/CategoryURL">Category List</a>
+        <a href="http://localhost:8080/MedicineShop/CategoryURL" onclick="showError(event)">Category List</a>
+
+        <script>
+            function showError(event) {
+                event.preventDefault(); // Ng?n ch?n chuy?n h??ng
+                alert("Error: Missing part - Can not access");
+            }
+        </script>
         <a href="http://localhost:8080/MedicineShop/changeProfile">Profile</a>
         <a href="http://localhost:8080/MedicineShop/login">Login</a>
         <a href="#" onclick="confirmLogout()">Logout</a>

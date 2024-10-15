@@ -10,82 +10,84 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
         <style>
-            /* Basic Page Styling */
-            body {
-                font-family: 'Arial', sans-serif;
-                margin: 0;
-                padding: 20px;
-                background-color: #f4f4f9;
+            /* Style for the table */
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            
+            .actions button {
+                margin-bottom: 8px; /* Khoảng cách giữa các nút theo chiều dọc */
+            }
+
+            table th, table td {
+                padding: 10px;
+                text-align: center;
+                border: 1px solid #ddd;
+            }
+
+            table th {
+                background-color: #f2f2f2;
+            }
+
+            table tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            table tr:hover {
+                background-color: #f1f1f1;
             }
 
             h1 {
                 text-align: center;
-                color: #333;
+                margin-bottom: 20px;
             }
 
-            table {
-                width: 100%;
-                border-collapse: collapse;
+            .pagination {
+                text-align: center;
                 margin-top: 20px;
             }
 
-            table th, table td {
-                border: 1px solid #dddddd;
-                padding: 10px;
-                text-align: left;
+            .pagination a {
+                display: inline-block;
+                padding: 8px 16px;
+                margin: 0 4px;
+                border: 1px solid #ddd;
+                text-decoration: none;
+                color: #333;
             }
 
-            table th {
+            .pagination a:hover {
+                background-color: #f1f1f1;
+            }
+
+            .pagination a.active {
                 background-color: #4CAF50;
                 color: white;
+                border: 1px solid #4CAF50;
             }
 
-            table tr:nth-child(even) {
-                background-color: #f2f2f2;
+            .search-container {
+                text-align: center;
+                margin-bottom: 20px;
             }
 
-            table tr:hover {
-                background-color: #ddd;
+            .search-container input[type="text"] {
+                padding: 10px;
+                width: 200px;
+                margin-right: 10px;
             }
 
-            /* Add padding and margins for the table */
-            table {
-                margin: 0 auto;
+            .search-container button {
+                padding: 10px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                cursor: pointer;
             }
 
-            /* Styling for table headers */
-            table th {
-                font-size: 1.1em;
-            }
-
-            /* Responsive Table */
-            @media screen and (max-width: 768px) {
-                table, thead, tbody, th, td, tr {
-                    display: block;
-                }
-
-                table th {
-                    background-color: #4CAF50;
-                    color: white;
-                    text-align: center;
-                    padding: 10px;
-                }
-
-                table tr {
-                    margin-bottom: 10px;
-                    padding: 10px;
-                    background-color: #f9f9f9;
-                }
-
-                table td {
-                    text-align: right;
-                    padding: 5px;
-                }
-
-                table tr:hover {
-                    background-color: #f0f0f0;
-                }
-
+            .search-container button:hover {
+                background-color: #45a049;
             }
         </style>
 
@@ -187,7 +189,7 @@
             const productBody = document.getElementById('productBody');
             const pagination = document.getElementById('pagination');
 
-            
+
             function paginate(rows) {
                 const totalPages = Math.ceil(rows.length / itemsPerPage);
 
@@ -217,7 +219,7 @@
                 createPagination();
                 showPage(1); // Hiển thị trang đầu tiên
             }
-            
+
             function init() {
                 allRows = Array.from(productBody.getElementsByTagName('tr'));
                 paginate(allRows); // Phân trang tất cả sản phẩm
@@ -227,7 +229,7 @@
             window.onload = function () {
                 paginate();
             };
-            
+
             init();
 
         </script>
