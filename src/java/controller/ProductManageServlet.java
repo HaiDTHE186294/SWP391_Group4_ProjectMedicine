@@ -13,13 +13,22 @@ import java.io.IOException;
 import java.util.List;
 import model.Category;
 
-
 public class ProductManageServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       ProductDAO productDAO = new ProductDAO();
+
         HttpSession session = request.getSession(true);
-       CategoryDAO categoryDAO = new CategoryDAO();
+        String message = (String) session.getAttribute("message");
+        if (message != null) {
+            session.removeAttribute("message");
+        }
+        request.setAttribute("message", message);
+
+
+        ProductDAO productDAO = new ProductDAO();
+
+        CategoryDAO categoryDAO = new CategoryDAO();
         List<Product> products = productDAO.getAllProducts();
         List<Category> categories = categoryDAO.getAllCategories();
         List<Category> categories1 = categoryDAO.getAllCategories();

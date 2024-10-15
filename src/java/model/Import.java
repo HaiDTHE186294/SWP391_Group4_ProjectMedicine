@@ -13,11 +13,12 @@ public class Import {
     private String dateManufacture; // Corresponds to Date_manufacture (as String)
     private String dateExpired;     // Corresponds to Date_expired (as String)
     private float priceImport;      // Corresponds to Price_import
-    private int importer;           // Corresponds to Importer (User/Staff ID)
+    private int importer;
+    private float quantity;// Corresponds to Importer (User/Staff ID)
 
     // Constructor
     public Import(String orderId, String provider, String productId, String baseUnitId, String batchNo,
-                  String dateManufacture, String dateExpired, float priceImport, int importer) {
+                  String dateManufacture, String dateExpired, float priceImport, int importer,float quantity) {
         this.orderId = orderId;
         this.provider = provider;
         this.productId = productId;
@@ -27,6 +28,15 @@ public class Import {
         this.dateExpired = dateExpired;
         this.priceImport = priceImport;
         this.importer = importer;
+        this.quantity = quantity;
+    }
+
+    public float getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(float quantity) {
+        this.quantity = quantity;
     }
 
     // Getters and Setters
