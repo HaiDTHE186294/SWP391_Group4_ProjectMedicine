@@ -14,6 +14,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+
 <html>
     <head> 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -37,7 +38,6 @@
             })(document, window.kommunicate || {});
         </script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <a href="http://localhost:8080/MedicineShop/testMenu.jsp" class="button">Home</a>
     <title>Product Manage</title>
     <style>
         body {
@@ -87,6 +87,7 @@
             text-decoration: underline;
         }
     </style>
+    <%@ include file="dashboardHeader.jsp" %>
 </head>
 <body>
     <div class="container">
