@@ -13,7 +13,6 @@ public class stockDAO extends DBContext {
     public stockDAO() {
     }
 
-    // Phương thức thêm vào Import và cập nhật Stock
     public boolean addImport(Import importData) {
         String insertImportSQL = "INSERT INTO Import (O_id, NCC, Pid, Base_unit_ID, Batch_no, Date_manufacture, Date_expired, Price_import, Importer, Quantity) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -46,9 +45,10 @@ public class stockDAO extends DBContext {
             ResultSet rs = checkStmt.executeQuery();
 
             if (rs.next()) {
+                double newprice = calculateFinalPrice(importData.getProductId(), importData.getBatchNo(), importData.getPriceImport(), importData.getQuantity());
                 // Nếu đã tồn tại, cập nhật số lượng và thông tin khác
                 updateStmt.setDouble(1, importData.getQuantity());
-                updateStmt.setDouble(2, importData.getPriceImport());
+                updateStmt.setDouble(2, newprice);
                 updateStmt.setString(3, importData.getDateManufacture());
                 updateStmt.setString(4, importData.getDateExpired());
                 updateStmt.setString(5, importData.getProductId());
@@ -273,6 +273,33 @@ public class stockDAO extends DBContext {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public double calculateFinalPrice(String pid, String batchNo, double newPrice, double newQuantity) {
+        String sql = "SELECT Price_import, Quantity FROM Stock WHERE Pid = ? AND Batch_no = ?";
+        double finalPrice = 0;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            // Set parameters for Pid and Batch_no
+            ps.setString(1, pid);
+            ps.setString(2, batchNo);
+
+            // Execute the query
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    // Retrieve the existing stock details
+                    double oldPrice = rs.getDouble("Price_import");
+                    double oldQuantity = rs.getDouble("Quantity");
+
+                    // Calculate the final price using the weighted average formula
+                    finalPrice = (oldPrice * oldQuantity + newPrice * newQuantity) / (oldQuantity + newQuantity);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return finalPrice;
     }
 
 }

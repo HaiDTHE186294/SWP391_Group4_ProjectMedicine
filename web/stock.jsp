@@ -153,7 +153,7 @@
                         <button id="sortQuantityButton" onclick="sortByNumber(4)">Sort</button>
                     </th>
                     <th>
-                        Price Import
+                        Price Import (VND)
                         <button id="sortPriceButton" onclick="sortByNumber(5)">Sort</button>
                     </th>
                     <th>Date Manufacture
