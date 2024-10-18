@@ -69,10 +69,20 @@ public class importServlet extends HttpServlet {
         float priceImport = Float.parseFloat(request.getParameter("priceImport"));
         String importer = request.getParameter("importer"); // assuming it's the User ID from the session
         float quantity = Float.parseFloat(request.getParameter("quantity"));
-        stockDAO importDAO = new stockDAO();
+        stockDAO stockDAO = new stockDAO();
+        Stock oldStock = stockDAO.getStockByPidAndBatch(productId, batchNo);
+        String NCC =  stockDAO.getManufacturerByProductAndBatch(productId, batchNo);
+        // If old stock exists, use its manufacture and expiry dates
+        if (oldStock.getDateExpired() != null && !oldStock.getDateExpired().isEmpty()) {
+            dateManufacture = oldStock.getDateManufacture();
+            dateExpired = oldStock.getDateExpired();
+            provider = stockDAO.getManufacturerByProductAndBatch(productId, batchNo);
+        }
+
+        System.out.println(NCC);
 
         // Generate a new Order ID (O_id)
-        String orderId = importDAO.generateOrderId(productId);
+        String orderId = stockDAO.generateOrderId(productId);
 
         // Create an Import object
         Import importData = new Import(
@@ -88,12 +98,10 @@ public class importServlet extends HttpServlet {
                 quantity
         );
 
-        boolean success1 = importDAO.addImport(importData);
-
+//        boolean success1 = stockDAO.addImport(importData);
         // Call the importProduct method from ImportDAO
-        stockDAO stockDao = new stockDAO();
-        boolean success = stockDao.importProduct(importData);
-        
+        boolean success = stockDAO.addImport(importData);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("/stockView");
         dispatcher.forward(request, response);
 

@@ -107,7 +107,7 @@
 
         <%
             // Define the number of items per page
-            int itemsPerPage = 10;
+            int itemsPerPage = 10   ;
 
             // Get the current page number from the request (default is 1)
             String pageParam = request.getParameter("page");
