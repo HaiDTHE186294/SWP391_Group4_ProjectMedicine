@@ -269,7 +269,7 @@
                             <th>Batch No</th>
                             <th>Base Unit</th>
                             <th>Quantity</th>
-                            <th>Price</th>
+                            <th>Price Import (VND)</th>
                             <th>Manufacture Date</th>
                             <th>Expiration Date</th>
                         </tr>

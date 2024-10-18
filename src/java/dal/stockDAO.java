@@ -14,6 +14,7 @@ public class stockDAO extends DBContext {
 
     public stockDAO() {
     }
+    
 
     public boolean addImport(Import importData) {
         String insertImportSQL = "INSERT INTO Import (O_id, NCC, Pid, Base_unit_ID, Batch_no, Date_manufacture, Date_expired, Price_import, Importer, Quantity) "
@@ -316,6 +317,7 @@ public class stockDAO extends DBContext {
     }
 
     public double calculateFinalPrice(String pid, String batchNo, double newPrice, double newQuantity) {
+        //Tinh toan gia tri trung binh cua 1 lo hang
         String sql = "SELECT Price_import, Quantity FROM Stock WHERE Pid = ? AND Batch_no = ?";
         double finalPrice = 0;
 
@@ -475,6 +477,63 @@ public class stockDAO extends DBContext {
         }
 
         return importList;
+    }
+
+    public Map<String, Float> getTotalQuantityByProduct() {
+        Map<String, Object> groupedStock = getGroupedStock();  // Call getGroupedStock() to get the grouped stock map
+
+        Map<String, Float> totalQuantityByProduct = new HashMap<>();
+
+        // Iterate through the groupedStock map
+        for (Map.Entry<String, Object> entry : groupedStock.entrySet()) {
+            String productId = entry.getKey();
+            Map<String, Object> productGroup = (Map<String, Object>) entry.getValue();
+
+            // Get the list of stock items for this product
+            List<Stock> stockList = (List<Stock>) productGroup.get("stocks");
+
+            // Calculate the total quantity for the product
+            float totalQuantity = 0;
+            for (Stock stock : stockList) {
+                totalQuantity += stock.getQuantity();  // Add the quantity of each stock
+            }
+
+            // Store the total quantity in the map
+            totalQuantityByProduct.put(productId, totalQuantity);
+        }
+
+        return totalQuantityByProduct;
+    }
+
+    public void updateProductStatus() throws SQLException {
+        String sqlUpdateStatus = "UPDATE p\n"
+                + "SET p.Status = 0\n"
+                + "FROM Product p\n"
+                + "WHERE p.Status = 1\n"
+                + "AND NOT EXISTS (\n"
+                + "    SELECT 1\n"
+                + "    FROM Stock s\n"
+                + "    WHERE s.Pid = p.ProductID\n"
+                + "    AND s.Quantity > 0\n"
+                + ");\n"
+                + "\n"
+                + "UPDATE p\n"
+                + "SET p.Status = 1\n"
+                + "FROM Product p\n"
+                + "WHERE p.Status = 0\n"
+                + "AND EXISTS (\n"
+                + "    SELECT 1\n"
+                + "    FROM Stock s\n"
+                + "    WHERE s.Pid = p.ProductID\n"
+                + "    AND s.Quantity > 0\n"
+                + ");";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sqlUpdateStatus)) {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error updating product statuses.");
+        }
     }
 
 }

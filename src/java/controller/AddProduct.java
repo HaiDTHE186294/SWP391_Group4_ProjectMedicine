@@ -3,6 +3,7 @@ package controller;
 import com.google.gson.Gson;
 import dal.CategoryDAO;
 import dal.ProductDAO;
+import dal.stockDAO;
 import model.Product;
 import model.Ingredient;
 import model.ProductPriceQuantity;
@@ -194,6 +195,13 @@ public class AddProduct extends HttpServlet {
         } else {
             // Xử lý lỗi khi độ dài các mảng không khớp
             System.out.println("Error: Mismatch in array lengths for units, packagingDetails, and unitStatus.");
+        }
+        
+        stockDAO s = new stockDAO();
+        try {
+            s.updateProductStatus();
+        } catch (SQLException ex) {
+            Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Chuyển hướng đến trang hiển thị thông tin sản phẩm
