@@ -403,11 +403,10 @@ public class stockDAO extends DBContext {
         Map<String, Object> groupedStock = new HashMap<>();
 
         // Truy vấn kết hợp bảng Stock với bảng Product để lấy thông tin ProductName
-        String query = "SELECT s.*, p.ProductName FROM Stock s " +
-                       "JOIN Product p ON s.Pid = p.ProductID";
+        String query = "SELECT s.*, p.ProductName FROM Stock s "
+                + "JOIN Product p ON s.Pid = p.ProductID";
         try (
-             PreparedStatement stmt = connection.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+                PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 String productId = rs.getString("Pid");
@@ -439,6 +438,43 @@ public class stockDAO extends DBContext {
         }
 
         return groupedStock;
+    }
+
+    public List<Import> getAllImportByPid(String Pid) {
+        // Modified SQL query to filter imports by Product ID (Pid)
+        String selectImportsByPidSQL = "SELECT O_id, NCC, Pid, Base_unit_ID, Batch_no, Date_manufacture, Date_expired, Price_import, Importer, Quantity, Date_import FROM Import WHERE Pid = ?";
+        List<Import> importList = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(selectImportsByPidSQL)) {
+            // Set the Product ID (Pid) parameter in the query
+            stmt.setString(1, Pid);
+
+            // Execute the query and retrieve the result set
+            try (ResultSet rs = stmt.executeQuery()) {
+                // Loop through the result set and add each import record to the list
+                while (rs.next()) {
+                    Import importData = new Import();
+                    importData.setOrderId(rs.getString("O_id"));
+                    importData.setProvider(rs.getString("NCC"));
+                    importData.setProductId(rs.getString("Pid"));
+                    importData.setBaseUnitId(rs.getString("Base_unit_ID"));
+                    importData.setBatchNo(rs.getString("Batch_no"));
+                    importData.setDateManufacture(rs.getString("Date_manufacture"));
+                    importData.setDateExpired(rs.getString("Date_expired"));
+                    importData.setPriceImport(rs.getFloat("Price_import"));
+                    importData.setImporter(rs.getInt("Importer"));
+                    importData.setQuantity(rs.getFloat("Quantity"));
+                    importData.setDateImport(rs.getString("Date_import"));
+
+                    // Add the import record to the list
+                    importList.add(importData);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return importList;
     }
 
 }

@@ -4,7 +4,7 @@
         <a href="#" onclick="confirmNavigation('http://localhost:8080/MedicineShop/home')">Home</a>
         <a href="http://localhost:8080/MedicineShop/showProductManageView">Product Manage Menu</a>       
         <a href="http://localhost:8080/MedicineShop/product/addxx">Add Product</a>       
-        <a href="http://localhost:8080/MedicineShop/stockView">Stock</a>
+        <a href="http://localhost:8080/MedicineShop/stockManagement">Stock</a>
         <a href="http://localhost:8080/MedicineShop/viewImports">Import History</a>
         <a href="http://localhost:8080/MedicineShop/CategoryURL" onclick="showError(event)">Category List</a>
 

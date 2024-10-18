@@ -21,20 +21,23 @@
             table {
                 width: 100%;
                 border-collapse: collapse;
+                margin-top: 20px;
             }
 
             .actions button {
-                margin-bottom: 8px; /* Khoảng cách giữa các nút theo chiều dọc */
+                margin-bottom: 8px; /* Vertical spacing between buttons */
             }
 
             table th, table td {
-                padding: 10px;
+                padding: 12px;
                 text-align: center;
                 border: 1px solid #ddd;
+                font-size: 14px;
             }
 
             table th {
-                background-color: #f2f2f2;
+                background-color: #4CAF50;
+                color: white;
             }
 
             table tr:nth-child(even) {
@@ -48,6 +51,7 @@
             h1 {
                 text-align: center;
                 margin-bottom: 20px;
+                color: #333;
             }
 
             .pagination {
@@ -96,6 +100,94 @@
             .search-container button:hover {
                 background-color: #45a049;
             }
+
+            /* Styling the product display section */
+            .product-display {
+                border: 1px solid #ddd;
+                padding: 15px;
+                margin-top: 20px;
+                border-radius: 5px;
+                background-color: #f4f4f4;
+                margin-bottom: 20px;
+            }
+
+            .product-display h3 {
+                font-size: 18px;
+                margin-bottom: 10px;
+                color: #333;
+            }
+
+            .product-display button {
+                background-color: #007BFF;
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                margin-right: 10px;
+            }
+
+            .product-display button:hover {
+                background-color: #0056b3;
+            }
+
+            .product-display .fa {
+                margin-right: 5px;
+            }
+
+            /* For each product's stock table */
+            .product-table {
+                width: 100%;
+                margin-top: 10px;
+                border-collapse: collapse;
+                background-color: #fff;
+                box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            }
+
+            .product-table th, .product-table td {
+                padding: 12px;
+                text-align: center;
+            }
+
+            .product-table th {
+                background-color: #6c757d;
+                color: white;
+            }
+
+            .product-table tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            .product-table tr:hover {
+                background-color: #f1f1f1;
+            }
+
+            .total-quantity {
+                font-weight: bold;
+                font-size: 18px;
+                color: #333;
+                margin-top: 10px;
+                padding: 10px 0;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .product-display {
+                    padding: 10px;
+                }
+
+                table, .product-table {
+                    width: 100%;
+                }
+
+                .search-container input[type="text"] {
+                    width: 100%;
+                    margin: 10px 0;
+                }
+
+                .pagination a {
+                    padding: 5px 10px;
+                }
+            }
         </style>
         <%
 
@@ -117,63 +209,99 @@
             }
 
         %>
+        <script>
+            function filterProducts() {
+                var input = document.getElementById('searchInput').value.toLowerCase();  // Get the search input
+                var products = document.querySelectorAll('.product-wrapper');  // Select all product wrappers
+
+                // Loop through each product
+                products.forEach(function (product) {
+                    var productName = product.querySelector('.product-display h3').textContent.toLowerCase();
+                    var productId = product.querySelector('.product-display h3').textContent.split('-')[0].trim().toLowerCase();
+
+                    // Check if the input matches product name or product ID
+                    if (productName.includes(input) || productId.includes(input)) {
+                        product.style.display = '';  // Show product
+                    } else {
+                        product.style.display = 'none';  // Hide product
+                    }
+                });
+            }
+        </script>
+
+
         <%@include file="dashboardHeader.jsp" %>
     </head>
     <body>
 
-        <h2>Stock Management</h2>
+        <h2>Stock View</h2>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search by Product Name or ID..." onkeyup="filterProducts()">
+        </div>
+
 
         <c:forEach var="entry" items="${groupedStock}">
-            <h3>
-                <span style="display: inline-block; margin-right: 10px;">
-                    Product: ${entry.key} - ${entry.value.productName}
-                </span>
-                <button type="button" onclick="window.location.href = 'ProductDetail?productID=P${fn:substringAfter(entry.key, 'P')}'" style="margin-right: 10px;">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <form action="importServlet" method="get" style="display:inline;">
-                    <!-- Set productID dynamically using the value from entry.key -->
-                    <input type="hidden" name="productID" value="P${fn:substringAfter(entry.key, 'P')}">
-                    <button type="submit" onclick="return confirm('Are you sure you want to import this product?');" style="margin-right: 10px; margin-top: 10px;">
-                        <i class="fas fa-download"></i>
+            <div class="product-wrapper" id="product-${entry.key}">
+                <div class="product-display">
+                    <h3>
+                        Product: ${entry.key} - ${entry.value.productName}
+                    </h3>
+                    <button type="button" onclick="window.location.href = 'ProductDetail?productID=P${fn:substringAfter(entry.key, 'P')}'">
+                        <i class="fas fa-eye"></i> View Product
                     </button>
-                </form>
-            </h3>
+                    <form action="importServlet" method="get" style="display:inline;">
+                        <input type="hidden" name="productID" value="P${fn:substringAfter(entry.key, 'P')}">
+                        <button type="submit" onclick="return confirm('Are you sure you want to import this product?');">
+                            <i class="fas fa-download"></i> Import
+                        </button>
+                    </form>
+                    <form action="viewImports" method="POST" style="display:inline;">
+                        <input type="hidden" name="Pid" value="P${fn:substringAfter(entry.key, 'P')}">
+                        <button type="submit">
+                            <i class="fas fa-eye"></i> View Imports
+                        </button>
+                    </form>
+                </div>
 
-
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Batch No</th>
-                        <th>Base Unit</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Manufacture Date</th>
-                        <th>Expiration Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="stock" items="${entry.value.stocks}">
+                <table class="product-table">
+                    <thead>
                         <tr>
-                            <td>${stock.batchNo}</td>
-                            <td><c:out value="${unitMap[stock.baseUnitId]}" /></td>
-
-                            <td>${stock.quantity}</td>
-                            <td>${stock.priceImport}</td>
-                            <td>${stock.dateManufacture}</td>
-                            <td>${stock.dateExpired}</td>
+                            <th>Batch No</th>
+                            <th>Base Unit</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Manufacture Date</th>
+                            <th>Expiration Date</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="stock" items="${entry.value.stocks}">
+                            <tr>
+                                <td>${stock.batchNo}</td>
+                                <td>
+                                    <c:set var="baseUnitId" value="${stock.baseUnitId}" />
+                                    <%= unitMap.get((String)pageContext.getAttribute("baseUnitId")) %>
+                                </td>
+                                <td>${stock.quantity}</td>
+                                <td>${stock.priceImport}</td>
+                                <td>${stock.dateManufacture}</td>
+                                <td>${stock.dateExpired}</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+
+                <div class="total-quantity">
+                    Total Quantity:
+                    <c:set var="totalQuantity" value="0" />
+                    <c:forEach var="stock" items="${entry.value.stocks}">
+                        <c:set var="totalQuantity" value="${totalQuantity + stock.quantity}" />
                     </c:forEach>
-                </tbody>
-            </table>
-            <h4>Total Quantity: 
-                <c:set var="totalQuantity" value="0" />
-                <c:forEach var="stock" items="${entry.value.stocks}">
-                    <c:set var="totalQuantity" value="${totalQuantity + stock.quantity}" />
-                </c:forEach>
-                ${totalQuantity}
-            </h4>
+                    ${totalQuantity}
+                </div>
+            </div>
         </c:forEach>
+
 
     </body>
 </html>
