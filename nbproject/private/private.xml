@@ -5,12 +5,9 @@
         <group>
             <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/web/home.jsp</file>
             <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/src/java/ControllerCustomer/productDetailCusController.java</file>
-            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/src/java/dal/ProductDAO.java</file>
             <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/src/java/model/Product.java</file>
-            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/web/WEB-INF/web.xml</file>
             <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/web/productDetailCustomer.jsp</file>
-            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/src/java/dal/DBContext.java</file>
-            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/src/java/controller/AddProduct.java</file>
+            <file>file:/D:/KÌ%205/12/SWP391_Group4_ProjectMedicine/src/java/ControllerCustomer/DisplayTop8ProductServlet.java</file>
         </group>
     </open-files>
 </project-private>

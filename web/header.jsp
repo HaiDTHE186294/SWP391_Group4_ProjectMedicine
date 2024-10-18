@@ -48,7 +48,7 @@
         <header id="topnav" class="defaultscroll sticky">
             <div class="container">
                 <!-- Logo container-->
-                <a class="logo" href="home.jsp">
+                <a class="logo" href="home">
                     <img src="assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
                     <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
                 </a>                

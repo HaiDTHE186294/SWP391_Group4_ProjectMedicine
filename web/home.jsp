@@ -167,7 +167,7 @@
                     <div class="col-lg-12 mt-4 pt-2">
                         <div class="slider-range-four">
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                 <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/skin.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Skin</span><br>Care</span>
@@ -176,7 +176,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/sexual.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Sexual</span><br>Wallness</span>
@@ -185,7 +185,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                 <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/weight.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Weight</span><br>Management</span>
@@ -194,7 +194,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/pain.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Pain</span><br>Relief</span>
@@ -203,7 +203,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/heart.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Heart</span><br>Health</span>
@@ -212,7 +212,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/cough.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Cough</span><br> & Cold</span>
@@ -221,7 +221,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/diabetes.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Diabetes</span><br>Care</span>
@@ -230,7 +230,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                 <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/cancer.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Cancer</span><br>Care</span>
@@ -414,7 +414,7 @@
                          
                             <div class="card shop-list border-0">
                                 <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                    <a href="pharmacy-product-detail.html"><img src="${product.ImagePath}" class="img-fluid" alt="${product.ProductName}"></a>
+                                    <a href="prodetails?productid=${product.ProductID}"><img src="${product.ImagePath}" class="img-fluid" alt="${product.ProductName}"></a>
                                     <ul class="list-unstyled shop-icons">
                                         <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                         <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
