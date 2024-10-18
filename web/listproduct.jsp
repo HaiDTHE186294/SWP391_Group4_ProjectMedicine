@@ -144,7 +144,7 @@
                     </div>
                     <div class="row" id="productContainer">
                         <c:forEach var="product" items="${productList}">
-                            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}"  style="display: none;">
+                            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}">
                                 <div class="card shop-list border-0">
                                     <div class="shop-image position-relative overflow-hidden rounded shadow">
                                         <a href="product-detail.jsp?productId=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
@@ -173,7 +173,7 @@
 
                     <div class="row" id="productContainer">
                         <c:forEach var="product" items="${searchproduct}">
-                            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}"  style="display: none;">
+                            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}">
                                 <div class="card shop-list border-0">
                                     <div class="shop-image position-relative overflow-hidden rounded shadow">
                                         <a href="product-detail.jsp?productId=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
@@ -439,70 +439,70 @@
                                 seeMoreButton.style.display = visibleItems.length > countriesPerPage ? 'block' : 'none';
                             }
 
-                            //Phân trang
-                            const productsPerPage = 8; // Number of products per page
-                            let currentPage = 1; // Current page number
-
-                            document.addEventListener('DOMContentLoaded', function () {
-                                const totalProducts = document.querySelectorAll('.product-item').length;
-                                const totalPages = Math.ceil(totalProducts / productsPerPage);
-
-                                // Show the first page of products
-                                showPage(currentPage, totalPages);
-                            });
-
-                            function showPage(page, totalPages) {
-                                const products = document.querySelectorAll('.product-item');
-
-                                // Hide all products initially
-                                products.forEach(product => {
-                                    product.style.display = 'none';
-                                });
-
-                                // Calculate start and end index for the current page
-                                const startIndex = (page - 1) * productsPerPage;
-                                const endIndex = startIndex + productsPerPage;
-
-                                // Show products for the current page
-                                for (let i = startIndex; i < endIndex; i++) {
-                                    if (i < products.length) {
-                                        products[i].style.display = 'block'; // Show product
-                                    }
-                                }
-
-                                // Update pagination buttons
-                                updatePaginationButtons(page, totalPages);
-                            }
-
-                            function changePage(direction) {
-                                const totalProducts = document.querySelectorAll('.product-item').length;
-                                const totalPages = Math.ceil(totalProducts / productsPerPage);
-
-                                // Update the current page based on direction
-                                if (direction === 1 && currentPage < totalPages) {
-                                    currentPage++;
-                                } else if (direction === -1 && currentPage > 1) {
-                                    currentPage--;
-                                }
-
-                                showPage(currentPage, totalPages);
-                            }
-
-                            function updatePaginationButtons(page, totalPages) {
-                                const totalProducts = document.querySelectorAll('.product-item').length;
-
-                                // Update the page info display
-                                const pageInfo = document.getElementById('pageInfo');
-                                if (totalProducts <= productsPerPage) {
-                                    pageInfo.style.display = 'none'; // Hide page info if products are <= 8
-                                } else {
-                                    pageInfo.style.display = 'inline'; // Show page info otherwise
-                                    pageInfo.textContent = `Page ${page} of ${totalPages}`;
-                                }
-
-                                document.getElementById('prevButton').style.display = page === 1 ? 'none' : 'inline-block'; // Hide 'Previous' button on first page
-                                document.getElementById('nextButton').style.display = page === totalPages ? 'none' : 'inline-block'; // Hide 'Next' button on last page
-                            }
+//                            //Phân trang
+//                            const productsPerPage = 8; // Number of products per page
+//                            let currentPage = 1; // Current page number
+//
+//                            document.addEventListener('DOMContentLoaded', function () {
+//                                const totalProducts = document.querySelectorAll('.product-item').length;
+//                                const totalPages = Math.ceil(totalProducts / productsPerPage);
+//
+//                                // Show the first page of products
+//                                showPage(currentPage, totalPages);
+//                            });
+//
+//                            function showPage(page, totalPages) {
+//                                const products = document.querySelectorAll('.product-item');
+//
+//                                // Hide all products initially
+//                                products.forEach(product => {
+//                                    product.style.display = 'none';
+//                                });
+//
+//                                // Calculate start and end index for the current page
+//                                const startIndex = (page - 1) * productsPerPage;
+//                                const endIndex = startIndex + productsPerPage;
+//
+//                                // Show products for the current page
+//                                for (let i = startIndex; i < endIndex; i++) {
+//                                    if (i < products.length) {
+//                                        products[i].style.display = 'block'; // Show product
+//                                    }
+//                                }
+//
+//                                // Update pagination buttons
+//                                updatePaginationButtons(page, totalPages);
+//                            }
+//
+//                            function changePage(direction) {
+//                                const totalProducts = document.querySelectorAll('.product-item').length;
+//                                const totalPages = Math.ceil(totalProducts / productsPerPage);
+//
+//                                // Update the current page based on direction
+//                                if (direction === 1 && currentPage < totalPages) {
+//                                    currentPage++;
+//                                } else if (direction === -1 && currentPage > 1) {
+//                                    currentPage--;
+//                                }
+//
+//                                showPage(currentPage, totalPages);
+//                            }
+//
+//                            function updatePaginationButtons(page, totalPages) {
+//                                const totalProducts = document.querySelectorAll('.product-item').length;
+//
+//                                // Update the page info display
+//                                const pageInfo = document.getElementById('pageInfo');
+//                                if (totalProducts <= productsPerPage) {
+//                                    pageInfo.style.display = 'none'; // Hide page info if products are <= 8
+//                                } else {
+//                                    pageInfo.style.display = 'inline'; // Show page info otherwise
+//                                    pageInfo.textContent = `Page ${page} of ${totalPages}`;
+//                                }
+//
+//                                document.getElementById('prevButton').style.display = page === 1 ? 'none' : 'inline-block'; // Hide 'Previous' button on first page
+//                                document.getElementById('nextButton').style.display = page === totalPages ? 'none' : 'inline-block'; // Hide 'Next' button on last page
+//                            }
         </script>
     </body>
 </html>
