@@ -5,6 +5,8 @@
 <%@ page import="model.ProductUnit" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,6 +17,10 @@
             table {
                 width: 100%;
                 border-collapse: collapse;
+            }
+            
+            .actions button {
+                margin-bottom: 8px; /* Khoảng cách giữa các nút theo chiều dọc */
             }
 
             table th, table td {
@@ -101,7 +107,7 @@
 
         <%
             // Define the number of items per page
-            int itemsPerPage = 10;
+            int itemsPerPage = 10   ;
 
             // Get the current page number from the request (default is 1)
             String pageParam = request.getParameter("page");
@@ -162,6 +168,7 @@
                         Date Expired
                         <button id="sortExpiredButton" onclick="sortExpired()">Sort</button>
                     </th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -180,6 +187,18 @@
                     <td><%= stock.getPriceImport() %></td>
                     <td><%= stock.getDateManufacture() %></td>
                     <td><%= stock.getDateExpired() %></td>
+                    <td>
+                        <button type="button" onclick="window.location.href = 'ProductDetail?productID=<%= stock.getProductId() %>'" style="margin-right: 10px;">
+                            <i class="fas fa-eye"></i>
+                        </button>
+
+                        <form action="importServlet" method="get" style="display:inline;">
+                            <input type="hidden" name="productID" value="<%= stock.getProductId() %>">
+                            <button type="submit" onclick="return confirm('Are you sure you want to import this product?');" style="margin-right: 10px; margin-top: 10px;">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 <%
                     }

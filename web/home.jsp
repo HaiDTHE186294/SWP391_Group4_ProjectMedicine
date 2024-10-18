@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : home
     Created on : Sep 18, 2024, 12:18:06 AM
@@ -122,7 +123,7 @@
                         <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
                             <div class="card shop-list border-0">
                                 <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                    <a href="pharmacy-product-detail.html"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
+                                    <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <ul class="list-unstyled shop-icons">
                                         <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                         <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
@@ -136,9 +137,16 @@
                                     </div>
                                 </div>
                                 <div class="card-body content pt-4 p-2">
-                                    <a href="pharmacy-product-detail.html" class="text-dark product-name h6">${product.productName}</a>
+                                   <a href="prodetails?productid=${product.ProductID}" class="text-dark product-name h6">${product.productName}</a>                                 
                                     <div class="d-flex justify-content-between mt-1">
-                                        <h6 class="text-muted small font-italic mb-0 mt-1">${product.salePrice}đ / ${product.unitName} </h6>
+                                        <h6 class="text-muted small font-italic mb-0 mt-1">${product.salePrice} / ${product.unitName} </h6>
+                                        <ul class="list-unstyled text-warning mb-0">
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -271,7 +279,7 @@
 
                 <div class="row">  
                     <c:forEach var="product" items="${latestProducts}">
-                        <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
+                        <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">                         
                             <div class="card shop-list border-0">
                                 <div class="shop-image position-relative overflow-hidden rounded shadow">
                                     <a href="pharmacy-product-detail.html"><img src="${product.ImagePath}" class="img-fluid" alt="${product.ProductName}"></a>
@@ -290,7 +298,14 @@
                                 <div class="card-body content pt-4 p-2">
                                     <a href="pharmacy-product-detail.html" class="text-dark product-name h6">${product.ProductName}</a>
                                     <div class="d-flex justify-content-between mt-1">
-                                        <h6 class="text-muted small font-italic mb-0 mt-1">${product.SalePrice}đ / ${product.UnitName} </h6>
+                                        <h6 class="text-muted small font-italic mb-0 mt-1">${product.SalePrice} / ${product.UnitName} </h6>
+                                        <ul class="list-unstyled text-warning mb-0">
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

@@ -229,6 +229,44 @@ public class stockDAO extends DBContext {
 
         return stocks;
     }
+    
+    public Stock getStockByPidAndBatch(String pid, String batchId) {
+        Stock stock = new Stock();
+        String sql = "SELECT * FROM Stock WHERE Pid = ? AND Batch_no = ?"; // Updated SQL query
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            // Set the Pid and BatchID parameters in the PreparedStatement
+            ps.setString(1, pid);
+            ps.setString(2, batchId); // Set the BatchID parameter
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    // Retrieve all fields from the result set and create a new Stock object
+                    String batchNo = rs.getString("Batch_no");
+                    String productId = rs.getString("Pid");
+                    String baseUnitId = rs.getString("Base_unit_ID");
+                    float quantity = rs.getFloat("Quantity");
+                    float priceImport = rs.getFloat("Price_import");
+                    String dateManufacture = rs.getString("Date_manufacture"); // Assuming nvarchar
+                    String dateExpired = rs.getString("Date_expired"); // Assuming nvarchar
+
+                    // Initialize the Stock object and add it to the list
+                    stock.setBatchNo(batchNo);
+                    stock.setProductId(productId);
+                    stock.setBaseUnitId(baseUnitId);
+                    stock.setQuantity(quantity);
+                    stock.setPriceImport(priceImport);
+                    stock.setDateManufacture(dateManufacture);
+                    stock.setDateExpired(dateExpired);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return stock;
+    }
 
     public boolean importProduct(Import importData) {
         String sql = "INSERT INTO [dbo].[Import] "
@@ -301,5 +339,65 @@ public class stockDAO extends DBContext {
 
         return finalPrice;
     }
+    
+    public List<Import> getAllImport() {
+    String selectAllImportsSQL = "SELECT O_id, NCC, Pid, Base_unit_ID, Batch_no, Date_manufacture, Date_expired, Price_import, Importer, Quantity, Date_import FROM Import";
+    List<Import> importList = new ArrayList<>();
+
+    try (PreparedStatement stmt = connection.prepareStatement(selectAllImportsSQL);
+         ResultSet rs = stmt.executeQuery()) {
+
+        // Loop through the result set and add each import record to the list
+        while (rs.next()) {
+            Import importData = new Import();
+            importData.setOrderId(rs.getString("O_id"));
+            importData.setProvider(rs.getString("NCC"));
+            importData.setProductId(rs.getString("Pid"));
+            importData.setBaseUnitId(rs.getString("Base_unit_ID"));
+            importData.setBatchNo(rs.getString("Batch_no"));
+            importData.setDateManufacture(rs.getString("Date_manufacture"));
+            importData.setDateExpired(rs.getString("Date_expired"));
+            importData.setPriceImport(rs.getFloat("Price_import"));
+            importData.setImporter(rs.getInt("Importer"));
+            importData.setQuantity(rs.getFloat("Quantity"));
+            importData.setDateImport(rs.getString("Date_import"));
+
+            // Add the import record to the list
+            importList.add(importData);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return importList;
+}
+    
+    public String getManufacturerByProductAndBatch(String productId, String batchNo) {
+    String query = "SELECT TOP 1 NCC "  // NCC là trường đại diện cho nhà cung cấp
+                   + "FROM Import "
+                   + "WHERE Pid = ? AND Batch_no = ? "
+                   + "ORDER BY date_import ASC ";  // Lấy bản ghi có thời gian sản xuất sớm nhất
+    
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        // Set giá trị cho prepared statement
+        stmt.setString(1, productId);
+        stmt.setString(2, batchNo);
+
+        // Thực hiện truy vấn và lấy kết quả
+        ResultSet rs = stmt.executeQuery();
+
+        // Nếu có kết quả, trả về nhà sản xuất
+        if (rs.next()) {
+            return rs.getString("NCC");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    // Nếu không tìm thấy kết quả, trả về null hoặc giá trị mặc định
+    return "NCC";
+}
+
+
 
 }

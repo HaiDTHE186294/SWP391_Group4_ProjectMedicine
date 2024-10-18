@@ -30,6 +30,26 @@
         <link rel="stylesheet" href="assets/css/tiny-slider.css"/>
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript">
+            var kommunicateSettings = {
+                "appId": "19a459080780f8a3e18a542ff44c64e9f",
+                "userId": "<%= session.getAttribute("userId") %>",
+                "email": "<%= session.getAttribute("userEmail") %>",
+                "userName": "<%= session.getAttribute("userName") %>"
+            };
+
+            (function (d, m) {
+                var s = document.createElement("script");
+                s.type = "text/javascript";
+                s.async = true;
+                s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+                var h = document.getElementsByTagName("head")[0];
+                h.appendChild(s);
+                window.kommunicate = m;
+                m._globals = kommunicateSettings;
+            })(document, window.kommunicate || {});
+        </script>
 
     </head>
     <body>
@@ -48,7 +68,7 @@
         <header id="topnav" class="defaultscroll sticky">
             <div class="container">
                 <!-- Logo container-->
-                <a class="logo" href="home.jsp">
+                <a class="logo" href="home">
                     <img src="assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
                     <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
                 </a>                
