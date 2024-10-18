@@ -142,6 +142,7 @@
                     <option value="Active">Active</option>
                     <option value="Pending">Pending</option>
                     <option value="Discontinued">Discontinued</option>
+                    <option value="Out of stock">Out of stock</option>
                 </select>
                 <input type="date" id="dateFilter" />
                 <input type="text" id="searchInput" placeholder="Type here to search" />
@@ -183,6 +184,9 @@
                                         break;
                                     case 1:
                                         statusText = "Active";
+                                        break;
+                                    case 2:
+                                        statusText = "Out of stock";
                                         break;
                                     case 3:
                                         statusText = "Pending";

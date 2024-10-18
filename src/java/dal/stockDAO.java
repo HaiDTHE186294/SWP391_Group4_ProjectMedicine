@@ -507,7 +507,7 @@ public class stockDAO extends DBContext {
 
     public void updateProductStatus() throws SQLException {
         String sqlUpdateStatus = "UPDATE p\n"
-                + "SET p.Status = 0\n"
+                + "SET p.Status = 2\n"
                 + "FROM Product p\n"
                 + "WHERE p.Status = 1\n"
                 + "AND NOT EXISTS (\n"
@@ -520,7 +520,7 @@ public class stockDAO extends DBContext {
                 + "UPDATE p\n"
                 + "SET p.Status = 1\n"
                 + "FROM Product p\n"
-                + "WHERE p.Status = 0\n"
+                + "WHERE p.Status = 2\n"
                 + "AND EXISTS (\n"
                 + "    SELECT 1\n"
                 + "    FROM Stock s\n"

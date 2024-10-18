@@ -111,13 +111,24 @@
             ProductPriceQuantity ppq = (ProductPriceQuantity) request.getAttribute("ppq");
             
   
-            int userId = (Integer)session.getAttribute("userId"); 
+         int userId = (session.getAttribute("userId") != null) ? (Integer)session.getAttribute("userId") : -1; 
+         String userName = (String)session.getAttribute("userName");
 
 
 
             // Check if the product was found
             if (product != null) {
         %>
+        <script>
+            // Check if userId or userName is null and redirect to login page if true
+            var userId = '<%= userId %>';
+            var userName = '<%= userName != null ? userName : "" %>';
+
+            if (userId === '-1' || userName === '') {
+                alert("You are not logged in. Please log in to access this page.");
+                window.location.href = "login.jsp"; // Redirect to login page
+            }
+        </script>
 
         <script>
             window.onload = function () {
@@ -348,11 +359,13 @@
 
 
 
-            <label for="priceImport">Price Import:</label>
+            <label for="priceImport">Price Import (VND):</label>
             <input type="number" id="priceImport" name="priceImport" step="0.01" required>
 
-            <label for="importer">Importer:</label>
-            <input type="number" min="0" id="importer" name="importer" value="<%= userId %>" readonly class="readonly">
+            <input type="number" min="0" id="importer" name="importer" value="<%= userId %>" readonly class="readonly" hidden="">
+
+            <label for="importerName">Importer Name:</label>
+            <input type="text" id="importerName" name="importerName" value="<%= userName %>" readonly class="readonly">
 
             <label for="quantity">Quantity</label>
             <input type="number" min="0" id="quantity" name="quantity" required="">

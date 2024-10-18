@@ -101,18 +101,14 @@ public class importServlet extends HttpServlet {
                 quantity
         );
 
-//        boolean success1 = stockDAO.addImport(importData);
-        // Call the importProduct method from ImportDAO
         boolean success = stockDAO.addImport(importData);
-
         try {
             stockDAO.updateProductStatus();
         } catch (SQLException ex) {
-            Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(importServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        response.sendRedirect(request.getContextPath() + "/stockManagement");
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/stockManagement");
-        dispatcher.forward(request, response);
 
     }
 
