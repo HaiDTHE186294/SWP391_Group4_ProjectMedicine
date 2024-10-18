@@ -193,7 +193,7 @@
             </div>
 
             <label for="provider">Provider:</label>
-            <input type="text" id="provider" name="provider" required>
+            <input type="text" id="provider" name="provider" required maxlength="100">
 
             <script>
                 function checkCustomOption() {
