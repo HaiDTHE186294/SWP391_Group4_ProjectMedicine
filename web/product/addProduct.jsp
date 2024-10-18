@@ -15,7 +15,7 @@
         <meta charset="UTF-8">
         <title>Product Management - Add Product</title>
         <style>
-            
+
             label {
                 margin-top: 20px; /* Điều chỉnh khoảng cách này theo nhu cầu */
                 margin-bottom: 5px; /* Khoảng cách dưới label */
@@ -292,7 +292,7 @@
             });
 
         </script>
-    <%@ include file="dashboardHeader.jsp" %>
+        <%@ include file="dashboardHeader.jsp" %>
 
 
     </head>
@@ -313,7 +313,10 @@
                     <!-- Left Section -->
                     <div>
                         <label for="productId">ID - Unique *</label>
-                        <input type="text" id="productId" name="productId" required maxlength="15">
+                        <input type="text" id="productId" name="productId" required maxlength="15" 
+                               pattern="^P[A-Za-z0-9]{1,14}$" 
+                               title="Product ID must start with 'P' followed by up to 14 alphanumeric characters">
+
 
                         <label for="targetAudience">Target Audience *</label>
                         <div id="targetAudience" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 5px;">
@@ -403,7 +406,7 @@
                                 <option value="${category.categoryID}">${category.categoryName}</option>
                             </c:forEach>
                         </select>
-                        
+
                         <label for="ing">Ingredient per Unit *</label>
                         <input type="text" id="ing" name="ing" placeholder="Unit *" required maxlength="100">
 

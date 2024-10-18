@@ -81,15 +81,16 @@
         <servlet-class>controller.ListProductController</servlet-class>
     </servlet>
     <servlet>
-
         <servlet-name>ViewImportsServlet</servlet-name>
         <servlet-class>controller.ViewImportsServlet</servlet-class>
-</servlet>
-  <servlet>
-      
+    </servlet>
+    <servlet>
         <servlet-name>productDetailCusController</servlet-name>
         <servlet-class>ControllerCustomer.productDetailCusController</servlet-class>
-
+    </servlet>
+    <servlet>
+        <servlet-name>StockManagementServlet</servlet-name>
+        <servlet-class>controller.StockManagementServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -180,13 +181,15 @@
         <url-pattern>/listproduct</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>ViewImportsServlet</servlet-name>
         <url-pattern>/viewImports</url-pattern>
-      </servlet-mapping>
-<servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>productDetailCusController</servlet-name>
         <url-pattern>/prodetails</url-pattern>
-
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StockManagementServlet</servlet-name>
+        <url-pattern>/stockManagement</url-pattern>
     </servlet-mapping>
 </web-app>
