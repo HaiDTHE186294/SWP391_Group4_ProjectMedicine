@@ -81,8 +81,20 @@
         <servlet-class>controller.ListProductController</servlet-class>
     </servlet>
     <servlet>
+
+        <servlet-name>SearchController</servlet-name>
+        <servlet-class>controller.SearchController</servlet-class>
+</servlet>
+  <servlet>
+        <servlet-name>ViewImportsServlet</servlet-name>
+        <servlet-class>controller.ViewImportsServlet</servlet-class>
+</servlet>
+  <servlet>
+      
         <servlet-name>productDetailCusController</servlet-name>
         <servlet-class>ControllerCustomer.productDetailCusController</servlet-class>
+
+
     </servlet>
     <servlet>
         <servlet-name>DisplayTop8ProductServlet</servlet-name>
@@ -177,6 +189,14 @@
         <url-pattern>/listproduct</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>SearchController</servlet-name>
+        <url-pattern>/search</url-pattern>
+</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewImportsServlet</servlet-name>
+        <url-pattern>/viewImports</url-pattern>
+      </servlet-mapping>
+<servlet-mapping>
         <servlet-name>productDetailCusController</servlet-name>
         <url-pattern>/prodetails</url-pattern>
     </servlet-mapping>

@@ -16,12 +16,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 .filter-form {
     width: 300px; /* Set a fixed width */
-    /* Optional: Center the filter form */
     margin: 0 auto; 
     background-color: #f8f9fa; /* Light background for better visibility */
     border-radius: 8px; /* Rounded corners */
     padding: 15px; /* Padding around the form */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: shadow for depth */
+}
+
+.country-item {
+    padding: 5px 0; /* Space out each country item */
+}
+
+h5, h6 {
+    margin-bottom: 10px; /* Space between headers and content */
 }
 
 .btn-primary {
