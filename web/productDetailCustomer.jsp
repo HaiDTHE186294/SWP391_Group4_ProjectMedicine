@@ -227,7 +227,6 @@ h2 {
                                     </ul>
                                     <p class="text-muted mb-2"><strong>Brand:</strong> ${productId.brand}</p>
                                     <p class="text-muted mb-2"><strong>Manufacturer:</strong> ${productId.manufacturer}</p>
-                                    <p class="text-muted mb-2"><strong>Ingredient:</strong> ${productId.productDescription}</p>
                                     <p class="text-muted mb-2"><strong>Target Audience:</strong> ${productId.targetAudience}</p>
                                     <p class="text-muted mb-2"><strong>Short Description:</strong><p class="mb-4">${productId.shortDescription}</p>
                                     <p class="text-muted mb-3"><strong>Register Number:</strong> ${productId.registrationNumber}</p>

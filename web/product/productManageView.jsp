@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %> 
 <%@ page import="model.Product" %>
 <%@ page import="model.Category" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -163,6 +164,7 @@
                         <th>Date</th>
                         <th>Category ID</th>
                         <th>Category</th> <!-- Hiển thị tên danh mục -->
+                        <th>Quantity</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -170,6 +172,7 @@
                     <%
                         List<Product> productList = (List<Product>) request.getAttribute("productList");
                         List<Category> categories = (List<Category>) request.getAttribute("categories"); // Lấy danh sách danh mục
+                        Map<String, Float> totalQuantities = (Map<String, Float>) request.getAttribute("totalQuantities"); 
                         if (productList != null && !productList.isEmpty()) {
                             int index = 1; // Biến để theo dõi số thứ tự
                             for (Product product : productList) {
@@ -217,9 +220,14 @@
                             %>
                             <%= categoryName %>
                         </td>
+                        <td>
+                            <!-- Set the quantity from stock object -->
+                            <c:set var="quantity" value="<%= product.getProductID() %>" />
+
+                            <!-- Retrieve the value for quantity from totalQuantities using the 'quantity' key and display 0 if null -->
+                            <%= (totalQuantities.get((String)pageContext.getAttribute("quantity")) != null ? totalQuantities.get((String)pageContext.getAttribute("quantity")) : 0) %>
                         </td>
 
-                        </td>
                         <td class="actions">
                             <!-- Thay nút Delete bằng biểu tượng thùng rác -->
                             <button type="button" onclick="deleteProduct('<%= product.getProductID() %>')" style="margin-right: 10px;">

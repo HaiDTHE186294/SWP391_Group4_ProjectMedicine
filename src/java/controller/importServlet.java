@@ -8,7 +8,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.*;
 
 public class importServlet extends HttpServlet {
@@ -71,7 +74,7 @@ public class importServlet extends HttpServlet {
         float quantity = Float.parseFloat(request.getParameter("quantity"));
         stockDAO stockDAO = new stockDAO();
         Stock oldStock = stockDAO.getStockByPidAndBatch(productId, batchNo);
-        String NCC =  stockDAO.getManufacturerByProductAndBatch(productId, batchNo);
+        String NCC = stockDAO.getManufacturerByProductAndBatch(productId, batchNo);
         // If old stock exists, use its manufacture and expiry dates
         if (oldStock.getDateExpired() != null && !oldStock.getDateExpired().isEmpty()) {
             dateManufacture = oldStock.getDateManufacture();
@@ -102,7 +105,13 @@ public class importServlet extends HttpServlet {
         // Call the importProduct method from ImportDAO
         boolean success = stockDAO.addImport(importData);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/stockView");
+        try {
+            stockDAO.updateProductStatus();
+        } catch (SQLException ex) {
+            Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/stockManagement");
         dispatcher.forward(request, response);
 
     }
