@@ -96,6 +96,10 @@
 
 
     </servlet>
+    <servlet>
+        <servlet-name>DisplayTop8ProductServlet</servlet-name>
+        <servlet-class>ControllerCustomer.DisplayTop8ProductServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -195,5 +199,9 @@
 <servlet-mapping>
         <servlet-name>productDetailCusController</servlet-name>
         <url-pattern>/prodetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DisplayTop8ProductServlet</servlet-name>
+        <url-pattern>/displayTop8ProductServlet</url-pattern>
     </servlet-mapping>
 </web-app>
