@@ -507,8 +507,13 @@
                     <button type="button" onclick="addUnitRow()">Add Unit</button>
                 </div>
 
-
+                <div>
+                    <p>All fields must be filled in correctly.</p>
+                    <input type="radio" id="confirm" name="confirmation" required>
+                    <label for="confirm">Confirm update information</label>
+                </div>
                 <button type="submit" onclick="validateForm()">Update Product</button>
+                <button type="reset">Cancel</button>
             </form>
         </div>
     </body>

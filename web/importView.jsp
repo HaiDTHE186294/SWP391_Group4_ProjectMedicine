@@ -255,6 +255,7 @@
                     <th>Price Import</th>
                     <th>Importer</th>
                     <th>Quantity</th>
+                    <th>Date import</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -272,6 +273,7 @@
                         <td>${importData.priceImport}</td>
                         <td>${importData.importer}</td>
                         <td>${importData.quantity}</td>
+                        <td>${importData.dateImport}</td>
                         <td>
                             <button type="button" onclick="window.location.href = 'ProductDetail?productID=${importData.productId}'" style="margin-right: 10px;">
                                 <i class="fas fa-eye"></i>
