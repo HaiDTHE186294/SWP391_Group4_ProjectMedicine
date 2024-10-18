@@ -457,7 +457,16 @@
                             }
 
                             function updatePaginationButtons(page, totalPages) {
-                                document.getElementById('pageInfo').textContent = `Page ${page} of ${totalPages}`;
+                                const totalProducts = document.querySelectorAll('.product-item').length;
+
+                                // Update the page info display
+                                const pageInfo = document.getElementById('pageInfo');
+                                if (totalProducts <= productsPerPage) {
+                                    pageInfo.style.display = 'none'; // Hide page info if products are <= 8
+                                } else {
+                                    pageInfo.style.display = 'inline'; // Show page info otherwise
+                                    pageInfo.textContent = `Page ${page} of ${totalPages}`;
+                                }
 
                                 document.getElementById('prevButton').style.display = page === 1 ? 'none' : 'inline-block'; // Hide 'Previous' button on first page
                                 document.getElementById('nextButton').style.display = page === totalPages ? 'none' : 'inline-block'; // Hide 'Next' button on last page
