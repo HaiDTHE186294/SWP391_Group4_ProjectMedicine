@@ -122,12 +122,7 @@
                         <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
                             <div class="card shop-list border-0">
                                 <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                    <a href="pharmacy-product-detail.html"  class="product-link" 
-                                       data-name="${product.productName}" 
-                                       data-image="${product.imagePath}" 
-                                       data-price="${product.salePrice}" 
-                                       data-unitname="${product.unitName}" 
-                                       onclick="saveProduct(event)"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
+                                    <a href="pharmacy-product-detail.html"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <ul class="list-unstyled shop-icons">
                                         <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                         <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
