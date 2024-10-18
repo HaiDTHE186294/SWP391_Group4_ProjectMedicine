@@ -15,7 +15,7 @@
                 width: 100%;
                 border-collapse: collapse;
             }
-            
+
             .actions button {
                 margin-bottom: 8px; /* Khoảng cách giữa các nút theo chiều dọc */
             }
@@ -92,7 +92,7 @@
         </style>
 
         <script>
-            // Sort the table based on the column index (Order ID or Product ID)
+            // Sort the table based on the column index (Order ID, Product ID, or Date import)
             function sortTable(n, table) {
                 let rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
                 switching = true;
@@ -110,39 +110,31 @@
                         let xValue = x.innerHTML.toLowerCase();
                         let yValue = y.innerHTML.toLowerCase();
 
-                        // Split the value by "_" and get both parts
-                        let xParts = xValue.split('_');
-                        let yParts = yValue.split('_');
+                        // For Date import column (index 10), we need to handle date comparison
+                        if (n === 10) { // If the sorting column is "Date import"
+                            let xDate = new Date(xValue);
+                            let yDate = new Date(yValue);
 
-                        // Compare the part before "_"
-                        let xPrefix = xParts[0];
-                        let yPrefix = yParts[0];
-
-                        if (xPrefix === yPrefix) {
-                            // If the prefixes are the same, compare the part after "_"
-                            let xNumber = parseInt(xParts[1]) || 0;
-                            let yNumber = parseInt(yParts[1]) || 0;
-
-                            if (dir == "asc") {
-                                if (xNumber > yNumber) {
+                            if (dir === "asc") {
+                                if (xDate > yDate) {
                                     shouldSwitch = true;
                                     break;
                                 }
-                            } else if (dir == "desc") {
-                                if (xNumber < yNumber) {
+                            } else if (dir === "desc") {
+                                if (xDate < yDate) {
                                     shouldSwitch = true;
                                     break;
                                 }
                             }
                         } else {
-                            // If prefixes are different, compare them directly
-                            if (dir == "asc") {
-                                if (xPrefix > yPrefix) {
+                            // Default string comparison
+                            if (dir === "asc") {
+                                if (xValue > yValue) {
                                     shouldSwitch = true;
                                     break;
                                 }
-                            } else if (dir == "desc") {
-                                if (xPrefix < yPrefix) {
+                            } else if (dir === "desc") {
+                                if (xValue < yValue) {
                                     shouldSwitch = true;
                                     break;
                                 }
@@ -155,12 +147,18 @@
                         switching = true;
                         switchcount++;
                     } else {
-                        if (switchcount == 0 && dir == "asc") {
+                        if (switchcount === 0 && dir === "asc") {
                             dir = "desc";
                             switching = true;
                         }
                     }
                 }
+            }
+
+            // Call this function for sorting by Date Import
+            function sortByDate() {
+                const table = document.getElementById("importTable");
+                sortTable(10, table); // 10 is the column index for Date import
             }
 
             // Search the table based on Product ID
@@ -255,7 +253,7 @@
                     <th>Price Import</th>
                     <th>Importer</th>
                     <th>Quantity</th>
-                    <th>Date import</th>
+                    <th onclick="sortByDate()">Date import <i class="fas fa-sort"></i></th>
                     <th>Action</th>
                 </tr>
             </thead>
