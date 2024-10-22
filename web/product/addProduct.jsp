@@ -15,7 +15,7 @@
         <meta charset="UTF-8">
         <title>Product Management - Add Product</title>
         <style>
-            
+
             label {
                 margin-top: 20px; /* Điều chỉnh khoảng cách này theo nhu cầu */
                 margin-bottom: 5px; /* Khoảng cách dưới label */
@@ -197,8 +197,8 @@
             const newRow = document.createElement('div');
             newRow.className = 'ingredientRow';
             newRow.innerHTML = `
-            <input type="text" name="ingredientName[]" placeholder="Ingredient Name *" class="ingredientInput" required>
-            <input type="text" name="InUnit[]" placeholder="Unit *" class="ingredientInput" required>
+            <input type="text" name="ingredientName[]" placeholder="Ingredient Name *" class="ingredientInput" required maxlength="50">
+            <input type="text" name="InUnit[]" placeholder="Unit *" class="ingredientInput" required maxlength="20">
             <input type="number" name="InQuantity[]" min="1" placeholder="Quantity *" class="ingredientInput" required>
             <button type="button" onclick="removeIngredientRow(this)">Remove</button> <!-- Remove button -->
         `;
@@ -292,7 +292,7 @@
             });
 
         </script>
-    <%@ include file="dashboardHeader.jsp" %>
+        <%@ include file="dashboardHeader.jsp" %>
 
 
     </head>
@@ -313,7 +313,10 @@
                     <!-- Left Section -->
                     <div>
                         <label for="productId">ID - Unique *</label>
-                        <input type="text" id="productId" name="productId" required>
+                        <input type="text" id="productId" name="productId" required maxlength="15" 
+                               pattern="^P[A-Za-z0-9]{1,14}$" 
+                               title="Product ID must start with 'P' followed by up to 14 alphanumeric characters">
+
 
                         <label for="targetAudience">Target Audience *</label>
                         <div id="targetAudience" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 5px;">
@@ -337,10 +340,10 @@
 
 
                         <label for="brand">Brand *</label>
-                        <input type="text" id="brand" name="brand" required>
+                        <input type="text" id="brand" name="brand" required maxlength="50">
 
                         <label for="productName">Product Name *</label>
-                        <input type="text" id="productName" name="productName" required>
+                        <input type="text" id="productName" name="productName" required maxlength="1000">
 
 
                         <label for="shortDescription">Short Description</label>
@@ -356,7 +359,7 @@
                     <!-- Right Section -->
                     <div>
                         <label for="pharmaceuticalForm">Pharmaceutical Form *</label>
-                        <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm" required>
+                        <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm" required maxlength="50">
 
                         <label for="brandOrigin">Brand Origin *</label>
                         <select id="brandOrigin" name="brandOrigin" style="width: 100%;" required>
@@ -368,7 +371,7 @@
 
 
                         <label for="manufacturer">Manufacturer</label>
-                        <input type="text" id="manufacturer" name="manufacturer">
+                        <input type="text" id="manufacturer" name="manufacturer" maxlength="1000">
 
                         <label for="countryOfProduction">Country of Production *</label>
                         <select id="countryOfProduction" name="countryOfProduction" style="width: 100%;" required>
@@ -379,7 +382,7 @@
                         </select>
 
                         <label for="registrationNumber">Registration Number *</label>
-                        <input type="text" id="registrationNumber" name="registrationNumber" required>
+                        <input type="text" id="registrationNumber" name="registrationNumber" required maxlength="50">
 
                         <label for="status">Status *</label>
                         <select id="status" name="status" required>
@@ -387,10 +390,11 @@
                             <option value="0">Inactive</option>
                             <option value="3">Pending</option>
                             <option value="4">Discontinued</option>
+                            <option value="2">Out of stock</option>
                         </select>
 
                         <label for="prescriptionRequired">Prescription Required *</label>
-                        <select id="prescriptionRequired" name="prescriptionRequired" required>
+                        <select id="prescriptionRequired" name="prescriptionRequired" required >
                             <option value="yes">Yes</option>
                             <option value="no">No</option>
                         </select>
@@ -402,12 +406,12 @@
                                 <option value="${category.categoryID}">${category.categoryName}</option>
                             </c:forEach>
                         </select>
-                        
+
                         <label for="ing">Ingredient per Unit *</label>
-                        <input type="text" id="ing" name="ing" placeholder="Unit *" required>
+                        <input type="text" id="ing" name="ing" placeholder="Unit *" required maxlength="100">
 
                         <label for="imageUpload" >Upload Image *</label>
-                        <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this)" required>
+                        <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this)" required maxlength="100">
 
                         <!-- Thẻ img để hiển thị hình ảnh đã chọn -->
                         <img id="imagePreview" src="#" alt="Preview Image" style="max-width: 200px; display: none; margin-top: 10px;">
@@ -436,8 +440,8 @@
                     <h3>Ingredients</h3>
                     <div id="ingredientContainer">
                         <div class="ingredientRow">
-                            <input type="text" name="ingredientName[]" placeholder="Ingredient Name *" class="ingredientInput" required>
-                            <input type="text" name="InUnit[]" placeholder="Unit *" class="ingredientInput" required>
+                            <input type="text" name="ingredientName[]" placeholder="Ingredient Name *" class="ingredientInput" required maxlength="50">
+                            <input type="text" name="InUnit[]" placeholder="Unit *" class="ingredientInput" required maxlength="20">
                             <input type="number" min="1" name="InQuantity[]" placeholder="Quantity *" class="ingredientInput" required>
                         </div>
                     </div>

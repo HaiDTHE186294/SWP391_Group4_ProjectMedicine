@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import dal.ProductDAO;
@@ -22,6 +21,7 @@ import model.Import;
  * @author Asus
  */
 public class ViewImportsServlet extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
 
     // Instance of your DAO class to interact with the database
@@ -40,4 +40,27 @@ public class ViewImportsServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/importView.jsp");
         dispatcher.forward(request, response);
     }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Retrieve the Product ID (Pid) from the request parameter
+        String pid = request.getParameter("Pid");
+
+        // Check if the pid is not null or empty
+        if (pid != null && !pid.isEmpty()) {
+            // Get the list of imports for the specific Product ID from the DAO
+            List<Import> importList = dao.getAllImportByPid(pid);
+
+            // Set the import list as an attribute in the request
+            request.setAttribute("importList", importList);
+
+            // Forward the request to the importView.jsp
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/importView.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            // Handle the case when Pid is missing or invalid
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product ID (Pid) is required.");
+        }
+    }
+
 }

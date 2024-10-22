@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : home
     Created on : Sep 18, 2024, 12:18:06 AM
@@ -122,7 +123,7 @@
                         <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
                             <div class="card shop-list border-0">
                                 <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                    <a href="pharmacy-product-detail.html"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
+                                    <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <ul class="list-unstyled shop-icons">
                                         <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                         <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
@@ -136,9 +137,16 @@
                                     </div>
                                 </div>
                                 <div class="card-body content pt-4 p-2">
-                                    <a href="pharmacy-product-detail.html" class="text-dark product-name h6">${product.productName}</a>
+                                   <a href="prodetails?productid=${product.ProductID}" class="text-dark product-name h6">${product.productName}</a>                                 
                                     <div class="d-flex justify-content-between mt-1">
-                                        <h6 class="text-muted small font-italic mb-0 mt-1">${product.salePrice}đ / ${product.unitName} </h6>
+                                        <h6 class="text-muted small font-italic mb-0 mt-1">${product.salePrice} / ${product.unitName} </h6>
+                                        <ul class="list-unstyled text-warning mb-0">
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +166,7 @@
                     <div class="col-lg-12 mt-4 pt-2">
                         <div class="slider-range-four">
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                 <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/skin.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Skin</span><br>Care</span>
@@ -167,7 +175,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/sexual.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Sexual</span><br>Wallness</span>
@@ -176,7 +184,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                 <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/weight.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Weight</span><br>Management</span>
@@ -185,7 +193,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/pain.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Pain</span><br>Relief</span>
@@ -194,7 +202,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/heart.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Heart</span><br>Health</span>
@@ -203,7 +211,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/cough.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Cough</span><br> & Cold</span>
@@ -212,7 +220,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/diabetes.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Diabetes</span><br>Care</span>
@@ -221,7 +229,7 @@
                             </div>
 
                             <div class="tiny-slide">
-                                <a href="#" class="card pharpachy-categories border-0 rounded overflow-hidden">
+                                 <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                     <img src="assets/images/pharmacy/cancer.jpg" class="img-fluid" alt="">
                                     <div class="category-title">
                                         <span class="text-dark title-white"><span class="h5">Cancer</span><br>Care</span>
@@ -250,145 +258,16 @@
                 </div>
             </div><!--end container-->
 
-            <div class="container mt-100 mt-60">
+            <div class="container mt-100 mt-60" id="recently-viewed-container" style="display: none;">
                 <div class="row">
                     <div class="col-12">
                         <h5 class="mb-0">Sản phẩm vừa xem</h5>
                     </div><!--end col-->
                 </div><!--end row-->
 
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-                        <div class="card shop-list border-0">
-                            <ul class="label list-unstyled mb-0">
-                                <li><a href="javascript:void(0)" class="badge badge-pill badge-success">Featured</a></li>
-                            </ul>
-                            <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                <a href="pharmacy-product-detail.html"><img src="assets/images/pharmacy/shop/masks.jpg" class="img-fluid" alt=""></a>
-                                <ul class="list-unstyled shop-icons">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                </ul>                                
-
-                                <div class="qty-icons">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-pills btn-icon btn-primary minus">-</button>
-                                    <input min="0" name="quantity" value="0" type="number" class="btn btn-pills btn-icon btn-primary qty-btn quantity">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-pills btn-icon btn-primary plus">+</button>
-                                </div>
-                            </div>
-                            <div class="card-body content pt-4 p-2">
-                                <a href="pharmacy-product-detail.html" class="text-dark product-name h6">Face masks</a>
-                                <div class="d-flex justify-content-between mt-1">
-                                    <h6 class="text-muted small font-italic mb-0 mt-1">$16.00 </h6>
-                                    <ul class="list-unstyled text-warning mb-0">
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-                        <div class="card shop-list border-0">
-                            <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                <a href="pharmacy-product-detail.html"><img src="assets/images/pharmacy/shop/handwash.jpg" class="img-fluid" alt=""></a>
-                                <ul class="list-unstyled shop-icons">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                </ul>                                
-
-                                <div class="qty-icons">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-pills btn-icon btn-primary minus">-</button>
-                                    <input min="0" name="quantity" value="0" type="number" class="btn btn-pills btn-icon btn-primary qty-btn quantity">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-pills btn-icon btn-primary plus">+</button>
-                                </div>
-                            </div>
-                            <div class="card-body content pt-4 p-2">
-                                <a href="pharmacy-product-detail.html" class="text-dark product-name h6">Dettol handwash</a>
-                                <div class="d-flex justify-content-between mt-1">
-                                    <h6 class="text-muted small font-italic mb-0 mt-1">$16.00 </h6>
-                                    <ul class="list-unstyled text-warning mb-0">
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-                        <div class="card shop-list border-0">
-                            <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                <a href="pharmacy-product-detail.html"><img src="assets/images/pharmacy/shop/herbal-care.jpg" class="img-fluid" alt=""></a>
-                                <ul class="list-unstyled shop-icons">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                </ul>                                
-
-                                <div class="qty-icons">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-pills btn-icon btn-primary minus">-</button>
-                                    <input min="0" name="quantity" value="0" type="number" class="btn btn-pills btn-icon btn-primary qty-btn quantity">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-pills btn-icon btn-primary plus">+</button>
-                                </div>
-                            </div>
-                            <div class="card-body content pt-4 p-2">
-                                <a href="pharmacy-product-detail.html" class="text-dark product-name h6">Herbal care product</a>
-                                <div class="d-flex justify-content-between mt-1">
-                                    <h6 class="text-muted small font-italic mb-0 mt-1">$16.00 </h6>
-                                    <ul class="list-unstyled text-warning mb-0">
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-                        <div class="card shop-list border-0">
-                            <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                <a href="pharmacy-product-detail.html"><img src="assets/images/pharmacy/shop/medical-equptment.jpg" class="img-fluid" alt=""></a>
-                                <ul class="list-unstyled shop-icons">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
-                                </ul>                                
-
-                                <div class="qty-icons">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-pills btn-icon btn-primary minus">-</button>
-                                    <input min="0" name="quantity" value="0" type="number" class="btn btn-pills btn-icon btn-primary qty-btn quantity">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-pills btn-icon btn-primary plus">+</button>
-                                </div>
-                            </div>
-                            <div class="card-body content pt-4 p-2">
-                                <a href="pharmacy-product-detail.html" class="text-dark product-name h6">Medical equptment</a>
-                                <div class="d-flex justify-content-between mt-1">
-                                    <h6 class="text-muted small font-italic mb-0 mt-1">$16.00 </h6>
-                                    <ul class="list-unstyled text-warning mb-0">
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
+                <div class="row" id="recently-viewed-products">
+                    <!-- Recently viewed products will be dynamically added here -->
+                </div>
             </div><!--end container-->
 
             <div class="container mt-100 mt-60">
@@ -400,10 +279,10 @@
 
                 <div class="row">  
                     <c:forEach var="product" items="${latestProducts}">
-                        <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
+                        <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">                         
                             <div class="card shop-list border-0">
                                 <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                    <a href="pharmacy-product-detail.html"><img src="${product.ImagePath}" class="img-fluid" alt="${product.ProductName}"></a>
+                                    <a href="prodetails?productid=${product.ProductID}"><img src="${product.ImagePath}" class="img-fluid" alt="${product.ProductName}"></a>
                                     <ul class="list-unstyled shop-icons">
                                         <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                         <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
@@ -419,7 +298,14 @@
                                 <div class="card-body content pt-4 p-2">
                                     <a href="pharmacy-product-detail.html" class="text-dark product-name h6">${product.ProductName}</a>
                                     <div class="d-flex justify-content-between mt-1">
-                                        <h6 class="text-muted small font-italic mb-0 mt-1">${product.SalePrice}đ / ${product.UnitName} </h6>
+                                        <h6 class="text-muted small font-italic mb-0 mt-1">${product.SalePrice} / ${product.UnitName} </h6>
+                                        <ul class="list-unstyled text-warning mb-0">
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -440,6 +326,6 @@
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
-
+        <script src="assets/js/recent.js"></script>
     </body>
 </html>

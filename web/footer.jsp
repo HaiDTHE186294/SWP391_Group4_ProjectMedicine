@@ -139,9 +139,9 @@
                             <div class="text-center">
                                 <h4>Search now.....</h4>
                                 <div class="subcribe-form mt-4">
-                                    <form>
+                                    <form action="search" method="get">
                                         <div class="mb-0">
-                                            <input type="text" id="help" name="name" class="border bg-white rounded-pill" required="" placeholder="Search">
+                                            <input type="text" id="help" name="searchproduct" class="border bg-white rounded-pill" required="" placeholder="Search">
                                             <button type="submit" class="btn btn-pills btn-primary">Search</button>
                                         </div>
                                     </form>

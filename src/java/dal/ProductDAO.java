@@ -286,8 +286,8 @@ public class ProductDAO extends DBContext {
 
         return priceQuantities;
     }
-    
-     public ProductPriceQuantity getProductPriceQuantitiesByProductIDforImport(String productID) {
+
+    public ProductPriceQuantity getProductPriceQuantitiesByProductIDforImport(String productID) {
         String sql = "SELECT * FROM ProductPriceQuantity WHERE ProductID = ? and PackagingDetails = 1";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -344,7 +344,7 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     public void addIng(String productID, String ing) {
         String sql = "UPDATE product SET ing = ? WHERE productid = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -421,7 +421,6 @@ public class ProductDAO extends DBContext {
         }
         return productList;
     }
-    
 
     public boolean updateProduct(Product product) {
         String sql = "UPDATE Product SET CategoryID = ?, Brand = ?, ProductName = ?, PharmaceuticalForm = ?, "
@@ -518,55 +517,54 @@ public class ProductDAO extends DBContext {
         }
     }
 
-   public boolean updateIngredients1(String productId, List<Ingredient> ingredients) {
-    // Câu SQL để xóa tất cả các nguyên liệu của sản phẩm
-    String deleteSql = "DELETE FROM Ingredient WHERE ProductID = ?";
-    // Câu SQL để thêm các nguyên liệu mới
-    String insertSql = "INSERT INTO Ingredient (ProductIngredientID, ProductID, IngredientName, Quantity, Unit) VALUES (?, ?, ?, ?, ?)";
+    public boolean updateIngredients1(String productId, List<Ingredient> ingredients) {
+        // Câu SQL để xóa tất cả các nguyên liệu của sản phẩm
+        String deleteSql = "DELETE FROM Ingredient WHERE ProductID = ?";
+        // Câu SQL để thêm các nguyên liệu mới
+        String insertSql = "INSERT INTO Ingredient (ProductIngredientID, ProductID, IngredientName, Quantity, Unit) VALUES (?, ?, ?, ?, ?)";
 
-    try {
-        // Bắt đầu một giao dịch
-        connection.setAutoCommit(false);
+        try {
+            // Bắt đầu một giao dịch
+            connection.setAutoCommit(false);
 
-        // Xóa các nguyên liệu hiện tại
-        try (PreparedStatement deletePs = connection.prepareStatement(deleteSql)) {
-            deletePs.setString(1, productId);
-            deletePs.executeUpdate();
-        }
-
-        // Thêm các nguyên liệu mới
-        try (PreparedStatement insertPs = connection.prepareStatement(insertSql)) {
-            for (Ingredient ingredient : ingredients) {
-                insertPs.setString(1, ingredient.getProductIngredientID());
-                insertPs.setString(2, productId);
-                insertPs.setString(3, ingredient.getIngredientName());
-                insertPs.setFloat(4, ingredient.getQuantity());
-                insertPs.setString(5, ingredient.getUnit());
-                insertPs.executeUpdate();
+            // Xóa các nguyên liệu hiện tại
+            try (PreparedStatement deletePs = connection.prepareStatement(deleteSql)) {
+                deletePs.setString(1, productId);
+                deletePs.executeUpdate();
             }
-        }
 
-        // Commit giao dịch sau khi tất cả các hoạt động thành công
-        connection.commit();
-        return true;
+            // Thêm các nguyên liệu mới
+            try (PreparedStatement insertPs = connection.prepareStatement(insertSql)) {
+                for (Ingredient ingredient : ingredients) {
+                    insertPs.setString(1, ingredient.getProductIngredientID());
+                    insertPs.setString(2, productId);
+                    insertPs.setString(3, ingredient.getIngredientName());
+                    insertPs.setFloat(4, ingredient.getQuantity());
+                    insertPs.setString(5, ingredient.getUnit());
+                    insertPs.executeUpdate();
+                }
+            }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-        try {
-            connection.rollback(); // Rollback nếu có lỗi xảy ra
-        } catch (SQLException rollbackEx) {
-            rollbackEx.printStackTrace();
-        }
-        return false;
-    } finally {
-        try {
-            connection.setAutoCommit(true); // Đặt lại chế độ auto-commit
+            // Commit giao dịch sau khi tất cả các hoạt động thành công
+            connection.commit();
+            return true;
+
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                connection.rollback(); // Rollback nếu có lỗi xảy ra
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            return false;
+        } finally {
+            try {
+                connection.setAutoCommit(true); // Đặt lại chế độ auto-commit
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
-}
-
 
     public boolean updateProductPriceQuantity2(String productId, List<ProductPriceQuantity> priceQuantities) {
         String updateSql = "UPDATE ProductPriceQuantity SET PackagingDetails = ?, UnitID = ?, UnitStatus = ?, SalePrice = ? WHERE ProductUnitID = ? AND ProductID = ?";
@@ -583,7 +581,7 @@ public class ProductDAO extends DBContext {
                     updatePs.setString(1, p.getPackagingDetails());
                     updatePs.setString(2, p.getUnitID());
                     updatePs.setInt(3, p.getUnitStatus()); // Thêm unitStatus cho câu lệnh update
-                    updatePs.setFloat(4,p.getSalePrice());
+                    updatePs.setFloat(4, p.getSalePrice());
                     updatePs.setString(5, p.getProductUnitID());
                     updatePs.setString(6, productId);
 
@@ -629,14 +627,13 @@ public class ProductDAO extends DBContext {
             }
         }
     }
-    
+
     // Lấy danh sách quốc gia
     public List<String> getAllCountries() throws SQLException {
         List<String> countries = new ArrayList<>();
         String sql = "SELECT CountryName FROM Country";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 String country = rs.getString("CountryName");
@@ -651,8 +648,7 @@ public class ProductDAO extends DBContext {
         List<String> audiences = new ArrayList<>();
         String sql = "SELECT TargetAudience FROM Audience";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 String audience = rs.getString("TargetAudience");
@@ -660,6 +656,91 @@ public class ProductDAO extends DBContext {
             }
         }
         return audiences;
+    }
+ public Product getProductByID1(String productID) {
+    Product product = null;
+    String sql = "SELECT p.CategoryID, p.Brand, p.ProductID, p.ProductName, p.PharmaceuticalForm, "
+               + "p.BrandOrigin, p.Manufacturer, p.CountryOfProduction, p.ShortDescription, "
+               + "p.RegistrationNumber, p.ProductDescription, p.ContentReviewer, p.FAQ, "
+               + "p.ProductReviews, p.Status, p.Sold, p.DateCreated, p.ProductVersion, "
+               + "p.PrescriptionRequired, p.TargetAudience, p.ImagePath, ppq.SalePrice " // Lưu ý phải viết đúng tên cột (chữ hoa SalePrice)
+               + "FROM Product p "
+               + "JOIN ProductPriceQuantity ppq ON p.ProductID = ppq.ProductID "
+               + "WHERE p.ProductID = ?";
+
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        // Sử dụng setInt để truyền productID là kiểu int vào câu lệnh SQL
+        st.setString(1, productID);
+
+        try (ResultSet rs = st.executeQuery()) {
+            if (rs.next()) {
+                // Tạo đối tượng Product và gán các giá trị từ kết quả truy vấn
+                product = new Product();
+                product.setCategoryID(rs.getString("CategoryID"));
+                product.setBrand(rs.getString("Brand"));
+                product.setProductID(rs.getString("ProductID")); 
+                product.setProductName(rs.getString("ProductName"));
+                product.setPharmaceuticalForm(rs.getString("PharmaceuticalForm"));
+                product.setBrandOrigin(rs.getString("BrandOrigin"));
+                product.setManufacturer(rs.getString("Manufacturer"));
+                product.setCountryOfProduction(rs.getString("CountryOfProduction"));
+                product.setShortDescription(rs.getString("ShortDescription"));
+                product.setRegistrationNumber(rs.getString("RegistrationNumber"));
+                product.setProductDescription(rs.getString("ProductDescription"));
+                product.setContentReviewer(rs.getString("ContentReviewer"));
+                product.setFaq(rs.getString("FAQ"));
+                product.setProductReviews(rs.getString("ProductReviews"));
+                product.setStatus(rs.getInt("Status"));
+                product.setSold(rs.getInt("Sold"));
+                product.setDateCreated(rs.getString("DateCreated"));
+                product.setProductVersion(rs.getInt("ProductVersion"));
+                product.setPrescriptionRequired(rs.getString("PrescriptionRequired"));
+                product.setTargetAudience(rs.getString("TargetAudience"));
+                product.setImagePath(rs.getString("ImagePath"));
+                             
+
+
+            }
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return product;
+}
+
+    public List<Map<String, Object>> searchProductsByName(String productName) {
+        List<Map<String, Object>> productList = new ArrayList<>();
+
+        // Cập nhật SQL query để tìm kiếm theo tên sản phẩm
+        String sql = "SELECT p.Manufacturer, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+                + "FROM Product p "
+                + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
+                + "JOIN Unit u ON pp.UnitID = u.UnitID "
+                + "WHERE pp.PackagingDetails = 1 AND p.ProductName LIKE ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            // Thiết lập giá trị cho tên sản phẩm với wildcard
+            ps.setString(1, "%" + productName + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Map<String, Object> productDetails = new HashMap<>();
+                    productDetails.put("ProductID", rs.getString("ProductID"));
+                    productDetails.put("productName", rs.getString("ProductName"));
+                    productDetails.put("imagePath", rs.getString("ImagePath"));
+                    productDetails.put("salePrice", rs.getFloat("SalePrice"));
+                    productDetails.put("unitName", rs.getString("UnitName"));
+                    productDetails.put("manufacturer", rs.getString("Manufacturer"));
+                    productDetails.put("audience", rs.getString("TargetAudience"));
+
+                    productList.add(productDetails);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productList;
     }
 
 }

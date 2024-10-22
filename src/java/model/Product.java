@@ -24,6 +24,11 @@ public class Product {
     private String imagePath;
     private String ing;
 
+    public Product() {
+    }
+    
+    
+
     public String getImagePath() {
         return imagePath;
     }
