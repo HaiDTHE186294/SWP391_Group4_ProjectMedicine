@@ -66,7 +66,7 @@ public class importServlet extends HttpServlet {
         String productId = request.getParameter("productID");
         String baseUnitId = request.getParameter("baseUnitId");
         String batchNo = request.getParameter("batchNo");
-        String provider = request.getParameter("provider");
+        int provider = Integer.parseInt(request.getParameter("provider"));
         String dateManufacture = request.getParameter("dateManufacture");
         String dateExpired = request.getParameter("dateExpired");
         float priceImport = Float.parseFloat(request.getParameter("priceImport"));
@@ -74,7 +74,7 @@ public class importServlet extends HttpServlet {
         float quantity = Float.parseFloat(request.getParameter("quantity"));
         stockDAO stockDAO = new stockDAO();
         Stock oldStock = stockDAO.getStockByPidAndBatch(productId, batchNo);
-        String NCC = stockDAO.getManufacturerByProductAndBatch(productId, batchNo);
+        int NCC = stockDAO.getManufacturerByProductAndBatch(productId, batchNo);
         // If old stock exists, use its manufacture and expiry dates
         if (oldStock.getDateExpired() != null && !oldStock.getDateExpired().isEmpty()) {
             dateManufacture = oldStock.getDateManufacture();

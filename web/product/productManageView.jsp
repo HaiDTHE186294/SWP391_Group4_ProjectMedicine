@@ -251,12 +251,6 @@
                                 </a>
                             </button>
 
-                            <form action="importServlet" method="get" style="display:inline;">
-                                <input type="hidden" name="productID" value="<%= product.getProductID() %>">
-                                <button type="submit" onclick="return confirm('Are you sure you want to import this product?');" style="margin-right: 10px;">
-                                    <i class="fas fa-download"></i> <!-- Use an icon for the import button -->
-                                </button>
-                            </form>
                         </td>
 
                     </tr>

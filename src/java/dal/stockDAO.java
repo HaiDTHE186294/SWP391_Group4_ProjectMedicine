@@ -14,7 +14,6 @@ public class stockDAO extends DBContext {
 
     public stockDAO() {
     }
-    
 
     public boolean addImport(Import importData) {
         String insertImportSQL = "INSERT INTO Import (O_id, NCC, Pid, Base_unit_ID, Batch_no, Date_manufacture, Date_expired, Price_import, Importer, Quantity) "
@@ -29,7 +28,7 @@ public class stockDAO extends DBContext {
 
             // Thêm dữ liệu vào bảng Import
             importStmt.setString(1, importData.getOrderId());
-            importStmt.setString(2, importData.getProvider());
+            importStmt.setInt(2, importData.getProvider());
             importStmt.setString(3, importData.getProductId());
             importStmt.setString(4, importData.getBaseUnitId());
             importStmt.setString(5, importData.getBatchNo());
@@ -280,7 +279,7 @@ public class stockDAO extends DBContext {
         try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, importData.getOrderId());
-            ps.setString(2, importData.getProvider());
+            ps.setInt(2, importData.getProvider());
             ps.setString(3, importData.getProductId());
             ps.setString(4, importData.getBaseUnitId());
             ps.setString(5, importData.getBatchNo());
@@ -354,7 +353,7 @@ public class stockDAO extends DBContext {
             while (rs.next()) {
                 Import importData = new Import();
                 importData.setOrderId(rs.getString("O_id"));
-                importData.setProvider(rs.getString("NCC"));
+                importData.setProvider(rs.getInt("NCC"));
                 importData.setProductId(rs.getString("Pid"));
                 importData.setBaseUnitId(rs.getString("Base_unit_ID"));
                 importData.setBatchNo(rs.getString("Batch_no"));
@@ -375,7 +374,7 @@ public class stockDAO extends DBContext {
         return importList;
     }
 
-    public String getManufacturerByProductAndBatch(String productId, String batchNo) {
+    public int getManufacturerByProductAndBatch(String productId, String batchNo) {
         String query = "SELECT TOP 1 NCC " // NCC là trường đại diện cho nhà cung cấp
                 + "FROM Import "
                 + "WHERE Pid = ? AND Batch_no = ? "
@@ -391,14 +390,14 @@ public class stockDAO extends DBContext {
 
             // Nếu có kết quả, trả về nhà sản xuất
             if (rs.next()) {
-                return rs.getString("NCC");
+                return rs.getInt("NCC");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         // Nếu không tìm thấy kết quả, trả về null hoặc giá trị mặc định
-        return "NCC";
+        return 1;
     }
 
     public Map<String, Object> getGroupedStock() {
@@ -457,7 +456,7 @@ public class stockDAO extends DBContext {
                 while (rs.next()) {
                     Import importData = new Import();
                     importData.setOrderId(rs.getString("O_id"));
-                    importData.setProvider(rs.getString("NCC"));
+                    importData.setProvider(rs.getInt("NCC"));
                     importData.setProductId(rs.getString("Pid"));
                     importData.setBaseUnitId(rs.getString("Base_unit_ID"));
                     importData.setBatchNo(rs.getString("Batch_no"));
@@ -535,5 +534,57 @@ public class stockDAO extends DBContext {
             throw new SQLException("Error updating product statuses.");
         }
     }
+
+    public List<Provider> getAllProviders() {
+        List<Provider> providerList = new ArrayList<>();
+        String sql = "SELECT providerID, providerName, phone, address FROM Provider";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Provider provider = new Provider();
+                provider.setProviderID(rs.getInt("providerID"));
+                provider.setProviderName(rs.getString("providerName"));
+                provider.setPhone(rs.getString("phone"));
+                provider.setAddress(rs.getString("address"));
+                providerList.add(provider);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý ngoại lệ nếu cần
+        }
+
+        return providerList;
+    }
+
+    public List<User> getAllUser() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM users";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                User user = new User(
+                        rs.getInt("user_id"),
+                        rs.getString("full_name"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getInt("role_id"),
+                        rs.getInt("status"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getString("image")
+                );
+                users.add(user);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+    
+    
 
 }
