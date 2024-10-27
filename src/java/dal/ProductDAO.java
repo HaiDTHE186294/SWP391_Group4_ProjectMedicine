@@ -277,7 +277,7 @@ public class ProductDAO extends DBContext {
                 float salePrice = rs.getFloat("SalePrice");
 
                 // Tạo đối tượng ProductPriceQuantity và thêm vào danh sách
-                ProductPriceQuantity productPriceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus, salePrice);
+                ProductPriceQuantity productPriceQuantity = new ProductPriceQuantity(productUnitID, productID, unitID, packagingDetails, salePrice, unitStatus);
                 priceQuantities.add(productPriceQuantity);
             }
         } catch (SQLException e) {
@@ -301,7 +301,7 @@ public class ProductDAO extends DBContext {
                 String unitID = rs.getString("UnitID");
                 int unitStatus = rs.getInt("UnitStatus");
                 float salePrice = rs.getFloat("SalePrice");
-                ProductPriceQuantity priceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus, salePrice);
+                ProductPriceQuantity priceQuantity = new ProductPriceQuantity(productUnitID, productID, unitID, packagingDetails, salePrice, unitStatus);
                 return priceQuantity;
             }
         } catch (SQLException e) {
@@ -325,13 +325,29 @@ public class ProductDAO extends DBContext {
                 String unitID = rs.getString("UnitID");
                 int unitStatus = rs.getInt("UnitStatus");
                 float salePrice = rs.getFloat("SalePrice");
-                ProductPriceQuantity priceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus, salePrice);
+                ProductPriceQuantity priceQuantity = new ProductPriceQuantity(productUnitID, productID, unitID, packagingDetails, salePrice, unitStatus);
                 priceQuantities.add(priceQuantity);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return priceQuantities;
+    }
+    
+    public ProductPriceQuantity getProductPriceByProductIDandUnitID(String productId, String unitId){
+        String sql = "SELECT * FROM ProductPriceQuantity WHERE ProductID = ? AND UnitID = ?";
+        ProductPriceQuantity pp = null;
+        try (PreparedStatement ps = connection.prepareStatement(sql)){
+            ps.setString(1, productId);
+            ps.setString(2, unitId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                pp = new ProductPriceQuantity(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getInt(6));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pp;
     }
 
     public void saveImagePath(String productID, String imagePath) {
