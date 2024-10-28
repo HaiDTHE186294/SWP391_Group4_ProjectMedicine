@@ -111,13 +111,24 @@
             ProductPriceQuantity ppq = (ProductPriceQuantity) request.getAttribute("ppq");
             
   
-            int userId = (Integer)session.getAttribute("userId"); 
+         int userId = (session.getAttribute("userId") != null) ? (Integer)session.getAttribute("userId") : -1; 
+         String userName = (String)session.getAttribute("userName");
 
 
 
             // Check if the product was found
             if (product != null) {
         %>
+        <script>
+            // Check if userId or userName is null and redirect to login page if true
+            var userId = '<%= userId %>';
+            var userName = '<%= userName != null ? userName : "" %>';
+
+            if (userId === '-1' || userName === '') {
+                alert("You are not logged in. Please log in to access this page.");
+                window.location.href = "login.jsp"; // Redirect to login page
+            }
+        </script>
 
         <script>
             window.onload = function () {
@@ -193,7 +204,7 @@
             </div>
 
             <label for="provider">Provider:</label>
-            <input type="text" id="provider" name="provider" required>
+            <input type="text" id="provider" name="provider" required maxlength="100">
 
             <script>
                 function checkCustomOption() {
@@ -296,18 +307,65 @@
 
             <div id="batchMessage" style="color: red; margin-top: 10px; margin-bottom: 10px;"></div>
 
+
             <label for="dateManufacture">Date of Manufacture:</label>
             <input type="date" id="dateManufacture" name="dateManufacture" required>
 
             <label for="dateExpired">Date of Expiry:</label>
             <input type="date" id="dateExpired" name="dateExpired" required>
 
+            <script>
+                // Hàm kiểm tra ngày sản xuất và ngày hết hạn
+                document.getElementById('dateManufacture').addEventListener('change', validateDates);
+                document.getElementById('dateExpired').addEventListener('change', validateDates);
 
-            <label for="priceImport">Price Import:</label>
+                function validateDates() {
+                    var dateManufacture = document.getElementById('dateManufacture').value;
+                    var dateExpired = document.getElementById('dateExpired').value;
+
+                    var today = new Date();
+                    var yesterday = new Date(today);
+                    yesterday.setDate(today.getDate() - 1); // Hôm qua
+
+                    var threeDaysAfter = new Date(today);
+                    threeDaysAfter.setDate(today.getDate() + 3); // 3 ngày sau
+
+                    // Cài đặt giá trị tối đa cho ngày sản xuất và giá trị tối thiểu cho ngày hết hạn
+                    document.getElementById('dateManufacture').setAttribute('max', yesterday.toISOString().split('T')[0]);
+                    document.getElementById('dateExpired').setAttribute('min', threeDaysAfter.toISOString().split('T')[0]);
+
+                    // Kiểm tra ngày sản xuất phải nhỏ hơn hoặc bằng ngày hôm qua
+                    if (dateManufacture && new Date(dateManufacture) > yesterday) {
+                        alert("The manufacture date must be before or equal to yesterday.");
+                        document.getElementById('dateManufacture').value = '';
+                        return;
+                    }
+
+                    // Kiểm tra ngày hết hạn phải lớn hơn 3 ngày kể từ hôm nay
+                    if (dateExpired && new Date(dateExpired) < threeDaysAfter) {
+                        alert("The expiry date must be at least 3 days from today.");
+                        document.getElementById('dateExpired').value = '';
+                        return;
+                    }
+
+                    // Kiểm tra ngày hết hạn phải sau ngày sản xuất
+                    if (dateManufacture && dateExpired && new Date(dateExpired) <= new Date(dateManufacture)) {
+                        alert("The expiry date must be after the manufacture date.");
+                        document.getElementById('dateExpired').value = '';
+                        return;
+                    }
+                }
+            </script>
+
+
+
+            <label for="priceImport">Price Import (VND):</label>
             <input type="number" id="priceImport" name="priceImport" step="0.01" required>
 
-            <label for="importer">Importer:</label>
-            <input type="number" min="0" id="importer" name="importer" value="<%= userId %>" readonly class="readonly">
+            <input type="number" min="0" id="importer" name="importer" value="<%= userId %>" readonly class="readonly" hidden="">
+
+            <label for="importerName">Importer Name:</label>
+            <input type="text" id="importerName" name="importerName" value="<%= userName %>" readonly class="readonly">
 
             <label for="quantity">Quantity</label>
             <input type="number" min="0" id="quantity" name="quantity" required="">

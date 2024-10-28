@@ -2,6 +2,7 @@ package controller;
 
 import dal.CategoryDAO;
 import dal.ProductDAO;
+import dal.stockDAO;
 import model.Product;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import model.Category;
 
 public class ProductManageServlet extends HttpServlet {
@@ -25,7 +27,6 @@ public class ProductManageServlet extends HttpServlet {
         }
         request.setAttribute("message", message);
 
-
         ProductDAO productDAO = new ProductDAO();
 
         CategoryDAO categoryDAO = new CategoryDAO();
@@ -35,6 +36,10 @@ public class ProductManageServlet extends HttpServlet {
         request.setAttribute("productList", products);
         request.setAttribute("categories", categories);
         session.setAttribute("categories", categories);
+
+        stockDAO sDAO = new stockDAO(); // Assuming this is where getTotalQuantityByProduct() is located
+        Map<String, Float> totalQuantities = sDAO.getTotalQuantityByProduct();
+        request.setAttribute("totalQuantities", totalQuantities);
 
         // Chuyển tiếp đến JSP
         request.getRequestDispatcher("/product/productManageView.jsp").forward(request, response);

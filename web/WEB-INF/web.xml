@@ -100,6 +100,30 @@
         <servlet-name>DeleteStaffController</servlet-name>
         <servlet-class>controller.DeleteStaffController</servlet-class>
     </servlet>
+    <servlet> 
+        <servlet-name>StockManagementServlet</servlet-name>
+        <servlet-class>controller.StockManagementServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DisplayTop8ProductServlet</servlet-name>
+        <servlet-class>ControllerCustomer.DisplayTop8ProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetImportList</servlet-name>
+        <servlet-class>controller.GetImportList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetImport</servlet-name>
+        <servlet-class>controller.GetImport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ImportList</servlet-name>
+        <servlet-class>controller.ImportList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CategoryServlet</servlet-name>
+        <servlet-class>controller.CategoryServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -207,5 +231,29 @@
     <servlet-mapping>
         <servlet-name>DeleteStaffController</servlet-name>
         <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping> 
+        <servlet-name>StockManagementServlet</servlet-name>
+        <url-pattern>/stockManagement</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DisplayTop8ProductServlet</servlet-name>
+        <url-pattern>/displayTop8ProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetImportList</servlet-name>
+        <url-pattern>/GetImportList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetImport</servlet-name>
+        <url-pattern>/GetImport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImportList</servlet-name>
+        <url-pattern>/ImportList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CategoryServlet</servlet-name>
+        <url-pattern>/CategoryServlet</url-pattern>
     </servlet-mapping>
 </web-app>

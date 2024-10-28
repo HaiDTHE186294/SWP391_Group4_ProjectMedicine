@@ -149,8 +149,8 @@
                 const newRow = document.createElement('div');
                 newRow.className = 'ingredientRow';
                 newRow.innerHTML = `
-                    <input type="text" name="ingredientName[]" placeholder="Ingredient Name *" class="ingredientInput" required>
-                    <input type="text" name="InUnit[]" placeholder="Unit *" class="ingredientInput" required>
+                    <input type="text" name="ingredientName[]" placeholder="Ingredient Name *" class="ingredientInput" required maxlength="50">
+                    <input type="text" name="InUnit[]" placeholder="Unit *" class="ingredientInput" required maxlength="20">
                     <input type="number" name="InQuantity[]" min="1" placeholder="Quantity *" class="ingredientInput" required>
                     <button type="button" class="remove-btn" onclick="removeRow1(this)">Remove</button>
                 `;
@@ -303,8 +303,25 @@
                 }
 
                 // Call all other check functions for validation
-                return checkDuplicateUnits() && checkPackagingDetails(); // Ensure other checks are also valid
+                return checkDuplicateUnits() && checkPackagingDetails() && validateTargetAudience(); // Ensure other checks are also valid
             }
+
+            // Hàm kiểm tra ít nhất một checkbox được tích
+            function validateTargetAudience() {
+                // Lấy tất cả checkbox trong nhóm
+                var checkboxes = document.querySelectorAll('.targetAudienceCheckbox');
+                // Kiểm tra nếu không có checkbox nào được chọn
+                var isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+                // Nếu không có checkbox nào được chọn, hiển thị thông báo lỗi
+                if (!isChecked) {
+                    alert('Please select at least one target audience.');
+                    return false;  // Ngừng submit form
+                }
+
+                return true;  // Cho phép submit form
+            }
+
 
             $(document).ready(function () {
 
@@ -352,6 +369,7 @@
                             </c:forEach>
                         </div>
 
+
                         <input type="hidden" id="targetAudienceInput" name="targetAudience" value="">
 
                         <script>
@@ -364,10 +382,10 @@
 
 
                         <label for="brand">Brand *</label>
-                        <input type="text" id="brand" name="brand" value="${product.brand}" required>
+                        <input type="text" id="brand" name="brand" value="${product.brand}" required maxlength="50">
 
                         <label for="productName" class="required">Product Name *</label>
-                        <input type="text" id="productName" name="productName" value="${product.productName}" required>
+                        <input type="text" id="productName" name="productName" value="${product.productName}" required maxlength="1000">
 
                         <label for="shortDescription">Short Description</label>
                         <textarea id="shortDescription" name="shortDescription">${product.shortDescription}</textarea>
@@ -381,19 +399,19 @@
 
                     <div>
                         <label for="pharmaceuticalForm">Pharmaceutical Form *</label>
-                        <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm" value="${product.pharmaceuticalForm}" required>
+                        <input type="text" id="pharmaceuticalForm" name="pharmaceuticalForm" value="${product.pharmaceuticalForm}" required maxlength="50">
 
 
                         <label for="brandOrigin">Brand Origin *</label>
-                        <select id="brandOrigin" name="brandOrigin" style="width: 100%;" required>
+                        <select id="brandOrigin" name="brandOrigin" style="width: 100%;" required >
                             <option value="${product.brandOrigin}">${product.brandOrigin}</option> <!-- Placeholder -->
                             <c:forEach var="country" items="${sessionScope.countries}">
                                 <option value="${country}">${country}</option>
                             </c:forEach>
                         </select>
 
-                        <label for="manufacturer">Manufacturer</label>
-                        <input type="text" id="manufacturer" name="manufacturer" value="${product.manufacturer}">
+                        <label for="manufacturer">Manufacturer </label>
+                        <input type="text" id="manufacturer" name="manufacturer" value="${product.manufacturer}" maxlength="1000">
 
                         <label for="countryOfProduction">Country of Production *</label>
                         <select id="countryOfProduction" name="countryOfProduction" style="width: 100%;" required>
@@ -404,7 +422,7 @@
                         </select>
 
                         <label for="registrationNumber" class="required">Registration Number *</label>
-                        <input type="text" id="registrationNumber" name="registrationNumber" value="${product.registrationNumber}" required>
+                        <input type="text" id="registrationNumber" name="registrationNumber" value="${product.registrationNumber}" required maxlength="50">
 
                         <label for="status" class="required">Status *</label>
                         <select id="status" name="status" required>
@@ -412,6 +430,8 @@
                             <option value="0" ${product.status == 0 ? "selected" : ""}>Inactive</option>
                             <option value="3" ${product.status == 3 ? "selected" : ""}>Pending</option>
                             <option value="4" ${product.status == 4 ? "selected" : ""}>Discontinued</option>
+                            <option value="4" ${product.status == 2 ? "selected" : ""}>Out of Stock</option>
+
                         </select>
 
                         <label for="prescriptionRequired" class="required">Prescription Required *</label>
@@ -430,10 +450,10 @@
                         </select>
 
                         <label for="ing">Ingredient per Unit *</label>
-                        <input type="text" id="ing" name="ing" value="${product.ing}" required>
+                        <input type="text" id="ing" name="ing" value="${product.ing}" required maxlength="100">
 
                         <label for="imageUpload" class="required">Upload Image *</label>
-                        <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this)" required="">
+                        <input type="file" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this)" required="" maxlength="100">
 
                         <label for="currentImagePath" style="display: none;">Current Image Path</label>
                         <!-- Hidden input to retain the current image path -->
@@ -453,8 +473,8 @@
                     <div id="ingredientContainer">
                         <c:forEach var="ingredient" items="${ingredients}">
                             <div class="ingredientRow">
-                                <input type="text" name="ingredientName[]" value="${ingredient.ingredientName}" class="ingredientInput" required>
-                                <input type="text" name="InUnit[]" value="${ingredient.unit}" class="ingredientInput" required>
+                                <input type="text" name="ingredientName[]" value="${ingredient.ingredientName}" class="ingredientInput" required maxlength="50">
+                                <input type="text" name="InUnit[]" value="${ingredient.unit}" class="ingredientInput" required maxlength="20">
                                 <input type="number" min="1" name="InQuantity[]" value="${ingredient.quantity}" class="ingredientInput" required>
                                 <button type="button" class="remove-btn" onclick="removeRow1(this)">Remove</button>
                             </div>
