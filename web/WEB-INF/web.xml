@@ -112,6 +112,10 @@
         <servlet-name>ImportList</servlet-name>
         <servlet-class>controller.ImportList</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CategoryServlet</servlet-name>
+        <servlet-class>controller.CategoryServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -231,5 +235,9 @@
     <servlet-mapping>
         <servlet-name>ImportList</servlet-name>
         <url-pattern>/ImportList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CategoryServlet</servlet-name>
+        <url-pattern>/CategoryServlet</url-pattern>
     </servlet-mapping>
 </web-app>

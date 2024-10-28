@@ -192,7 +192,7 @@
             function searchTable() {
                 let input, filter, table, tr, td, i, txtValue;
                 input = document.getElementById("searchInput");
-                filter = input.value.toUpperCase();
+                filter = input.value.toUpperCase().trim();
                 table = document.getElementById("importTable");
                 tr = table.getElementsByTagName("tr");
 
