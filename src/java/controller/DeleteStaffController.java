@@ -5,19 +5,19 @@
 
 package controller;
 
+import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author trant
  */
-public class LogoutController extends HttpServlet {
+public class DeleteStaffController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,10 +34,10 @@ public class LogoutController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LogoutController</title>");  
+            out.println("<title>Servlet DeleteStaffController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LogoutController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DeleteStaffController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -55,16 +55,14 @@ public class LogoutController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         //processRequest(request, response);
-        HttpSession session = request.getSession();
-        if (session.getAttribute("username") != null || session.getAttribute("fullName") != null
-            || session.getAttribute("email") != null || session.getAttribute("phone") != null || session.getAttribute("address") != null) {
-            session.removeAttribute("username");
-            session.removeAttribute("fullName");
-            session.removeAttribute("email");
-            session.removeAttribute("phone");
-            session.removeAttribute("address");
+        String user_id = request.getParameter("id");
+
+        if (user_id != null) {
+            UserDAO dao = new UserDAO();
+            dao.deleteUserById(user_id);
         }
-        response.sendRedirect("home");
+
+        response.sendRedirect("usermanagement");
     } 
 
     /** 
@@ -77,7 +75,7 @@ public class LogoutController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
     }
 
     /** 

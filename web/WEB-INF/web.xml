@@ -81,20 +81,24 @@
         <servlet-class>controller.ListProductController</servlet-class>
     </servlet>
     <servlet>
-
         <servlet-name>SearchController</servlet-name>
         <servlet-class>controller.SearchController</servlet-class>
-</servlet>
-  <servlet>
+    </servlet>
+    <servlet>
         <servlet-name>ViewImportsServlet</servlet-name>
         <servlet-class>controller.ViewImportsServlet</servlet-class>
-</servlet>
-  <servlet>
-      
+    </servlet>
+    <servlet>
         <servlet-name>productDetailCusController</servlet-name>
         <servlet-class>ControllerCustomer.productDetailCusController</servlet-class>
-
-
+    </servlet>
+    <servlet>
+        <servlet-name>UserManagementController</servlet-name>
+        <servlet-class>controller.UserManagementController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteStaffController</servlet-name>
+        <servlet-class>controller.DeleteStaffController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -187,13 +191,21 @@
     <servlet-mapping>
         <servlet-name>SearchController</servlet-name>
         <url-pattern>/search</url-pattern>
-</servlet-mapping>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewImportsServlet</servlet-name>
         <url-pattern>/viewImports</url-pattern>
-      </servlet-mapping>
-<servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>productDetailCusController</servlet-name>
         <url-pattern>/prodetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserManagementController</servlet-name>
+        <url-pattern>/usermanagement</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteStaffController</servlet-name>
+        <url-pattern>/delete</url-pattern>
     </servlet-mapping>
 </web-app>
