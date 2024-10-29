@@ -81,24 +81,52 @@
         <servlet-class>controller.ListProductController</servlet-class>
     </servlet>
     <servlet>
-
         <servlet-name>SearchController</servlet-name>
         <servlet-class>controller.SearchController</servlet-class>
-</servlet>
-  <servlet>
+    </servlet>
+    <servlet>
         <servlet-name>ViewImportsServlet</servlet-name>
         <servlet-class>controller.ViewImportsServlet</servlet-class>
-</servlet>
-  <servlet>
-      
+    </servlet>
+    <servlet>
         <servlet-name>productDetailCusController</servlet-name>
         <servlet-class>ControllerCustomer.productDetailCusController</servlet-class>
-
-
+    </servlet>
+    <servlet>
+        <servlet-name>StockManagementServlet</servlet-name>
+        <servlet-class>controller.StockManagementServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DisplayTop8ProductServlet</servlet-name>
         <servlet-class>ControllerCustomer.DisplayTop8ProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetImportList</servlet-name>
+        <servlet-class>controller.GetImportList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetImport</servlet-name>
+        <servlet-class>controller.GetImport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ImportList</servlet-name>
+        <servlet-class>controller.ImportList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>myOrderController</servlet-name>
+        <servlet-class>ControllerCustomer.myOrderController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>orderDetailController</servlet-name>
+        <servlet-class>ControllerCustomer.orderDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>orderCompletion</servlet-name>
+        <servlet-class>ControllerCustomer.order.orderCompletion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>salesOrderList</servlet-name>
+        <servlet-class>controller.sales.salesOrderList</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -191,17 +219,49 @@
     <servlet-mapping>
         <servlet-name>SearchController</servlet-name>
         <url-pattern>/search</url-pattern>
-</servlet-mapping>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewImportsServlet</servlet-name>
         <url-pattern>/viewImports</url-pattern>
-      </servlet-mapping>
-<servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>productDetailCusController</servlet-name>
         <url-pattern>/prodetails</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>StockManagementServlet</servlet-name>
+        <url-pattern>/stockManagement</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>DisplayTop8ProductServlet</servlet-name>
         <url-pattern>/displayTop8ProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetImportList</servlet-name>
+        <url-pattern>/GetImportList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetImport</servlet-name>
+        <url-pattern>/GetImport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImportList</servlet-name>
+        <url-pattern>/ImportList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>myOrderController</servlet-name>
+        <url-pattern>/myorder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>orderDetailController</servlet-name>
+        <url-pattern>/orderdtl</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>orderCompletion</servlet-name>
+        <url-pattern>/orderCompletion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>salesOrderList</servlet-name>
+        <url-pattern>/salesOrderList</url-pattern>
     </servlet-mapping>
 </web-app>

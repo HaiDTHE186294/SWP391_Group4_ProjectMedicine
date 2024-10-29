@@ -8,7 +8,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.*;
 
 public class importServlet extends HttpServlet {
@@ -63,7 +66,7 @@ public class importServlet extends HttpServlet {
         String productId = request.getParameter("productID");
         String baseUnitId = request.getParameter("baseUnitId");
         String batchNo = request.getParameter("batchNo");
-        String provider = request.getParameter("provider");
+        int provider = Integer.parseInt(request.getParameter("provider"));
         String dateManufacture = request.getParameter("dateManufacture");
         String dateExpired = request.getParameter("dateExpired");
         float priceImport = Float.parseFloat(request.getParameter("priceImport"));
@@ -71,7 +74,7 @@ public class importServlet extends HttpServlet {
         float quantity = Float.parseFloat(request.getParameter("quantity"));
         stockDAO stockDAO = new stockDAO();
         Stock oldStock = stockDAO.getStockByPidAndBatch(productId, batchNo);
-        String NCC =  stockDAO.getManufacturerByProductAndBatch(productId, batchNo);
+        int NCC = stockDAO.getManufacturerByProductAndBatch(productId, batchNo);
         // If old stock exists, use its manufacture and expiry dates
         if (oldStock.getDateExpired() != null && !oldStock.getDateExpired().isEmpty()) {
             dateManufacture = oldStock.getDateManufacture();
@@ -98,12 +101,14 @@ public class importServlet extends HttpServlet {
                 quantity
         );
 
-//        boolean success1 = stockDAO.addImport(importData);
-        // Call the importProduct method from ImportDAO
         boolean success = stockDAO.addImport(importData);
+        try {
+            stockDAO.updateProductStatus();
+        } catch (SQLException ex) {
+            Logger.getLogger(importServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        response.sendRedirect(request.getContextPath() + "/stockManagement");
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/stockView");
-        dispatcher.forward(request, response);
 
     }
 

@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -52,6 +53,37 @@
             .filter-form::-webkit-scrollbar-thumb:hover {
                 background: #555; /* Darker color when hovering */
             }
+
+            .price-filter-buttons button {
+                display: block; /* Make each button take up the full width */
+                width: 90%; /* Full width of the container */
+                margin-bottom: 10px; /* Space between buttons */
+                background-color: white; /* White background */
+                color: black; /* Black text */
+                border: 2px solid black; /* Add a 2px black border */
+                padding: 10px 20px; /* Add padding */
+                font-size: 16px; /* Increase font size */
+                cursor: pointer; /* Add pointer cursor */
+                border-radius: 5px; /* Rounded corners */
+                transition: background-color 0.3s ease, transform 0.2s ease, border-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+            }
+
+            .price-filter-buttons button:hover {
+                background-color: white; /* Darker green on hover */
+                color: blue; /* Change text color to blue on hover */
+                border-color: blue; /* Change border to blue on hover */
+                transform: scale(1.05); /* Slight zoom on hover */
+            }
+
+            .price-filter-buttons button:active {
+                background-color: #388e3c; /* Even darker green on click */
+                transform: scale(0.98); /* Slight press effect */
+            }
+
+            .price-filter-buttons button.active {
+                background-color: blue; /* Highlight color for active state */
+                color: white; /* Text color for active state */
+            }
         </style>
 
     </head>
@@ -74,11 +106,11 @@
 
                         <!-- Giá bán -->
                         <h6>Giá bán</h6>
-                        <div>
-                            <input type="radio" name="salePrice" value="duoi100" onclick="filterByPrice()"> Dưới 100.000đ<br>
-                            <input type="radio" name="salePrice" value="100-300" onclick="filterByPrice()"> 100.000đ - 300.000đ<br>
-                            <input type="radio" name="salePrice" value="300-500" onclick="filterByPrice()"> 300.000đ - 500.000đ<br>
-                            <input type="radio" name="salePrice" value="tren500" onclick="filterByPrice()"> Trên 500.000đ<br>
+                        <div class="price-filter-buttons">
+                            <button onclick="filterByPrice('duoi100')">Dưới 100.000đ</button>
+                            <button onclick="filterByPrice('100-300')">100.000đ - 300.000đ</button>
+                            <button onclick="filterByPrice('300-500')">300.000đ - 500.000đ</button>
+                            <button onclick="filterByPrice('tren500')">Trên 500.000đ</button>
                         </div>
 
                         <!-- Nước sản xuất -->
@@ -112,11 +144,23 @@
                         </div>
                     </div>
                     <div class="row" id="productContainer">
+                        <c:set var="User" scope="session" value="${User}"  />
                         <c:forEach var="product" items="${productList}">
-                            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}"  style="display: none;">
+                            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}">
                                 <div class="card shop-list border-0">
                                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                        <a href="product-detail.jsp?productId=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
+                                        <c:choose>
+                                            <c:when test="${(not empty User && User.roleId != 1) || empty User}">
+                                                <a href="prodetails?productid=${product.ProductID}">
+                                                    <img src="${product.imagePath}" class="img-fluid" alt="${product.productName}">
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="ProductDetail?productId=${product.ProductID}">
+                                                    <img src="${product.imagePath}" class="img-fluid" alt="${product.productName}">
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <ul class="list-unstyled shop-icons">
                                             <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                             <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
@@ -130,7 +174,14 @@
                                         </div>
                                     </div>
                                     <div class="card-body content pt-4 p-2">
-                                        <a href="pharmacy-product-detail.html" class="text-dark product-name h6">${product.productName}</a>
+                                        <c:choose>
+                                            <c:when test="${(not empty User && User.roleId != 1) || empty User}">
+                                                <a href="prodetails?productid=${product.ProductID}" class="text-dark product-name h6">${product.productName}</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="ProductDetail?productId=${product.ProductID}" class="text-dark product-name h6">${product.productName}</a>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <div class="d-flex justify-content-between mt-1">
                                             <h6 class="text-muted small font-italic mb-0 mt-1">${product.salePrice}đ / ${product.unitName}</h6>
                                         </div>
@@ -142,10 +193,22 @@
 
                     <div class="row" id="productContainer">
                         <c:forEach var="product" items="${searchproduct}">
-                            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}"  style="display: none;">
+                            <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}">
                                 <div class="card shop-list border-0">
                                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                        <a href="product-detail.jsp?productId=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
+                                        <c:choose>
+                                            <c:when test="${(not empty User && User.roleId != 1) || empty User}">
+                                                <a href="prodetails?productid=${product.ProductID}">
+                                                    <img src="${product.imagePath}" class="img-fluid" alt="${product.productName}">
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="ProductDetail?productId=${product.ProductID}">
+                                                    <img src="${product.imagePath}" class="img-fluid" alt="${product.productName}">
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        
                                         <ul class="list-unstyled shop-icons">
                                             <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                             <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
@@ -169,7 +232,7 @@
                         </c:forEach>
                     </div><!--end row-->
 
-                    <div id="pagination" class="text-center mt-4">
+                <!--<div id="pagination" class="text-center mt-4">
                         <button id="prevButton" onclick="changePage(-1)">Previous</button>
                         <span id="pageInfo"></span>
                         <button id="nextButton" onclick="changePage(1)">Next</button>
@@ -222,25 +285,56 @@
                                 });
                             }
 
-                            function filterByPrice() {
+                            let currentFilter = ''; // To track the current price filter
+
+                            // Function to apply filters based on price, audience, and country together
+                            function applyFilters() {
+                                // Get all products
+                                const products = document.querySelectorAll('#productContainer .product-item');
+
                                 // Get the selected price range
-                                let selectedPrice = document.querySelector('input[name="salePrice"]:checked').value;
+                                const selectedPrice = currentFilter;
 
-                                // Get all product items inside productContainer
-                                let products = document.querySelectorAll('#productContainer .product-item');
+                                // Get all selected audiences (checkboxes that are checked)
+                                const selectedAudiences = Array.from(document.querySelectorAll('input[name="targetAudience"]:checked')).map(cb =>
+                                    cb.value.replace(/,|\s+/g, '').toLowerCase()
+                                );
 
-                                // Filter products based on the selected price range
-                                products.forEach(function (product) {
-                                    let price = parseFloat(product.getAttribute('data-price'));
+                                // Get all selected countries (checkboxes that are checked)
+                                const selectedCountries = Array.from(document.querySelectorAll('input[name="countryofproduction"]:checked')).map(cb =>
+                                    cb.value
+                                );
 
-                                    // Show/hide products based on the price range
+                                // Filter products based on selected filters
+                                products.forEach(product => {
+                                    const price = parseFloat(product.getAttribute('data-price'));
+                                    const productAudience = product.getAttribute('data-audience').replace(/,|\s+/g, '').toLowerCase();
+                                    const productCountry = product.getAttribute('data-country');
+
+                                    // Check if the product matches the selected price
+                                    let priceMatch = false;
                                     if (selectedPrice === 'duoi100' && price < 100000) {
-                                        product.style.display = 'block';
+                                        priceMatch = true;
                                     } else if (selectedPrice === '100-300' && price >= 100000 && price <= 300000) {
-                                        product.style.display = 'block';
+                                        priceMatch = true;
                                     } else if (selectedPrice === '300-500' && price >= 300000 && price <= 500000) {
-                                        product.style.display = 'block';
+                                        priceMatch = true;
                                     } else if (selectedPrice === 'tren500' && price > 500000) {
+                                        priceMatch = true;
+                                    } else if (!selectedPrice) {
+                                        priceMatch = true; // No price filter selected, so treat it as a match
+                                    }
+
+                                    // Check if the product matches the selected audiences
+                                    const audienceMatch = selectedAudiences.length === 0 || selectedAudiences.some(audience =>
+                                        productAudience.includes(audience)
+                                    );
+
+                                    // Check if the product matches the selected countries
+                                    const countryMatch = selectedCountries.length === 0 || selectedCountries.includes(productCountry);
+
+                                    // Show the product if it matches all selected filters
+                                    if (priceMatch && audienceMatch && countryMatch) {
                                         product.style.display = 'block';
                                     } else {
                                         product.style.display = 'none';
@@ -248,35 +342,41 @@
                                 });
                             }
 
-                            function filterByAudience() {
-                                // Get all selected audiences (checkboxes that are checked)
-                                let selectedAudiences = [];
-                                document.querySelectorAll('input[name="targetAudience"]:checked').forEach(function (checkbox) {
-                                    // Remove commas and spaces from the audience value to match the data-audience attribute
-                                    selectedAudiences.push(checkbox.value.replace(/,|\s+/g, '').toLowerCase());
-                                });
+                            // Function to filter by price and apply all filters
+                            function filterByPrice(priceRange) {
+                                const buttons = document.querySelectorAll('.price-filter-buttons button');
 
-                                // Get all product items inside productContainer
-                                let products = document.querySelectorAll('#productContainer .product-item');
+                                // If the same button is clicked again, clear the filter and remove the active state
+                                if (currentFilter === priceRange) {
+                                    currentFilter = ''; // Reset the price filter
+                                    buttons.forEach(btn => btn.classList.remove('active')); // Remove active state from all buttons
+                                } else {
+                                    currentFilter = priceRange; // Set the current filter
 
-                                // Filter products based on selected audiences
-                                products.forEach(function (product) {
-                                    // Get product's audience attribute and normalize (remove spaces and commas)
-                                    let productAudience = product.getAttribute('data-audience').replace(/,|\s+/g, '').toLowerCase();
-
-                                    // Check if any selected audience matches the product's audience
-                                    let isMatch = selectedAudiences.some(function (audience) {
-                                        return productAudience.includes(audience);
+                                    // Add the active class to the clicked button and remove it from others
+                                    buttons.forEach(btn => {
+                                        if (btn.getAttribute('onclick').includes(priceRange)) {
+                                            btn.classList.add('active');
+                                        } else {
+                                            btn.classList.remove('active');
+                                        }
                                     });
+                                }
 
-                                    // Show or hide the product based on the matching result
-                                    if (isMatch || selectedAudiences.length === 0) {
-                                        product.style.display = 'block'; // Show product if matched or no filters selected
-                                    } else {
-                                        product.style.display = 'none';  // Hide product if no match
-                                    }
-                                });
+                                applyFilters(); // Apply all filters
                             }
+
+                            // Function to filter by audience and apply all filters
+                            function filterByAudience() {
+                                applyFilters(); // Apply all filters
+                            }
+
+                            // Function to filter by country and apply all filters
+                            function filterByCountry() {
+                                applyFilters(); // Apply all filters
+                            }
+
+
 
                             const countriesPerPage = 5; // Number of countries to display per click
                             let currentCountryIndex = 0; // Index of the last displayed country
@@ -352,42 +452,6 @@
                                         item.style.display = 'none'; // Hide item
                                     }
                                 });
-                            }
-
-                            function filterByCountry() {
-                                // Get all country checkboxes
-                                const checkboxes = document.querySelectorAll('input[name="countryofproduction"]:checked');
-                                const selectedCountries = Array.from(checkboxes).map(cb => cb.value);
-
-                                // Get all products
-                                const products = document.querySelectorAll('.product-item');
-
-                                // Loop through products and toggle visibility based on the selected countries
-                                products.forEach(product => {
-                                    const productCountry = product.getAttribute('data-country');
-                                    if (selectedCountries.length === 0 || selectedCountries.includes(productCountry)) {
-                                        product.style.display = 'block'; // Show product if it matches
-                                    } else {
-                                        product.style.display = 'none'; // Hide product if it doesn't match
-                                    }
-                                });
-                            }
-
-                            function filterCountries() {
-                                // Get the value of the search input
-                                const input = document.getElementById('countrySearch');
-                                const filter = input.value.toLowerCase();
-                                const countryItems = document.querySelectorAll('.country-item');
-
-                                // Loop through all country items and hide those that don't match the search query
-                                countryItems.forEach(item => {
-                                    const countryName = item.textContent.toLowerCase();
-                                    if (countryName.includes(filter)) {
-                                        item.style.display = 'block'; // Show item
-                                    } else {
-                                        item.style.display = 'none'; // Hide item
-                                    }
-                                });
 
                                 // Reset the current country index and button visibility after filtering
                                 currentCountryIndex = 0; // Reset index
@@ -407,61 +471,70 @@
                                 seeMoreButton.style.display = visibleItems.length > countriesPerPage ? 'block' : 'none';
                             }
 
-                            //Phân trang
-                            const productsPerPage = 8; // Number of products per page
-                            let currentPage = 1; // Current page number
-
-                            document.addEventListener('DOMContentLoaded', function () {
-                                const totalProducts = document.querySelectorAll('.product-item').length;
-                                const totalPages = Math.ceil(totalProducts / productsPerPage);
-
-                                // Show the first page of products
-                                showPage(currentPage, totalPages);
-                            });
-
-                            function showPage(page, totalPages) {
-                                const products = document.querySelectorAll('.product-item');
-
-                                // Hide all products initially
-                                products.forEach(product => {
-                                    product.style.display = 'none';
-                                });
-
-                                // Calculate start and end index for the current page
-                                const startIndex = (page - 1) * productsPerPage;
-                                const endIndex = startIndex + productsPerPage;
-
-                                // Show products for the current page
-                                for (let i = startIndex; i < endIndex; i++) {
-                                    if (i < products.length) {
-                                        products[i].style.display = 'block'; // Show product
-                                    }
-                                }
-
-                                // Update pagination buttons
-                                updatePaginationButtons(page, totalPages);
-                            }
-
-                            function changePage(direction) {
-                                const totalProducts = document.querySelectorAll('.product-item').length;
-                                const totalPages = Math.ceil(totalProducts / productsPerPage);
-
-                                // Update the current page based on direction
-                                if (direction === 1 && currentPage < totalPages) {
-                                    currentPage++;
-                                } else if (direction === -1 && currentPage > 1) {
-                                    currentPage--;
-                                }
-
-                                showPage(currentPage, totalPages);
-                            }
-
-                            function updatePaginationButtons(page, totalPages) {
-                                document.getElementById('pageInfo').textContent = `Page ${page} of ${totalPages}`;
-
-                                document.getElementById('prevButton').style.display = page === 1 ? 'none' : 'inline-block'; // Hide 'Previous' button on first page
-                                document.getElementById('nextButton').style.display = page === totalPages ? 'none' : 'inline-block'; // Hide 'Next' button on last page
-                            }
+//                            //Phân trang
+//                            const productsPerPage = 8; // Number of products per page
+//                            let currentPage = 1; // Current page number
+//
+//                            document.addEventListener('DOMContentLoaded', function () {
+//                                const totalProducts = document.querySelectorAll('.product-item').length;
+//                                const totalPages = Math.ceil(totalProducts / productsPerPage);
+//
+//                                // Show the first page of products
+//                                showPage(currentPage, totalPages);
+//                            });
+//
+//                            function showPage(page, totalPages) {
+//                                const products = document.querySelectorAll('.product-item');
+//
+//                                // Hide all products initially
+//                                products.forEach(product => {
+//                                    product.style.display = 'none';
+//                                });
+//
+//                                // Calculate start and end index for the current page
+//                                const startIndex = (page - 1) * productsPerPage;
+//                                const endIndex = startIndex + productsPerPage;
+//
+//                                // Show products for the current page
+//                                for (let i = startIndex; i < endIndex; i++) {
+//                                    if (i < products.length) {
+//                                        products[i].style.display = 'block'; // Show product
+//                                    }
+//                                }
+//
+//                                // Update pagination buttons
+//                                updatePaginationButtons(page, totalPages);
+//                            }
+//
+//                            function changePage(direction) {
+//                                const totalProducts = document.querySelectorAll('.product-item').length;
+//                                const totalPages = Math.ceil(totalProducts / productsPerPage);
+//
+//                                // Update the current page based on direction
+//                                if (direction === 1 && currentPage < totalPages) {
+//                                    currentPage++;
+//                                } else if (direction === -1 && currentPage > 1) {
+//                                    currentPage--;
+//                                }
+//
+//                                showPage(currentPage, totalPages);
+//                            }
+//
+//                            function updatePaginationButtons(page, totalPages) {
+//                                const totalProducts = document.querySelectorAll('.product-item').length;
+//
+//                                // Update the page info display
+//                                const pageInfo = document.getElementById('pageInfo');
+//                                if (totalProducts <= productsPerPage) {
+//                                    pageInfo.style.display = 'none'; // Hide page info if products are <= 8
+//                                } else {
+//                                    pageInfo.style.display = 'inline'; // Show page info otherwise
+//                                    pageInfo.textContent = `Page ${page} of ${totalPages}`;
+//                                }
+//
+//                                document.getElementById('prevButton').style.display = page === 1 ? 'none' : 'inline-block'; // Hide 'Previous' button on first page
+//                                document.getElementById('nextButton').style.display = page === totalPages ? 'none' : 'inline-block'; // Hide 'Next' button on last page
+//                            }
         </script>
     </body>
 </html>

@@ -15,7 +15,7 @@
                 width: 100%;
                 border-collapse: collapse;
             }
-            
+
             .actions button {
                 margin-bottom: 8px; /* Khoảng cách giữa các nút theo chiều dọc */
             }
@@ -92,7 +92,6 @@
         </style>
 
         <script>
-            // Sort the table based on the column index (Order ID or Product ID)
             function sortTable(n, table) {
                 let rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
                 switching = true;
@@ -107,42 +106,34 @@
                         x = rows[i].getElementsByTagName("TD")[n];
                         y = rows[i + 1].getElementsByTagName("TD")[n];
 
-                        let xValue = x.innerHTML.toLowerCase();
-                        let yValue = y.innerHTML.toLowerCase();
+                        let xValue = x.innerHTML.trim();
+                        let yValue = y.innerHTML.trim();
 
-                        // Split the value by "_" and get both parts
-                        let xParts = xValue.split('_');
-                        let yParts = yValue.split('_');
+                        // Special handling for "Date import" column (index 10) with custom date format
+                        if (n === 10) {
+                            let xDate = parseCustomDate(xValue);
+                            let yDate = parseCustomDate(yValue);
 
-                        // Compare the part before "_"
-                        let xPrefix = xParts[0];
-                        let yPrefix = yParts[0];
-
-                        if (xPrefix === yPrefix) {
-                            // If the prefixes are the same, compare the part after "_"
-                            let xNumber = parseInt(xParts[1]) || 0;
-                            let yNumber = parseInt(yParts[1]) || 0;
-
-                            if (dir == "asc") {
-                                if (xNumber > yNumber) {
+                            if (dir === "asc") {
+                                if (xDate > yDate) {
                                     shouldSwitch = true;
                                     break;
                                 }
-                            } else if (dir == "desc") {
-                                if (xNumber < yNumber) {
+                            } else if (dir === "desc") {
+                                if (xDate < yDate) {
                                     shouldSwitch = true;
                                     break;
                                 }
                             }
                         } else {
-                            // If prefixes are different, compare them directly
-                            if (dir == "asc") {
-                                if (xPrefix > yPrefix) {
+                            // Default string comparison
+                            if (dir === "asc") {
+                                if (xValue > yValue) {
                                     shouldSwitch = true;
                                     break;
                                 }
-                            } else if (dir == "desc") {
-                                if (xPrefix < yPrefix) {
+                            } else if (dir === "desc") {
+                                if (xValue < yValue) {
                                     shouldSwitch = true;
                                     break;
                                 }
@@ -155,13 +146,47 @@
                         switching = true;
                         switchcount++;
                     } else {
-                        if (switchcount == 0 && dir == "asc") {
+                        if (switchcount === 0 && dir === "asc") {
                             dir = "desc";
                             switching = true;
                         }
                     }
                 }
             }
+
+            function parseCustomDate(dateString) {
+                let datePattern = /(\w{3}) (\d{1,2}) (\d{4}) (\d{1,2}):(\d{2})(AM|PM)/;
+                let match = dateString.match(datePattern);
+
+                if (match) {
+                    let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    let month = monthNames.indexOf(match[1]);
+                    let day = parseInt(match[2], 10);
+                    let year = parseInt(match[3], 10);
+                    let hour = parseInt(match[4], 10);
+                    let minute = parseInt(match[5], 10);
+                    let period = match[6];
+
+                    // Convert 12-hour format to 24-hour format
+                    if (period === "PM" && hour !== 12) {
+                        hour += 12;
+                    } else if (period === "AM" && hour === 12) {
+                        hour = 0;
+                    }
+
+                    return new Date(year, month, day, hour, minute);
+                } else {
+                    // If the format is not recognized, return an invalid date
+                    return new Date(NaN);
+                }
+            }
+
+// Call this function for sorting by Date Import
+            function sortByDate() {
+                const table = document.getElementById("importTable");
+                sortTable(10, table); // Column index 10 for Date import
+            }
+
 
             // Search the table based on Product ID
             function searchTable() {
@@ -255,7 +280,7 @@
                     <th>Price Import</th>
                     <th>Importer</th>
                     <th>Quantity</th>
-                    <th>Date import</th>
+                    <th>Import Date</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -264,14 +289,33 @@
                 <c:forEach var="importData" items="${importList}">
                     <tr>
                         <td>${importData.orderId}</td>
-                        <td>${importData.provider}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${providerMap[importData.provider] != null}">
+                                    ${providerMap[importData.provider]}
+                                </c:when>
+                                <c:otherwise>
+                                    N/A
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                         <td>${importData.productId}</td>
                         <td>${importData.baseUnitId}</td>
                         <td>${importData.batchNo}</td>
                         <td>${importData.dateManufacture}</td>
                         <td>${importData.dateExpired}</td>
                         <td>${importData.priceImport}</td>
-                        <td>${importData.importer}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${userMap[importData.importer] != null}">
+                                    ${userMap[importData.importer]}
+                                </c:when>
+                                <c:otherwise>
+                                    N/A
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+
                         <td>${importData.quantity}</td>
                         <td>${importData.dateImport}</td>
                         <td>
@@ -279,12 +323,6 @@
                                 <i class="fas fa-eye"></i>
                             </button>
 
-                            <form action="importServlet" method="get" style="display:inline;">
-                                <input type="hidden" name="productID" value="${importData.productId}">
-                                <button type="submit" onclick="return confirm('Are you sure you want to import this product?');" style="margin-right: 10px;">
-                                    <i class="fas fa-download"></i>
-                                </button>
-                            </form>
                         </td>
                     </tr>
                 </c:forEach>
