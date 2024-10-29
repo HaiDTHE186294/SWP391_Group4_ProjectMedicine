@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -143,11 +144,23 @@
                         </div>
                     </div>
                     <div class="row" id="productContainer">
+                        <c:set var="User" scope="session" value="${User}"  />
                         <c:forEach var="product" items="${productList}">
                             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}">
                                 <div class="card shop-list border-0">
                                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                        <a href="product-detail.jsp?productId=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
+                                        <c:choose>
+                                            <c:when test="${(not empty User && User.roleId != 1) || empty User}">
+                                                <a href="prodetails?productid=${product.ProductID}">
+                                                    <img src="${product.imagePath}" class="img-fluid" alt="${product.productName}">
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="ProductDetail?productId=${product.ProductID}">
+                                                    <img src="${product.imagePath}" class="img-fluid" alt="${product.productName}">
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <ul class="list-unstyled shop-icons">
                                             <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                             <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
@@ -161,7 +174,14 @@
                                         </div>
                                     </div>
                                     <div class="card-body content pt-4 p-2">
-                                        <a href="pharmacy-product-detail.html" class="text-dark product-name h6">${product.productName}</a>
+                                        <c:choose>
+                                            <c:when test="${(not empty User && User.roleId != 1) || empty User}">
+                                                <a href="prodetails?productid=${product.ProductID}" class="text-dark product-name h6">${product.productName}</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="ProductDetail?productId=${product.ProductID}" class="text-dark product-name h6">${product.productName}</a>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <div class="d-flex justify-content-between mt-1">
                                             <h6 class="text-muted small font-italic mb-0 mt-1">${product.salePrice}đ / ${product.unitName}</h6>
                                         </div>
@@ -176,7 +196,19 @@
                             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}">
                                 <div class="card shop-list border-0">
                                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                        <a href="product-detail.jsp?productId=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
+                                        <c:choose>
+                                            <c:when test="${(not empty User && User.roleId != 1) || empty User}">
+                                                <a href="prodetails?productid=${product.ProductID}">
+                                                    <img src="${product.imagePath}" class="img-fluid" alt="${product.productName}">
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="ProductDetail?productId=${product.ProductID}">
+                                                    <img src="${product.imagePath}" class="img-fluid" alt="${product.productName}">
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        
                                         <ul class="list-unstyled shop-icons">
                                             <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                             <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>

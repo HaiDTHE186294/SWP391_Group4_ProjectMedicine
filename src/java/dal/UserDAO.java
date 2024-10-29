@@ -296,4 +296,22 @@ public class UserDAO extends DBContext {
         return users;
     }
  
+    
+    public User getUserByID(int id) {
+        User user = null;
+        String sql = "SELECT TOP 1 * FROM users WHERE user_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                user = new User(rs.getInt("user_id"), rs.getString("full_name"), rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getInt("role_id"), rs.getInt("status"), rs.getString("phone"), rs.getString("address"), rs.getString("image"));
+                //return u;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 }
