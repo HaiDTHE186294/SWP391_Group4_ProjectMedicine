@@ -116,10 +116,9 @@
                                             <small class="text-muted">Orthopedic</small>
                                         </div>
                                     </a>
-                                    <c:if test="${sessionScope.User.getRoleId() == 1 || sessionScope.User.roleId == 3}">
+                                    <c:if test="${sessionScope.User.getRoleId() == 1}">
                                         <a class="dropdown-item text-dark" href="showProductManageView"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
-                                    </c:if>
-                                    <a class="dropdown-item text-dark" href="myorder"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> My Order</a>
+                                            </c:if>
                                     <a class="dropdown-item text-dark" href="changeProfile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
                                     <div class="dropdown-divider border-top"></div>
                                     <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
@@ -207,7 +206,7 @@
                         </li>
 
                         <li class="has-submenu parent-menu-item">
-                            <a href="usermanagement">Bệnh</a>
+                            <a href="javascript:void(0)">Bệnh</a>
                         </li>
                     </ul><!--end navigation menu-->
                 </div><!--end navigation-->

@@ -326,5 +326,6 @@
         <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
         <script src="assets/js/app.js"></script>
+        <script src="assets/js/recent.js"></script>
     </body>
 </html>

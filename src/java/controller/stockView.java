@@ -8,8 +8,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 public class stockView extends HttpServlet {
    
@@ -26,28 +24,6 @@ public class stockView extends HttpServlet {
         request.setAttribute("stockList", stockList);
         request.setAttribute("productList", productList);
         request.setAttribute("pUnits", pUnits);
-        
-        
-        // Get the list of all imports from the DAO
-        List<User> users = stockDAO.getAllUser();
-
-        // Tạo map để ánh xạ userId (int) với username (String)
-        Map<Integer, String> userMap = new HashMap<>();
-        for (User user : users) {
-            userMap.put(user.getUserId(), user.getUsername());
-        }
-
-        List<Provider> providerList = stockDAO.getAllProviders();
-
-        // Tạo map cho providers
-        Map<Integer, String> providerMap = new HashMap<>();
-        for (Provider provider : providerList) {
-            providerMap.put(provider.getProviderID(), provider.getProviderName());
-        }
-
-        // Set the import list as an attribute in the request
-        request.setAttribute("userMap", userMap);
-        request.setAttribute("providerMap", providerMap);
         
         // Forward the request to the JSP page for displaying the stocks
         request.getRequestDispatcher("stock.jsp").forward(request, response);

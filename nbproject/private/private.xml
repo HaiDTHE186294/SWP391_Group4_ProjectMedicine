@@ -2,21 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-<<<<<<< HEAD
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/category-edit.jsp</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/category-list.jsp</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/dal/CategoryDAO2.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/category-add.jsp</file>
-=======
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/ImportList.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/model/Unit.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/importList.jsp</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/dal/stockDAO.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/importServlet.java</file>
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/importProduct.jsp</file>
->>>>>>> a5631924ecaf13d63b66e7e4db74f46e74c375d3
-            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/CategoryServlet.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

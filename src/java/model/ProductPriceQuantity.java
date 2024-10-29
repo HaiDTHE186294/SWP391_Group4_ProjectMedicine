@@ -16,10 +16,7 @@ public class ProductPriceQuantity {
     private String unitID;  // Foreign key referencing the Unit table
     private int unitStatus;
     private float salePrice;
-    
-    private Unit unit;
-    private Product product;
-    
+
     public float getSalePrice() {
         return salePrice;
     }
@@ -30,7 +27,7 @@ public class ProductPriceQuantity {
     
 
     // Constructor
-    public ProductPriceQuantity(String productUnitID, String productID, String unitID, String packagingDetails, float salePrice, int unitStatus) {
+    public ProductPriceQuantity(String productUnitID, String packagingDetails, String productID, String unitID, int unitStatus, float salePrice) {
         this.productUnitID = productUnitID;
         this.packagingDetails = packagingDetails;
         this.productID = productID;
@@ -78,22 +75,6 @@ public class ProductPriceQuantity {
 
     public void setUnitID(String unitID) {
         this.unitID = unitID;
-    }
-
-    public Unit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     @Override

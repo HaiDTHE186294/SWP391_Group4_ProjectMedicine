@@ -7,11 +7,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import model.ProductPriceQuantity;
-import model.ProductUnit;
 
 public class productDetailCusController extends HttpServlet {
 
@@ -29,22 +26,11 @@ public class productDetailCusController extends HttpServlet {
         if (id != null && !id.trim().isEmpty()) {
             // Lấy thông tin sản phẩm bằng ID
             Product product = productDAO.getProductByID1(id);
-            List<ProductUnit> units = productDAO.getAllUnits();
-            List<ProductPriceQuantity> priceQuantities = productDAO.getProductPriceQuantitiesByProductID(id);
-            List<ProductUnit> ownUnit = new ArrayList<>();
-            for (ProductPriceQuantity pp : priceQuantities){
-                for (ProductUnit u : units) {
-                    if (pp.getUnitID().equals(u.getUnitID())){
-                        ownUnit.add(u);
-                        break;
-                    }
-                }
-            }
+            
             // Kiểm tra nếu sản phẩm tồn tại
             if (product != null) {
                 // Đặt sản phẩm vào thuộc tính request
                 request.setAttribute("productId", product);
-                request.setAttribute("ownUnit", ownUnit);
             } else {
                 // Nếu không tìm thấy sản phẩm, chuyển hướng đến trang lỗi
                 request.setAttribute("errorMessage", "Product not found.");

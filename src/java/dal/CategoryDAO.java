@@ -168,21 +168,16 @@ public class CategoryDAO extends DBContext {
     public List<Map<String, Object>> getProductsByParentCategory(String parentCategoryID) {
         List<Map<String, Object>> productList = new ArrayList<>();
 
-        String sql = "WITH RankedProducts AS ( "
-                + "    SELECT p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, "
-                + "           pp.SalePrice, u.UnitName, "
-                + "           ROW_NUMBER() OVER(PARTITION BY p.ProductID ORDER BY pp.SalePrice ASC) as row_num "
-                + "    FROM Product p "
-                + "    JOIN Category c ON p.CategoryID = c.CategoryID "
-                + "    JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
-                + "    JOIN Unit u ON pp.UnitID = u.UnitID "
-                + "    WHERE pp.PackagingDetails = 1 AND c.ParentCategoryID LIKE ? "
-                + ") "
-                + "SELECT CountryOfProduction, TargetAudience, ProductID, ProductName, ImagePath, SalePrice, UnitName "
-                + "FROM RankedProducts "
-                + "WHERE row_num = 1";
+        String sql = "SELECT p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+                + "FROM Product p "
+                + "JOIN Category c on p.CategoryID = c.CategoryID "
+                + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
+                + "JOIN Unit u ON pp.UnitID = u.UnitID "
+                + "WHERE pp.PackagingDetails = 1 AND c.ParentCategoryID LIKE ? ";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            // Set giá trị của categoryID
             ps.setString(1, parentCategoryID + "%");
 
             try (ResultSet rs = ps.executeQuery()) {

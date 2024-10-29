@@ -6,7 +6,7 @@ package model;
 
 public class Import {
     private String orderId;         // Corresponds to O_id
-    private int provider;        // Corresponds to NCC
+    private String provider;        // Corresponds to NCC
     private String productId;       // Corresponds to Pid
     private String baseUnitId;      // Corresponds to Base_unit_ID
     private String batchNo;         // Corresponds to Batch_no
@@ -26,7 +26,7 @@ public class Import {
     }
 
     // Constructor
-    public Import(String orderId, int provider, String productId, String baseUnitId, String batchNo,
+    public Import(String orderId, String provider, String productId, String baseUnitId, String batchNo,
                   String dateManufacture, String dateExpired, float priceImport, int importer,float quantity, String dateImport) {
         this.orderId = orderId;
         this.provider = provider;
@@ -41,8 +41,8 @@ public class Import {
         this.dateImport = dateImport;
     }
     
-    public Import(String orderId, int provider, String productId, String baseUnitId, String batchNo,
-                  String dateManufacture, String dateExpired, String dateImport, float priceImport, int importer,float quantity) {
+    public Import(String orderId, String provider, String productId, String baseUnitId, String batchNo,
+                  String dateManufacture, String dateExpired, float priceImport, int importer,float quantity) {
         this.orderId = orderId;
         this.provider = provider;
         this.productId = productId;
@@ -51,7 +51,6 @@ public class Import {
         this.dateManufacture = dateManufacture;
         this.dateExpired = dateExpired;
         this.priceImport = priceImport;
-        this.dateImport = dateImport;
         this.importer = importer;
         this.quantity = quantity;
     }
@@ -76,11 +75,11 @@ public class Import {
         this.orderId = orderId;
     }
 
-    public int getProvider() {
+    public String getProvider() {
         return provider;
     }
 
-    public void setProvider(int provider) {
+    public void setProvider(String provider) {
         this.provider = provider;
     }
 

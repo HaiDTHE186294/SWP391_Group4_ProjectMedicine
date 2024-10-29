@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.Product;
 import dal.ProductDAO;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import model.Category;
 import model.Ingredient;
@@ -39,7 +38,7 @@ public class ProductDetail extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String productID = request.getParameter("productId");
+        String productID = request.getParameter("productID");
         ProductDAO p = new ProductDAO();
         CategoryDAO categoryDAO = new CategoryDAO();
         Product product = p.getProductByID(productID); // Lấy sản phẩm dựa vào ID
@@ -47,6 +46,7 @@ public class ProductDetail extends HttpServlet {
         List<ProductUnit> units = p.getAllUnits(); // Lấy danh sách Unit
         List<Category> categories = categoryDAO.getAllCategories();
         HttpSession session = request.getSession(true);
+        
         
         Gson gson = new Gson();
         String categoriesJSON = gson.toJson(categoryDAO.getAllCategories());
@@ -57,18 +57,9 @@ public class ProductDetail extends HttpServlet {
 
         // Lấy danh sách ProductPriceQuantity theo productID
         List<ProductPriceQuantity> priceQuantities = p.getProductPriceQuantitiesByProductID(productID);
-        List<ProductUnit> ownUnit = new ArrayList<>();
-        for (ProductPriceQuantity pp : priceQuantities){
-            for (ProductUnit u : units) {
-                if (pp.getProductID().equals(u.getUnitID())){
-                    ownUnit.add(u);
-                    break;
-                }
-            }
-        }
+        
         // Gửi danh sách đến JSP
         request.setAttribute("priceQuantities", priceQuantities);
-        request.setAttribute("ownUnit", ownUnit); 
         request.setAttribute("units", units); 
         if (productID != null && !productID.isEmpty()) {
             ProductDAO ingredientDAO = new ProductDAO();
@@ -78,7 +69,7 @@ public class ProductDetail extends HttpServlet {
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Product ID");
         }
-        request.getRequestDispatcher("productDetail.jsp").include(request, response); // Điều hướng tới JSP hiển thị chi tiết sản phẩm
+        request.getRequestDispatcher("productDetail.jsp").forward(request, response); // Điều hướng tới JSP hiển thị chi tiết sản phẩm
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
