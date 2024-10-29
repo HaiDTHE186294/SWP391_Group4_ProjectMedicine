@@ -7,7 +7,7 @@
         <a href="GetImport">Import Product</a> 
         <a href="stockManagement">Stock</a>
         <a href="viewImports">Import History</a>
-        <a href="CategoryURL">Category List</a>
+        <a href="CategoryServlet">Category List</a>
 
         <script>
             function showError(event) {
