@@ -11,13 +11,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author trant
+ * @author Asus
  */
-public class LogoutController extends HttpServlet {
+public class CategoryServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,10 +33,10 @@ public class LogoutController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LogoutController</title>");  
+            out.println("<title>Servlet CategoryServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LogoutController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet CategoryServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,17 +53,7 @@ public class LogoutController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //processRequest(request, response);
-        HttpSession session = request.getSession();
-        if (session.getAttribute("username") != null || session.getAttribute("fullName") != null
-            || session.getAttribute("email") != null || session.getAttribute("phone") != null || session.getAttribute("address") != null) {
-            session.removeAttribute("username");
-            session.removeAttribute("fullName");
-            session.removeAttribute("email");
-            session.removeAttribute("phone");
-            session.removeAttribute("address");
-        }
-        response.sendRedirect("home");
+        processRequest(request, response);
     } 
 
     /** 

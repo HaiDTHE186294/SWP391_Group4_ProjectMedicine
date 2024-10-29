@@ -1,4 +1,4 @@
-package dal;
+  package dal;
 
 import model.Product;
 import java.sql.PreparedStatement;

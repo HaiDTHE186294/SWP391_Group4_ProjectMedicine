@@ -7,7 +7,7 @@
         <a href="http://localhost:8080/MedicineShop/GetImport">Import Product</a> 
         <a href="http://localhost:8080/MedicineShop/stockManagement">Stock</a>
         <a href="http://localhost:8080/MedicineShop/viewImports">Import History</a>
-        <a href="http://localhost:8080/MedicineShop/CategoryURL" onclick="showError(event)">Category List</a>
+        <a href="http://localhost:8080/MedicineShop/CategoryURL">Category List</a>
 
         <script>
             function showError(event) {

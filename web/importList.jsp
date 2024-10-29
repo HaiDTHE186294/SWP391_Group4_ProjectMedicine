@@ -145,6 +145,7 @@
                         <th>Số lô</th>
                         <th>Ngày sản xuất</th>
                         <th>Ngày hết hạn</th>
+                        <th>Ngày Nhập hàng</th>
                         <th>Giá Bán</th>
                         <th>Giá Nhập</th>
                         <th>Số lượng nhập</th>
@@ -186,6 +187,9 @@
                         </td>
                         <td>
                             <input type="date" name="dateExpired[]" required /> <!-- Thay đổi ở đây -->
+                        </td>
+                        <td>
+                            <input type="date" name="dateImport[]" /> <!-- Thay đổi ở đây -->
                         </td>
                         <td>
                             <input type="number" name="priceSale[]" required 

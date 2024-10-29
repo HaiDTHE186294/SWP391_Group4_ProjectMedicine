@@ -42,7 +42,7 @@ public class Import {
     }
     
     public Import(String orderId, int provider, String productId, String baseUnitId, String batchNo,
-                  String dateManufacture, String dateExpired, float priceImport, int importer,float quantity) {
+                  String dateManufacture, String dateExpired, String dateImport, float priceImport, int importer,float quantity) {
         this.orderId = orderId;
         this.provider = provider;
         this.productId = productId;
@@ -51,6 +51,7 @@ public class Import {
         this.dateManufacture = dateManufacture;
         this.dateExpired = dateExpired;
         this.priceImport = priceImport;
+        this.dateImport = dateImport;
         this.importer = importer;
         this.quantity = quantity;
     }
