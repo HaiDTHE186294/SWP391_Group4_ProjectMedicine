@@ -339,6 +339,32 @@
                 });
             });
 
+//
+//            function disableBasedUnitsOnLoad() {
+//                const rows = document.querySelectorAll("tr");
+//
+//                rows.forEach(row => {
+//                    const packagingInput = row.querySelector("input[name='packagingDetails[]']");
+//
+//                    if (packagingInput && packagingInput.value.trim() === "1") {
+//                        packagingInput.readOnly = true; // Đặt thuộc tính readonly thay vì disabled
+//
+//                        const message = packagingInput.nextElementSibling;
+//                        if (message) {
+//                            message.style.display = 'inline';
+//                        }
+//
+//                        const dropdown = row.querySelector("select");
+//                        if (dropdown) {
+//                            dropdown.readOnly = true; // Giữ thuộc tính disabled với dropdown (có thể không cần gửi) Van dang loi
+//                        }
+//                    }
+//                });
+//            }
+//
+//            window.onload = disableBasedUnitsOnLoad;
+
+
 
         </script>
         <%@ include file="dashboardHeader.jsp" %>

@@ -93,6 +93,14 @@
         <servlet-class>ControllerCustomer.productDetailCusController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>UserManagementController</servlet-name>
+        <servlet-class>controller.UserManagementController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteStaffController</servlet-name>
+        <servlet-class>controller.DeleteStaffController</servlet-class>
+    </servlet>
+    <servlet> 
         <servlet-name>StockManagementServlet</servlet-name>
         <servlet-class>controller.StockManagementServlet</servlet-class>
     </servlet>
@@ -115,6 +123,20 @@
     <servlet>
         <servlet-name>CategoryServlet</servlet-name>
         <servlet-class>controller.CategoryServlet</servlet-class>
+        <servlet-name>myOrderController</servlet-name>
+        <servlet-class>ControllerCustomer.myOrderController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>orderDetailController</servlet-name>
+        <servlet-class>ControllerCustomer.orderDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>orderCompletion</servlet-name>
+        <servlet-class>ControllerCustomer.order.orderCompletion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>salesOrderList</servlet-name>
+        <servlet-class>controller.sales.salesOrderList</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -217,6 +239,14 @@
         <url-pattern>/prodetails</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>UserManagementController</servlet-name>
+        <url-pattern>/usermanagement</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteStaffController</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping> 
         <servlet-name>StockManagementServlet</servlet-name>
         <url-pattern>/stockManagement</url-pattern>
     </servlet-mapping>
@@ -239,5 +269,19 @@
     <servlet-mapping>
         <servlet-name>CategoryServlet</servlet-name>
         <url-pattern>/CategoryServlet</url-pattern>
+        <servlet-name>myOrderController</servlet-name>
+        <url-pattern>/myorder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>orderDetailController</servlet-name>
+        <url-pattern>/orderdtl</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>orderCompletion</servlet-name>
+        <url-pattern>/orderCompletion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>salesOrderList</servlet-name>
+        <url-pattern>/salesOrderList</url-pattern>
     </servlet-mapping>
 </web-app>
