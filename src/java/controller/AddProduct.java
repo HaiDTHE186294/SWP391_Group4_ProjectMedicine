@@ -189,7 +189,7 @@ public class AddProduct extends HttpServlet {
                 }
 
                 // Tạo đối tượng ProductPriceQuantity
-                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit, UStatus, sPrice);
+                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, productID, unit, packagingDetail, sPrice, UStatus);
                 productDAO.addProductPriceQuantity(p);
             }
         } else {

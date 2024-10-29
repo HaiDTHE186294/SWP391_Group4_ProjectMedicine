@@ -298,7 +298,7 @@ public class Update extends HttpServlet {
                 float sPrice = Float.parseFloat(salePrices[i]);
 
                 // Create ProductPriceQuantity object
-                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit, UStatus, sPrice);
+                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, productID, unit, packagingDetail, sPrice, UStatus);
                 priceQuantities.add(p);
             }
             // Add all price-quantity details to the database
@@ -323,7 +323,7 @@ public class Update extends HttpServlet {
                 float sPrice = Float.parseFloat(salePrices[i]);
 
                 // Create ProductPriceQuantity object
-                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit, UStatus, sPrice);
+                ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, productID, unit,packagingDetail, sPrice, UStatus);
                 productDAO.addProductPriceQuantity(p);
             }
 
