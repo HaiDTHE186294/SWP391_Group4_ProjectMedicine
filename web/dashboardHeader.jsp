@@ -3,10 +3,11 @@
     <div class="navigation">
         <a href="#" onclick="confirmNavigation('http://localhost:8080/MedicineShop/home')">Home</a>
         <a href="http://localhost:8080/MedicineShop/showProductManageView">Product Manage Menu</a>       
-        <a href="http://localhost:8080/MedicineShop/product/addxx">Add Product</a>       
+        <a href="http://localhost:8080/MedicineShop/product/addxx">Add Product</a> 
+        <a href="http://localhost:8080/MedicineShop/GetImport">Import Product</a> 
         <a href="http://localhost:8080/MedicineShop/stockManagement">Stock</a>
         <a href="http://localhost:8080/MedicineShop/viewImports">Import History</a>
-        <a href="http://localhost:8080/MedicineShop/CategoryURL" onclick="showError(event)">Category List</a>
+        <a href="http://localhost:8080/MedicineShop/CategoryServlet">Category List</a>
 
         <script>
             function showError(event) {
@@ -31,7 +32,6 @@
         color: white;
         padding: 15px;
         text-align: center;
-        width: 100%;
     }
     .navigation {
         margin-top: 10px; /* Space between title and links */

@@ -251,12 +251,6 @@
                                 </a>
                             </button>
 
-                            <form action="importServlet" method="get" style="display:inline;">
-                                <input type="hidden" name="productID" value="<%= product.getProductID() %>">
-                                <button type="submit" onclick="return confirm('Are you sure you want to import this product?');" style="margin-right: 10px;">
-                                    <i class="fas fa-download"></i> <!-- Use an icon for the import button -->
-                                </button>
-                            </form>
                         </td>
 
                     </tr>
@@ -381,7 +375,7 @@
 
             function search() {
                 clearSearch();
-                const query = searchInput.value.toLowerCase();
+                const query = searchInput.value.toLowerCase().trim();
                 const filteredRows = allRows.filter(row => {
                     const productName = row.querySelector('td:nth-child(5)').textContent.toLowerCase(); // Cột Tên sản phẩm
                     return productName.includes(query);
