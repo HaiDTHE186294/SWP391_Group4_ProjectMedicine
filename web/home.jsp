@@ -33,7 +33,67 @@
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
 
     </head>
+    <style>
+        /* Popup container */
+.popup-success {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #5cb85c; /* Green background for success */
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 1000;
+    opacity: 0; /* Start invisible */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.popup-show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.popup-hide {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+}
+    </style>
+        
     <body>
+      <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const popup = document.getElementById("popupSuccess");
+
+        if (popup) {
+            // Show popup with animation
+            popup.classList.add("popup-show");
+            
+            // Hide popup after 3 seconds
+            setTimeout(() => {
+                popup.classList.add("popup-hide");
+                
+                // Remove popup from DOM after animation ends
+                setTimeout(() => {
+                    popup.remove();
+                }, 500); // Match with CSS transition time
+            }, 3000); // Display duration
+        }
+    });
+</script>
+<%
+    String successMessage = (String) session.getAttribute("successMessage");
+    if (successMessage != null) {
+%>
+    <div id="popupSuccess" class="popup-success">
+        <%= successMessage %>
+    </div>
+<%
+        session.removeAttribute("successMessage"); // Clear message after displaying
+    }
+%>
         <jsp:include page="header.jsp" />
         <!-- Start Hero -->
         <section class="home-slider position-relative">

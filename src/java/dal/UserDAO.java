@@ -231,6 +231,7 @@ public class UserDAO extends DBContext {
         return user;
     }
 
+
     public List<User> getAllUsersWithRoleId(int roleId) {
         List<User> userList = new ArrayList<>();
         String sql = "SELECT * FROM users WHERE role_id = ?";

@@ -713,9 +713,10 @@ public class ProductDAO extends DBContext {
                 product.setPrescriptionRequired(rs.getString("PrescriptionRequired"));
                 product.setTargetAudience(rs.getString("TargetAudience"));
                 product.setImagePath(rs.getString("ImagePath"));
-                             
-
-
+                float salePrice = rs.getFloat("salePrice");
+                if (rs.wasNull()) {
+                    salePrice = 0.0f;  // Giá trị mặc định nếu salePrice là NULL
+                }
             }
         }
     } catch (SQLException ex) {
@@ -758,5 +759,30 @@ public class ProductDAO extends DBContext {
 
         return productList;
     }
+    
+   public List<Ingredient> getIngredientsByProductID1(String productID) {
+    List<Ingredient> ingredients = new ArrayList<>();
+    String sql = "SELECT ingredientName, quantity, unit FROM Ingredient WHERE productID = ?";
+
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setString(1, productID);
+
+        try (ResultSet rs = st.executeQuery()) {
+            int index = 1;
+            while (rs.next()) {
+                String ingredientName = rs.getString("ingredientName");
+                float quantity = rs.getFloat("quantity");
+                String unit = rs.getString("unit");
+
+                Ingredient ingredient = new Ingredient(productID, index, ingredientName, quantity, unit);
+                ingredients.add(ingredient);
+                index++;
+            }
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return ingredients;
+}
 
 }

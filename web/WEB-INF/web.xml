@@ -121,8 +121,11 @@
         <servlet-class>controller.ImportList</servlet-class>
     </servlet>
     <servlet>
+
+
         <servlet-name>CategoryServlet</servlet-name>
         <servlet-class>controller.CategoryServlet</servlet-class>
+
         <servlet-name>myOrderController</servlet-name>
         <servlet-class>ControllerCustomer.myOrderController</servlet-class>
     </servlet>
@@ -267,8 +270,11 @@
         <url-pattern>/ImportList</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+
+
         <servlet-name>CategoryServlet</servlet-name>
         <url-pattern>/CategoryServlet</url-pattern>
+
         <servlet-name>myOrderController</servlet-name>
         <url-pattern>/myorder</url-pattern>
     </servlet-mapping>
