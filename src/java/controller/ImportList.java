@@ -160,6 +160,7 @@ public class ImportList extends HttpServlet {
             String batchNo = batchNos[i];
             String dateManufacture = dateManufactures[i];
             String dateExpired = dateExpiers[i];
+            String dateImport = dateImports[i];
             String priceSale = priceSales[i];
             float priceImport = Float.parseFloat(priceImports[i]);
             float quantity = Float.parseFloat(quantities[i]);

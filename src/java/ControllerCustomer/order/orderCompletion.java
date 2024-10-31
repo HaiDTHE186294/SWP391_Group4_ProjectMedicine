@@ -134,8 +134,12 @@ public class orderCompletion extends HttpServlet {
                 });
             }
             //todo lead user to pages to further proceed order
+
             request.getSession().setAttribute("successMessage", "Đặt hàng thành công! Cảm ơn bạn đã mua hàng.");
 response.sendRedirect("home"); 
+
+            response.sendRedirect("home.jsp");
+
         } catch (SQLException ex) {
             Logger.getLogger(orderCompletion.class.getName()).log(Level.SEVERE, null, ex);
         }

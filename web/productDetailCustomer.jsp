@@ -182,6 +182,7 @@
             }
 
         }
+
 /* Container styling */
 .container {
     display: flex;
@@ -272,9 +273,12 @@ html {
 }
 
 
+
+
     </style>
 
 </head>
+
 
 
 <body>
@@ -340,9 +344,124 @@ html {
                     </div>
                 </div>
             </div>
+
+
+
+
+
+
+    <section class="section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-md-12">
+                    <!-- Card ch?a s?n ph?m -->
+                    <div class="card border-0 shadow-lg rounded-lg overflow-hidden">
+                        <div class="row g-0 align-items-center">
+                            <!-- Ph?n hi?n th? hình ?nh -->
+                            <div class="col-md-5">
+                                <div class="slider slider-for position-relative p-3">
+                                    <img src="${productId.imagePath}" alt="${productId.productName}" class="img-fluid rounded">
+                                    <span class="badge bg-success position-absolute top-0 start-0 m-3">Bán chạy</span>
+                                </div>
+                            </div>
+                            <!-- Ph?n thông tin s?n ph?m -->
+                            <div class="col-md-7">
+                                <form action ="orderCompletion" class="card-body">
+                                    <input type="hidden" name="productId" value="${productId.productID}"/>
+
+
+                                    <h4 class="card-title text-primary fw-bold">${productId.productName}</h4>
+                                    <h5 class="text-muted">Sold: ${productId.sold}</h5>
+
+
+
+                                    <ul class="list-unstyled text-warning h5 mb-3">
+                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                        <li class="list-inline-item me-2 h6 text-muted">(20 Ratting)</li>
+                                    </ul>
+                                    <p class="text-muted mb-2"><strong>Brand:</strong> ${productId.brand}</p>
+                                    <p class="text-muted mb-2"><strong>Manufacturer:</strong> ${productId.manufacturer}</p>
+                                    <p class="text-muted mb-2"><strong>Target Audience:</strong> ${productId.targetAudience}</p>
+                                    <p class="text-muted mb-2"><strong>Short Description:</strong><p class="mb-4">${productId.shortDescription}</p>
+                                    <p class="text-muted mb-3"><strong>Register Number:</strong> ${productId.registrationNumber}</p>
+                                    <div class="d-flex shop-list align-items-center">
+                                        <h6 class="mb-0">Unit:</h6>
+                                        <div class="qty-icons ms-3">
+                                            <input type="hidden" id="selectedUnit" name="selectedUnit" value=""/>
+                                            <c:if test="${not empty ownUnit}">
+                                                <c:forEach var="unit" items="${ownUnit}">
+                                                    <button type="button" 
+                                                            class="btn btn-soft-primary ms-2 unit-button" 
+                                                            value="${unit.unitID}" 
+                                                            onclick="selectUnit(this)">
+                                                        ${unit.unitName}
+                                                    </button>
+                                                </c:forEach>
+                                            </c:if>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex shop-list align-items-center mt-2">
+                                        <h6 class="mb-0">Quantity:</h6>
+                                        <div class="qty-icons ms-3">
+                                            <button type = "button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
+                                            <input min="0" name="quantity" value="0" type="number" class="btn btn-icon btn-primary qty-btn quantity">
+                                            <button type = "button"  onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 pt-2">
+                                        <button type = "submit "class="btn btn-primary" name = "action" value = "single">Shop Now</button>
+                                        <a href="#" class="btn btn-soft-primary ms-2">Add to Cart</a>
+                                    </div>
+                                </form>        
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end card-->
+                </div><!--end col-->
+            </div><!--end row-->
+        </div><!--end container-->
+    </section>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <ul>
+                <li><a href="#nuoc-san-xuat">Nước Sản Xuất</a></li>
+                <li><a href="#thanh-phan">Thành phần</a></li>
+                <li><a href="#cong-dung">Công dụng</a></li>
+                <li><a href="#cach-dung">Cách dùng</a></li>
+                <li><a href="#luu-y">Lưu ý</a></li>
+                <li><a href="#bao-quan">Bảo quản</a></li>
+            </ul>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content">
+            <h2 id="nuoc-san-xuat">Nước Sản Xuất</h2>
+            ${productId.countryOfProduction}
+            <h2 id="thanh-phan">Thành phần</h2>
+            ${productId.productDescription}
+
+            <!-- Công dụng Section -->
+            <h2 id="cong-dung">Công dụng</h2> 
+            ${productId.shortDescription}
+
+            <h2 id="cach-dung">Cách dùng</h2>
+            ${productId.contentReviewer}
+            <h2 id="luu-y">Đối tượng sử dụng</h2>
+            ${productId.targetAudience}
+
+            <h2 id="bao-quan">Bảo quản</h2>
+            ${productId.productReviews}
+
         </div>
     </div>
 </section>
+
 
 <script>
     function selectUnit(selectedButton) {
@@ -560,9 +679,72 @@ html {
                 top: offsetPosition,
                 behavior: 'smooth'
             });
+
+    <!-- Thêm đoạn JavaScript vào đây -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const target = document.querySelector(this.getAttribute('href'));
+                const offset = 100; // khoảng cách bù trừ
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollBy({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            });
         });
-    });
-</script>
+
+
+        // Lấy tất cả các mục sidebar
+        const sidebarLinks = document.querySelectorAll('.sidebar ul li a');
+
+        // Lấy tất cả các phần nội dung tương ứng
+        const contentSections = document.querySelectorAll('.content-section');
+
+        // Lặp qua từng mục trong sidebar
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                // Loại bỏ lớp 'active' từ tất cả các phần nội dung
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Thêm lớp 'active' cho phần nội dung được nhấp vào
+                const targetSection = document.querySelector(this.getAttribute('href'));
+                targetSection.classList.add('active');
+            });
+        });
+        
+        function selectUnit(selectedButton) {
+            // Deselect all buttons
+            const buttons = document.querySelectorAll('.unit-button');
+            buttons.forEach(button => {
+                button.classList.remove('btn-dark'); // or any class that indicates 'selected'
+                button.classList.add('btn-soft-primary');
+            });
+
+            // Select the clicked button
+            selectedButton.classList.remove('btn-soft-primary');
+            selectedButton.classList.add('btn-dark'); // Change to your selected style
+            
+            document.getElementById('selectedUnit').value = selectedButton.value;
+        }
+        
+        window.addEventListener("load", function() {
+            const firstButton = document.querySelector('.unit-button');
+            if (firstButton) {
+                selectUnit(firstButton);
+            }
+
+        });
+    </script>
+
 
 </body>
   <style>
@@ -605,8 +787,15 @@ html {
     <a href="home" class="back-home-button">Back To Home</a>
 </div>
 
+
 </body>
 </body>
+
+
+
+
+<a href="home" class="btn btn-primary">Back Home</a>
+
 <!-- Start -->
 <footer class="bg-footer">
     <div class="container">
@@ -630,6 +819,7 @@ html {
                             <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Blog</a></li>
                             <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Login</a></li>
                         </ul>
+
                     </div><!--end col-->
 
                     <div class="col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
@@ -646,6 +836,24 @@ html {
                     </div><!--end col-->
 
                     <div class="col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+
+                    </div><!--end col-->
+
+                    <div class="col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <h5 class="text-light title-dark footer-head">Departments</h5>
+                        <ul class="list-unstyled footer-list mt-4">
+                            <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Eye Care</a></li>
+                            <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Psychotherapy</a></li>
+                            <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Dental Care</a></li>
+                            <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Orthopedic</a></li>
+                            <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Cardiology</a></li>
+                            <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Gynecology</a></li>
+                            <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Neurology</a></li>
+                        </ul>
+                    </div><!--end col-->
+
+                    <div class="col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+
                         <h5 class="text-light title-dark footer-head">Contact us</h5>
                         <ul class="list-unstyled footer-list mt-4">
                             <li class="d-flex align-items-center">
@@ -757,4 +965,8 @@ html {
 <script src="assets/js/app.js"></script>
 </body>
 
+
 </html>
+
+</html>
+

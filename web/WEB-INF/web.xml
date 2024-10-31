@@ -93,6 +93,14 @@
         <servlet-class>ControllerCustomer.productDetailCusController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>UserManagementController</servlet-name>
+        <servlet-class>controller.UserManagementController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteStaffController</servlet-name>
+        <servlet-class>controller.DeleteStaffController</servlet-class>
+    </servlet>
+    <servlet> 
         <servlet-name>StockManagementServlet</servlet-name>
         <servlet-class>controller.StockManagementServlet</servlet-class>
     </servlet>
@@ -113,6 +121,11 @@
         <servlet-class>controller.ImportList</servlet-class>
     </servlet>
     <servlet>
+
+
+        <servlet-name>CategoryServlet</servlet-name>
+        <servlet-class>controller.CategoryServlet</servlet-class>
+
         <servlet-name>myOrderController</servlet-name>
         <servlet-class>ControllerCustomer.myOrderController</servlet-class>
     </servlet>
@@ -229,6 +242,14 @@
         <url-pattern>/prodetails</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>UserManagementController</servlet-name>
+        <url-pattern>/usermanagement</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteStaffController</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping> 
         <servlet-name>StockManagementServlet</servlet-name>
         <url-pattern>/stockManagement</url-pattern>
     </servlet-mapping>
@@ -249,6 +270,11 @@
         <url-pattern>/ImportList</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+
+
+        <servlet-name>CategoryServlet</servlet-name>
+        <url-pattern>/CategoryServlet</url-pattern>
+
         <servlet-name>myOrderController</servlet-name>
         <url-pattern>/myorder</url-pattern>
     </servlet-mapping>

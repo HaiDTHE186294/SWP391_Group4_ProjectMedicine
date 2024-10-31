@@ -375,7 +375,7 @@
 
             function search() {
                 clearSearch();
-                const query = searchInput.value.toLowerCase();
+                const query = searchInput.value.toLowerCase().trim();
                 const filteredRows = allRows.filter(row => {
                     const productName = row.querySelector('td:nth-child(5)').textContent.toLowerCase(); // Cột Tên sản phẩm
                     return productName.includes(query);

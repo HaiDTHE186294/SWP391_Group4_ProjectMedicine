@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+
             <file>file:/D:/KÌ%205/SWP391_Group4_ProjectMedicine/SWP391_Group4_ProjectMedicine/web/header.jsp</file>
             <file>file:/D:/KÌ%205/SWP391_Group4_ProjectMedicine/SWP391_Group4_ProjectMedicine/web/importProduct.jsp</file>
             <file>file:/D:/KÌ%205/SWP391_Group4_ProjectMedicine/SWP391_Group4_ProjectMedicine/src/java/model/Ingredient.java</file>
@@ -16,6 +17,16 @@
             <file>file:/D:/KÌ%205/SWP391_Group4_ProjectMedicine/SWP391_Group4_ProjectMedicine/web/productDetailCustomer.jsp</file>
             <file>file:/D:/KÌ%205/SWP391_Group4_ProjectMedicine/SWP391_Group4_ProjectMedicine/web/forgot.jsp</file>
             <file>file:/D:/KÌ%205/SWP391_Group4_ProjectMedicine/SWP391_Group4_ProjectMedicine/web/listproduct.jsp</file>
+
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/ImportList.java</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/model/Unit.java</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/importList.jsp</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/dal/stockDAO.java</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/importServlet.java</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/web/importProduct.jsp</file>
+            <file>file:/E:/SWP291_Group4_ProjectMedicine-haidt/src/java/controller/CategoryServlet.java</file>
+
         </group>
+
     </open-files>
 </project-private>
