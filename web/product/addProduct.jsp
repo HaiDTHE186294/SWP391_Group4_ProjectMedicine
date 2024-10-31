@@ -384,13 +384,13 @@
                         <label for="registrationNumber">Registration Number *</label>
                         <input type="text" id="registrationNumber" name="registrationNumber" required maxlength="50">
 
-                        <label for="status">Status *</label>
+                        <label for="status">Adding request will be reviewed by admin</label>
                         <select id="status" name="status" required>
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
+<!--                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>-->
                             <option value="3">Pending</option>
-                            <option value="4">Discontinued</option>
-                            <option value="2">Out of stock</option>
+<!--                            <option value="4">Discontinued</option>
+                            <option value="2">Out of stock</option>-->
                         </select>
 
                         <label for="prescriptionRequired">Prescription Required *</label>

@@ -77,7 +77,7 @@
         <input type="hidden" name="categoryID" value="${category.categoryID}">
 
         <label for="categoryName">Category Name:</label>
-        <input type="text" name="categoryName" required><br>
+        <input type="text" name="categoryName" required maxlength="50 "><br>
 
 
         <label for="parentCategoryID">Parent Category:</label>
