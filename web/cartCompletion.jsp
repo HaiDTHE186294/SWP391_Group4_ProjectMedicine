@@ -197,11 +197,7 @@
                 text-align: left;
             }
             th {
-
                 background-color: #5a99d4 !important;
-
-                background-color: #4CAF50 !important;
-
                 color: white;
             }
             tr:hover {
@@ -326,7 +322,6 @@
                 margin: auto;
                 border: none;
             }
-
             body {
   
 .btn-back-home {
@@ -344,7 +339,6 @@
     background-color: #5a99d4; /* Slightly darker blue on hover */
     color: #ffffff;
 }
-
         </style>
     </head>
     <body>
@@ -353,53 +347,13 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-4">
                         <div class="filter-form" style="max-height: 700px; overflow-y: auto;">
-
 <a href="home" class="btn btn-back-home mb-3">< Tiếp Tục Mua Sắm</a>
-
-                            <!-- Đối tượng sử dụng -->
-                            <h5>Bộ lọc nâng cao</h5>
-                            <h6>Đối tượng sử dụng</h6>
-                            <div>
-                                <c:forEach var="audience" items="${sessionScope.audienceList}">
-                                    <input type="checkbox" name="targetAudience" value="${audience}" onclick="filterByAudience()"> ${audience}<br>
-                                </c:forEach>
-                            </div>
-
-                            <!-- Giá bán -->
-                            <h6>Giá bán</h6>
-                            <div class="price-filter-buttons">
-                                <button onclick="filterByPrice('duoi100')">Dưới 100.000đ</button>
-                                <button onclick="filterByPrice('100-300')">100.000đ - 300.000đ</button>
-                                <button onclick="filterByPrice('300-500')">300.000đ - 500.000đ</button>
-                                <button onclick="filterByPrice('tren500')">Trên 500.000đ</button>
-                            </div>
-
-                            <!-- Nước sản xuất -->
-                            <h6>Nước sản xuất</h6>
-                            <div id="countryContainer">
-                                <!-- Search bar for filtering countries -->
-                                <input type="text" class ="form-control-smc" id="countrySearch" placeholder="Tìm theo tên" onkeyup="filterCountries()" />
-
-                                <!-- Country checkboxes -->
-                                <div id="countryList">
-                                    <c:forEach var="country" items="${countryList}" varStatus="status">
-                                        <div class="country-item" style="display: none;">
-                                            <input type="checkbox" name="countryofproduction" value="${country}" onclick="filterByCountry()"> ${country}<br>
-                                        </div>
-                                    </c:forEach>
-                                </div>
-
-                                <!-- 'See More' button -->
-                                <a href="javascript:void(0);" id="seeMore" onclick="showMoreCountries()">Xem thêm</a>
-                            </div>
-
                         </div>
                     </div>
                     <div class="col-lg-8">
                         <div class="card shadow mb-4">
                             <div class="card-header d-flex align-items-center">
                                 <i class="ri-file-list-line me-2"></i>
-
                                 <h5 class="mb-0">Đơn Hàng</h5>
                             </div>
                             <div class="card-body" >
@@ -412,20 +366,6 @@
                                             <th>Số Lượng</th>
                                             <th>Giá Sản Phẩm</th>
                                             <th>Thành Tiền</th>
-
-                                <h5 class="mb-0">Order Summary</h5>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-borderless align-middle">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th></th>
-                                            <th>Unit</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Total</th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -453,11 +393,7 @@
                         <div class="card shadow">
                             <div class="card-header d-flex align-items-center">
                                 <i class="ri-user-line me-2"></i>
-
                                 <h5 class="mb-0">Thông tin khách hàng</h5>
-
-                                <h5 class="mb-0">Customer and Shipping Information</h5>
-
                             </div>
                             <div class="card-body">
                                 <form action="orderCompletion" method="POST">
@@ -477,17 +413,11 @@
                                             <input type="tel" class="form-control" id="phone" name="email" placeholder="Enter email address" required
                                                    value="${sessionScope.User != null ? sessionScope.User.email : ''}">
                                         </div>
-
                                         <div class="col-md-6 mb-3">
-
-                                    </div>
-                                    <div class="mb-3">
-
                                         <label for="address" class="form-label">Address</label>
                                         <input type="text" class="form-control" id="address" name="address" placeholder="Enter delivery address" required
                                                value="${sessionScope.User != null ? sessionScope.User.address : ''}">
                                     </div>
-
                                     </div>
                                     
                                     <div class="row">
@@ -504,23 +434,6 @@
                                             <input type="number" class="form-control" id="totalCost" name="totalCost" readonly required>
                                         </div>
                                        <div class="col-md-6 mb-3">
-
-                                    <div class="row">
-                                        <div class="col-md-12 mb-3">
-                                            <label for="expectedCost" class="form-label">Product Cost</label>
-                                            <input type="number" class="form-control" id="expectedCost" name="expectedCost" readonly required value="${totalPrice}">
-                                        </div>
-                                        <div class="col-md-12 mb-3">
-                                            <label for="shippingFee" class="form-label">Shipping Fee</label>
-                                            <input type="number" class="form-control" id="shippingFee" name="shippingFee" readonly required>
-                                        </div>
-                                        <div class="col-md-12 mb-3">
-                                            <label for="totalCost" class="form-label">Total</label>
-                                            <input type="number" class="form-control" id="totalCost" name="totalCost" readonly required>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-
                                         <label for="paymentMethod" class="form-label">Payment Method</label>
                                         <select class="form-select" id="paymentMethod" name="paymentMethod" required>
                                             <option value="">Choose...</option>
@@ -528,11 +441,8 @@
                                             <option value="cashOnDelivery">Cash on Delivery</option>
                                         </select>
                                     </div>
-
                                     </div>
                                     
-
-
                                     <div class="alert alert-warning d-none" id="distanceWarning"></div>
                                     <button type="submit" class="btn btn-primary w-100">Submit Order</button>
                                 </form>

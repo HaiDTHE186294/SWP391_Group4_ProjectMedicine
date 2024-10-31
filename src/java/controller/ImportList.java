@@ -144,6 +144,7 @@ public class ImportList extends HttpServlet {
         String[] batchNos = request.getParameterValues("batchNo[]");
         String[] dateManufactures = request.getParameterValues("dateManufacture[]");
         String[] dateExpiers = request.getParameterValues("dateExpired[]");
+        String[] dateImports = request.getParameterValues("dateImport[]");
         String[] priceSales = request.getParameterValues("priceSale[]");
         String[] priceImports = request.getParameterValues("priceImport[]");
         String[] quantities = request.getParameterValues("quantity[]");
@@ -166,7 +167,7 @@ public class ImportList extends HttpServlet {
             float quantity = Float.parseFloat(quantities[i]);
             String orderId = sDAO.generateOrderId(productIds[i]);
 
-            Import importData = new Import(orderId, provider, productId, baseUnitId, batchNo, dateManufacture, dateExpired, priceImport, importer, quantity);
+            Import importData = new Import(orderId, provider, productId, baseUnitId, batchNo, dateManufacture, dateExpired, dateImport ,priceImport, importer, quantity);
 
             sDAO.addImport(importData);
         }
@@ -174,7 +175,7 @@ public class ImportList extends HttpServlet {
         try {
             sDAO.updateProductStatus();
         } catch (SQLException ex) {
-            Logger.getLogger(importServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ImportList.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         response.sendRedirect(request.getContextPath() + "/stockManagement");

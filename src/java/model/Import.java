@@ -26,8 +26,8 @@ public class Import {
     }
 
     // Constructor
-    public Import(String orderId, int provider, String productId, String baseUnitId, String batchNo,
-                  String dateManufacture, String dateExpired, float priceImport, int importer,float quantity, String dateImport) {
+
+    public Import(String orderId, int provider, String productId, String baseUnitId, String batchNo, String dateManufacture, String dateExpired, float priceImport, int importer, float quantity) {
         this.orderId = orderId;
         this.provider = provider;
         this.productId = productId;
@@ -38,8 +38,8 @@ public class Import {
         this.priceImport = priceImport;
         this.importer = importer;
         this.quantity = quantity;
-        this.dateImport = dateImport;
     }
+    
     
     public Import(String orderId, int provider, String productId, String baseUnitId, String batchNo,
                   String dateManufacture, String dateExpired, String dateImport, float priceImport, int importer,float quantity) {

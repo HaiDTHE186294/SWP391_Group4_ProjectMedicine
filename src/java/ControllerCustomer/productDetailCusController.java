@@ -9,9 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 import model.ProductPriceQuantity;
@@ -33,7 +31,6 @@ public class productDetailCusController extends HttpServlet {
             // Lấy thông tin sản phẩm theo productId
             Product product = productDAO.getProductByID1(id);
 
-
             // Lấy danh sách nguyên liệu cho sản phẩm
             List<Ingredient> ingredients = productDAO.getIngredientsByProductID1(id);
 
@@ -50,14 +47,6 @@ public class productDetailCusController extends HttpServlet {
                 unitPrices.put(pp.getUnitID(), pp.getSalePrice()); // lưu salePrice ứng với từng unitID
                 for (ProductUnit u : units) {
                     if (pp.getUnitID().equals(u.getUnitID())) {
-
-            List<ProductUnit> units = productDAO.getAllUnits();
-            List<ProductPriceQuantity> priceQuantities = productDAO.getProductPriceQuantitiesByProductID(id);
-            List<ProductUnit> ownUnit = new ArrayList<>();
-            for (ProductPriceQuantity pp : priceQuantities){
-                for (ProductUnit u : units) {
-                    if (pp.getUnitID().equals(u.getUnitID())){
-
                         ownUnit.add(u);
                         break;
                     }
@@ -69,10 +58,8 @@ public class productDetailCusController extends HttpServlet {
                 // Đặt thông tin sản phẩm, đơn vị, giá, và thành phần vào request để chuyển đến JSP
                 request.setAttribute("productId", product);
                 request.setAttribute("ownUnit", ownUnit);
-
                 request.setAttribute("unitPrices", unitPrices); // Map đơn vị -> giá
                 request.setAttribute("ingredients", ingredients); // Danh sách nguyên liệu
-
             } else {
                 // Nếu không tìm thấy sản phẩm, chuyển hướng đến trang lỗi
                 request.setAttribute("errorMessage", "Product not found.");
