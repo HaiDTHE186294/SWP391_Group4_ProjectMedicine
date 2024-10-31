@@ -182,200 +182,431 @@
             }
 
         }
+/* Container styling */
+.container {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 25%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 100px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.sidebar li {
+    margin-bottom: 15px;
+}
+
+.sidebar a {
+    display: block;
+    color: #0d6efd;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.sidebar a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Content styling */
+.content {
+    width: 70%;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content h2 {
+    font-size: 22px;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 8px;
+    margin-top: 20px;
+}
+
+.content p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Button styling */
+.unit-button {
+    border: 1px solid #0d6efd;
+    color: #0d6efd;
+    background-color: transparent;
+    transition: background-color 0.3s, color 0.3s;
+    margin-right: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.unit-button:hover,
+.unit-button.btn-dark {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+/* Smooth scrolling for sidebar links */
+html {
+    scroll-behavior: smooth;
+}
 
 
     </style>
 
 </head>
 
+
 <body>
-
-
-
-
-
     <section class="section py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10 col-md-12">
-                    <!-- Card ch?a s?n ph?m -->
-                    <div class="card border-0 shadow-lg rounded-lg overflow-hidden">
-                        <div class="row g-0 align-items-center">
-                            <!-- Ph?n hi?n th? hình ?nh -->
-                            <div class="col-md-5">
-                                <div class="slider slider-for position-relative p-3">
-                                    <img src="${productId.imagePath}" alt="${productId.productName}" class="img-fluid rounded">
-                                    <span class="badge bg-success position-absolute top-0 start-0 m-3">Bán chạy</span>
-                                </div>
-                            </div>
-                            <!-- Ph?n thông tin s?n ph?m -->
-                            <div class="col-md-7">
-                                <form action ="orderCompletion" class="card-body">
-                                    <input type="hidden" name="productId" value="${productId.productID}"/>
-
-
-                                    <h4 class="card-title text-primary fw-bold">${productId.productName}</h4>
-                                    <h5 class="text-muted">Sold: ${productId.sold}</h5>
-
-
-
-                                    <ul class="list-unstyled text-warning h5 mb-3">
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item me-2 h6 text-muted">(20 Ratting)</li>
-                                    </ul>
-                                    <p class="text-muted mb-2"><strong>Brand:</strong> ${productId.brand}</p>
-                                    <p class="text-muted mb-2"><strong>Manufacturer:</strong> ${productId.manufacturer}</p>
-                                    <p class="text-muted mb-2"><strong>Target Audience:</strong> ${productId.targetAudience}</p>
-                                    <p class="text-muted mb-2"><strong>Short Description:</strong><p class="mb-4">${productId.shortDescription}</p>
-                                    <p class="text-muted mb-3"><strong>Register Number:</strong> ${productId.registrationNumber}</p>
-                                    <div class="d-flex shop-list align-items-center">
-                                        <h6 class="mb-0">Unit:</h6>
-                                        <div class="qty-icons ms-3">
-                                            <input type="hidden" id="selectedUnit" name="selectedUnit" value=""/>
-                                            <c:if test="${not empty ownUnit}">
-                                                <c:forEach var="unit" items="${ownUnit}">
-                                                    <button type="button" 
-                                                            class="btn btn-soft-primary ms-2 unit-button" 
-                                                            value="${unit.unitID}" 
-                                                            onclick="selectUnit(this)">
-                                                        ${unit.unitName}
-                                                    </button>
-                                                </c:forEach>
-                                            </c:if>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex shop-list align-items-center mt-2">
-                                        <h6 class="mb-0">Quantity:</h6>
-                                        <div class="qty-icons ms-3">
-                                            <button type = "button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
-                                            <input min="0" name="quantity" value="0" type="number" class="btn btn-icon btn-primary qty-btn quantity">
-                                            <button type = "button"  onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-4 pt-2">
-                                        <button type = "submit "class="btn btn-primary" name = "action" value = "single">Shop Now</button>
-                                        <a href="#" class="btn btn-soft-primary ms-2">Add to Cart</a>
-                                    </div>
-                                </form>        
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </div><!--end card-->
-                </div><!--end col-->
-            </div><!--end row-->
-        </div><!--end container-->
-    </section>
-<body>
     <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <ul>
-                <li><a href="#nuoc-san-xuat">Nước Sản Xuất</a></li>
-                <li><a href="#thanh-phan">Thành phần</a></li>
-                <li><a href="#cong-dung">Công dụng</a></li>
-                <li><a href="#cach-dung">Cách dùng</a></li>
-                <li><a href="#luu-y">Lưu ý</a></li>
-                <li><a href="#bao-quan">Bảo quản</a></li>
-            </ul>
-        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-12">
+                <div class="card border-0 shadow-lg rounded-lg overflow-hidden">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-md-5">
+                            <div class="slider slider-for position-relative p-3">
+                                <img src="${productId.imagePath}" alt="${productId.productName}" class="img-fluid rounded">
+                                <span class="badge bg-success position-absolute top-0 start-0 m-3">Bán chạy</span>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <form action="orderCompletion" class="card-body">
+                                <input type="hidden" name="productId" value="${productId.productID}"/>
+                                <h4 class="card-title text-primary fw-bold">${productId.productName}</h4>
+                                
 
-        <!-- Content Section -->
-        <div class="content">
-            <h2 id="nuoc-san-xuat">Nước Sản Xuất</h2>
-            ${productId.countryOfProduction}
-            <h2 id="thanh-phan">Thành phần</h2>
-            ${productId.productDescription}
+                                <p><strong>Giá Sản Phẩm</strong> <span id="priceDisplay">--</span></p>
 
-            <!-- Công dụng Section -->
-            <h2 id="cong-dung">Công dụng</h2> 
-            ${productId.shortDescription}
+                                <p class="text-muted mb-2"><strong>Thương hiệu:</strong> ${productId.brand}</p>
+                                <p class="text-muted mb-2"><strong>Nhà sản xuất:</strong> ${productId.manufacturer}</p>
+                                <p class="text-muted mb-2"><strong>Đối tượng mục tiêu:</strong> ${productId.targetAudience}</p>
+                                <p class="text-muted mb-2"><strong>Mô tả ngắn gọn:</strong><p class="mb-4">${productId.shortDescription}</p>
+                                <p class="text-muted mb-3"><strong>Số đăng ký:</strong> ${productId.registrationNumber}</p>
 
-            <h2 id="cach-dung">Cách dùng</h2>
-            ${productId.contentReviewer}
-            <h2 id="luu-y">Đối tượng sử dụng</h2>
-            ${productId.targetAudience}
+                                <div class="d-flex shop-list align-items-center">
+                                    <h6 class="mb-0">Unit:</h6>
+                                    <div class="qty-icons ms-3">
+                                        <input type="hidden" id="selectedUnit" name="selectedUnit" value=""/>
+                                        <c:if test="${not empty ownUnit}">
+                                            <c:forEach var="unit" items="${ownUnit}">
+                                                <button type="button" 
+                                                        class="btn btn-soft-primary ms-2 unit-button" 
+                                                        data-price="${unitPrices[unit.unitID]}" 
+                                                        value="${unit.unitID}" 
+                                                        onclick="selectUnit(this)">
+                                                    ${unit.unitName}
+                                                </button>
+                                            </c:forEach>
+                                        </c:if>
+                                    </div>
+                                </div>
 
-            <h2 id="bao-quan">Bảo quản</h2>
-            ${productId.productReviews}
+                                <div class="d-flex shop-list align-items-center mt-2">
+                                    <h6 class="mb-0">Quantity:</h6>
+                                    <div class="qty-icons ms-3">
+                                        <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
+                                        <input min="0" name="quantity" value="0" type="number" class="btn btn-icon btn-primary qty-btn quantity">
+                                        <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 pt-2">
+                                    <button type="submit" class="btn btn-primary" name="action" value="single">Shop Now</button>
+                                    <a href="#" class="btn btn-soft-primary ms-2">Add to Cart</a>
+                                </div>
+                            </form>        
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 
-    <!-- Thêm đoạn JavaScript vào đây -->
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                const target = document.querySelector(this.getAttribute('href'));
-                const offset = 100; // khoảng cách bù trừ
-                const elementPosition = target.getBoundingClientRect().top;
-                const offsetPosition = elementPosition - offset;
-
-                window.scrollBy({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            });
+<script>
+    function selectUnit(selectedButton) {
+        // Deselect all buttons
+        const buttons = document.querySelectorAll('.unit-button');
+        buttons.forEach(button => {
+            button.classList.remove('btn-dark');
+            button.classList.add('btn-soft-primary');
         });
 
+        // Select the clicked button
+        selectedButton.classList.remove('btn-soft-primary');
+        selectedButton.classList.add('btn-dark');
 
-        // Lấy tất cả các mục sidebar
-        const sidebarLinks = document.querySelectorAll('.sidebar ul li a');
+        // Lấy giá trị price từ data-price và hiển thị nó
+        const price = selectedButton.getAttribute('data-price');
+        document.getElementById('priceDisplay').innerText = price + " VND"; // định dạng giá tiền theo VND
 
-        // Lấy tất cả các phần nội dung tương ứng
-        const contentSections = document.querySelectorAll('.content-section');
+        document.getElementById('selectedUnit').value = selectedButton.value;
+    }
 
-        // Lặp qua từng mục trong sidebar
-        sidebarLinks.forEach(link => {
-            link.addEventListener('click', function (event) {
-                event.preventDefault();
-
-                // Loại bỏ lớp 'active' từ tất cả các phần nội dung
-                contentSections.forEach(section => {
-                    section.classList.remove('active');
-                });
-
-                // Thêm lớp 'active' cho phần nội dung được nhấp vào
-                const targetSection = document.querySelector(this.getAttribute('href'));
-                targetSection.classList.add('active');
-            });
-        });
-        
-        function selectUnit(selectedButton) {
-            // Deselect all buttons
-            const buttons = document.querySelectorAll('.unit-button');
-            buttons.forEach(button => {
-                button.classList.remove('btn-dark'); // or any class that indicates 'selected'
-                button.classList.add('btn-soft-primary');
-            });
-
-            // Select the clicked button
-            selectedButton.classList.remove('btn-soft-primary');
-            selectedButton.classList.add('btn-dark'); // Change to your selected style
-            
-            document.getElementById('selectedUnit').value = selectedButton.value;
+    // Khi tải trang, chọn unit đầu tiên mặc định
+    window.addEventListener("load", function() {
+        const firstButton = document.querySelector('.unit-button');
+        if (firstButton) {
+            selectUnit(firstButton);
         }
-        
-        window.addEventListener("load", function() {
-            const firstButton = document.querySelector('.unit-button');
-            if (firstButton) {
-                selectUnit(firstButton);
-            }
-        });
-    </script>
+    });
+    
+    
+</script>
+<style>
+        /* CSS cơ bản cho sidebar và nội dung */
+        .container {
+            display: flex;
+            gap: 20px;
+        }
 
+        .sidebar {
+            width: 25%;
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #0d6efd;
+            transition: color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            color: #0056b3;
+        }
+
+        .content {
+            width: 70%;
+        }
+
+        .content h2 {
+            margin-top: 40px;
+            font-size: 24px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+ <style>
+        /* CSS tổng thể cho trang */
+        .container {
+            display: flex;
+            gap: 20px;
+            padding-top: 20px;
+        }
+
+        /* CSS cho Sidebar */
+        .sidebar {
+            width: 25%;
+            position: sticky;
+            top: 100px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .scroll-link {
+            display: block;
+            padding: 12px 15px;
+            color: #0d6efd;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .scroll-link:hover {
+            background-color: #e9ecef;
+            color: #0056b3;
+            border-radius: 5px;
+        }
+
+        /* CSS cho phần nội dung */
+        .content {
+            width: 70%;
+            padding: 20px;
+        }
+
+        .content h2 {
+            font-size: 24px;
+            margin-top: 60px; /* Khoảng cách phía trên mỗi tiêu đề */
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+        }
+
+        .content p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .button-container {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.back-home-button {
+    background-color: #5a99d4; /* Light blue background */
+    color: #ffffff; /* White text for contrast */
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: inline-block;
+}
+
+.back-home-button:hover {
+    background-color: #4176a3; /* Darker blue on hover */
+    color: #ffffff;
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <ul>
+            <li><a href="#country-of-production" class="scroll-link">Nước Sản Xuất</a></li>
+            <li><a href="#ingredients" class="scroll-link">Thành phần</a></li>
+            <li><a href="#benefits" class="scroll-link">Công dụng</a></li>
+            <li><a href="#usage" class="scroll-link">Cách dùng</a></li>
+            <li><a href="#target-audience" class="scroll-link">Đối tượng sử dụng</a></li>
+            <li><a href="#storage" class="scroll-link">Bảo quản</a></li>
+        </ul>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
+        <h2 id="country-of-production">Nước Sản Xuất</h2>
+        <p>${productId.countryOfProduction}</p>
+
+        <h2 id="ingredients">Thành phần</h2>
+        <c:forEach var="ingredient" items="${ingredients}">
+        <li>${ingredient.ingredientName}</li>
+    </c:forEach>
+
+        <h2 id="benefits">Công dụng</h2>
+        <p>${productId.shortDescription}</p>
+
+        <h2 id="usage">Cách dùng</h2>
+        <p>${productId.contentReviewer}</p>
+
+        <h2 id="target-audience">Đối tượng sử dụng</h2>
+        <p>${productId.targetAudience}</p>
+
+        <h2 id="storage">Bảo quản</h2>
+        <p>${productId.productReviews}</p>
+    </div>
+</div>
+
+<script>
+    // JavaScript cho hiệu ứng cuộn mượt và bù khoảng cách
+    document.querySelectorAll('.scroll-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();  // Ngăn chặn hành vi mặc định
+
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+
+            // Tính toán khoảng cách bù trừ cho header cố định
+            const offset = 80; // Thay đổi giá trị nếu header cố định cao hơn
+
+            // Tính toán vị trí đích để cuộn đến
+            const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementPosition - offset;
+
+            // Cuộn đến vị trí đã tính với hiệu ứng mượt
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
 
 </body>
+  <style>
+        /* CSS cho nút quay lại trang chủ */
+        .back-home-button {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #0d6efd; /* Màu xanh dương nổi bật */
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ */
+            font-weight: bold;
+        }
 
+        .back-home-button:hover {
+            background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
+            transform: translateY(-3px); /* Hiệu ứng nổi lên khi hover */
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Tăng bóng khi hover */
+        }
 
+        .back-home-button:active {
+            transform: translateY(0); /* Trở về vị trí ban đầu khi nhấn */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Giảm bóng khi nhấn */
+        }
 
+        /* Định dạng vị trí nút để nó căn giữa */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px; /* Khoảng cách phía trên */
+        }
+    </style>
+</head>
+<body>
 
+<div class="button-container">
+    <a href="home" class="back-home-button">Back To Home</a>
+</div>
 
-<a href="home" class="btn btn-primary">Back Home</a>
+</body>
+</body>
 <!-- Start -->
 <footer class="bg-footer">
     <div class="container">
