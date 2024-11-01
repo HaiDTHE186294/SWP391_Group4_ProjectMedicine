@@ -295,5 +295,29 @@ public class UserDAO extends DBContext {
         }
         return users;
     }
+    
+    
+    public User getUserByUserId(int userId) {
+        User user = null;
+        String query = "SELECT * FROM Users WHERE user_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setFullName(rs.getString("full_name"));
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone(rs.getString("phone"));
+                user.setAddress(rs.getString("address"));
+                user.setImage(rs.getString("image"));
+                user.setRoleId(rs.getInt("role_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
  
 }

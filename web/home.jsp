@@ -127,7 +127,10 @@
                                     <ul class="list-unstyled shop-icons">
                                         <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                         <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                                        <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
+                                        <form action="cart" method="post">
+                                            <input hidden="" title="text" name="productId" value="${product.productID}">
+                                            <li class="mt-2"><button type="submit" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></button></li>
+                                        </form>
                                     </ul>                                
 
                                     <div class="qty-icons">
@@ -286,7 +289,10 @@
                                     <ul class="list-unstyled shop-icons">
                                         <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                         <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                                        <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
+                                        <form action="cart" method="post">
+                                            <input hidden="" title="text" name="productId" value="${product.productID}">
+                                            <li class="mt-2"><button type="submit" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></button></li>
+                                        </form>
                                     </ul>                                
 
                                     <div class="qty-icons">
@@ -296,7 +302,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body content pt-4 p-2">
-                                    <a href="pharmacy-product-detail.html" class="text-dark product-name h6">${product.ProductName}</a>
+                                    <a href="prodetails?productid=${product.ProductID}" class="text-dark product-name h6">${product.ProductName}</a>
                                     <div class="d-flex justify-content-between mt-1">
                                         <h6 class="text-muted small font-italic mb-0 mt-1">${product.SalePrice} / ${product.UnitName} </h6>
                                         <ul class="list-unstyled text-warning mb-0">

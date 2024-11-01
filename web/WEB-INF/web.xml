@@ -100,7 +100,7 @@
         <servlet-name>DeleteStaffController</servlet-name>
         <servlet-class>controller.DeleteStaffController</servlet-class>
     </servlet>
-    <servlet> 
+    <servlet>
         <servlet-name>StockManagementServlet</servlet-name>
         <servlet-class>controller.StockManagementServlet</servlet-class>
     </servlet>
@@ -123,6 +123,10 @@
     <servlet>
         <servlet-name>CategoryServlet</servlet-name>
         <servlet-class>controller.CategoryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CartController</servlet-name>
+        <servlet-class>controller.CartController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -232,7 +236,7 @@
         <servlet-name>DeleteStaffController</servlet-name>
         <url-pattern>/delete</url-pattern>
     </servlet-mapping>
-    <servlet-mapping> 
+    <servlet-mapping>
         <servlet-name>StockManagementServlet</servlet-name>
         <url-pattern>/stockManagement</url-pattern>
     </servlet-mapping>
@@ -255,5 +259,9 @@
     <servlet-mapping>
         <servlet-name>CategoryServlet</servlet-name>
         <url-pattern>/CategoryServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartController</servlet-name>
+        <url-pattern>/cart</url-pattern>
     </servlet-mapping>
 </web-app>
