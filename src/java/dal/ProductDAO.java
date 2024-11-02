@@ -333,7 +333,21 @@ public class ProductDAO extends DBContext {
         }
         return priceQuantities;
     }
-
+ public ProductPriceQuantity getProductPriceByProductIDandUnitID(String productId, String unitId){
+        String sql = "SELECT * FROM ProductPriceQuantity WHERE ProductID = ? AND UnitID = ?";
+        ProductPriceQuantity pp = null;
+        try (PreparedStatement ps = connection.prepareStatement(sql)){
+            ps.setString(1, productId);
+            ps.setString(2, unitId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                pp = new ProductPriceQuantity(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getInt(6), rs.getFloat(5));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pp;
+    }
     public void saveImagePath(String productID, String imagePath) {
         String sql = "UPDATE product SET imagepath = ? WHERE productid = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -697,9 +711,10 @@ public class ProductDAO extends DBContext {
                 product.setPrescriptionRequired(rs.getString("PrescriptionRequired"));
                 product.setTargetAudience(rs.getString("TargetAudience"));
                 product.setImagePath(rs.getString("ImagePath"));
-                             
-
-
+                float salePrice = rs.getFloat("salePrice");
+                if (rs.wasNull()) {
+                    salePrice = 0.0f;  // Giá trị mặc định nếu salePrice là NULL
+                }
             }
         }
     } catch (SQLException ex) {
@@ -742,5 +757,28 @@ public class ProductDAO extends DBContext {
 
         return productList;
     }
+ public List<Ingredient> getIngredientsByProductID1(String productID) {
+    List<Ingredient> ingredients = new ArrayList<>();
+    String sql = "SELECT ingredientName, quantity, unit FROM Ingredient WHERE productID = ?";
 
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setString(1, productID);
+
+        try (ResultSet rs = st.executeQuery()) {
+            int index = 1;
+            while (rs.next()) {
+                String ingredientName = rs.getString("ingredientName");
+                float quantity = rs.getFloat("quantity");
+                String unit = rs.getString("unit");
+
+                Ingredient ingredient = new Ingredient(productID, index, ingredientName, quantity, unit);
+                ingredients.add(ingredient);
+                index++;
+            }
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return ingredients;
+}
 }

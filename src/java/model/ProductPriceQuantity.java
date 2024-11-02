@@ -17,6 +17,24 @@ public class ProductPriceQuantity {
     private int unitStatus;
     private float salePrice;
 
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+     private Unit unit;
+    private Product product;
     public float getSalePrice() {
         return salePrice;
     }

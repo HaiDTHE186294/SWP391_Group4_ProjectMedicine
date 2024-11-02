@@ -182,430 +182,356 @@
             }
 
         }
-/* Container styling */
-.container {
-    display: flex;
-    gap: 20px;
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
-}
 
-/* Sidebar styling */
-.sidebar {
-    width: 25%;
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 100px;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e9e9e9;
+        }
+        .shortened-text {
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            position: relative;
+        }
+        /* Tooltip when hovering */
+        .shortened-text:hover::after {
+            content: attr(data-full-text);
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            top: 100%;
+            left: 0;
+            white-space: normal;
+            z-index: 1;
+            width: 300px; /* Max width for tooltip */
+            word-wrap: break-word;
+        }
 
-.sidebar ul {
-    list-style: none;
-    padding-left: 0;
-}
+        @media screen and (max-width: 768px) {
+            th, td {
+                display: block;
+                width: 100%;
+            }
+        }
+        #searchInput {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
 
-.sidebar li {
-    margin-bottom: 15px;
-}
+        .filter-form::-webkit-scrollbar {
+            width: 8px; /* Set width of the scrollbar */
+        }
 
-.sidebar a {
-    display: block;
-    color: #0d6efd;
-    text-decoration: none;
-    font-size: 16px;
-    transition: color 0.3s ease;
-}
+        /* Background of the scrollbar */
+        .filter-form::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Track color */
+        }
 
-.sidebar a:hover {
-    color: #0056b3;
-    text-decoration: underline;
-}
+        /* Handle of the scrollbar */
+        .filter-form::-webkit-scrollbar-thumb {
+            background: #888; /* Scrollbar color */
+            border-radius: 10px; /* Rounded corners for the scrollbar */
+        }
 
-/* Content styling */
-.content {
-    width: 70%;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+        /* Handle on hover */
+        .filter-form::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Darker color when hovering */
+        }
 
-.content h2 {
-    font-size: 22px;
-    color: #333;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 8px;
-    margin-top: 20px;
-}
+        .price-filter-buttons button {
+            display: block; /* Make each button take up the full width */
+            width: 90%; /* Full width of the container */
+            margin-bottom: 10px; /* Space between buttons */
+            background-color: white; /* White background */
+            color: black; /* Black text */
+            border: 2px solid black; /* Add a 2px black border */
+            padding: 10px 20px; /* Add padding */
+            font-size: 16px; /* Increase font size */
+            cursor: pointer; /* Add pointer cursor */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s ease, transform 0.2s ease, border-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+        }
 
-.content p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
+        .price-filter-buttons button:hover {
+            background-color: white; /* Darker green on hover */
+            color: blue; /* Change text color to blue on hover */
+            border-color: blue; /* Change border to blue on hover */
+            transform: scale(1.05); /* Slight zoom on hover */
+        }
 
-/* Button styling */
-.unit-button {
-    border: 1px solid #0d6efd;
-    color: #0d6efd;
-    background-color: transparent;
-    transition: background-color 0.3s, color 0.3s;
-    margin-right: 5px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        .price-filter-buttons button:active {
+            background-color: #388e3c; /* Even darker green on click */
+            transform: scale(0.98); /* Slight press effect */
+        }
 
-.unit-button:hover,
-.unit-button.btn-dark {
-    background-color: #0d6efd;
-    color: #fff;
-}
+        .price-filter-buttons button.active {
+            background-color: blue; /* Highlight color for active state */
+            color: white; /* Text color for active state */
+        }
 
-/* Smooth scrolling for sidebar links */
-html {
-    scroll-behavior: smooth;
-}
+        .sort-icon-asc {
+            display: inline-block;
+            color: #ffffff;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
 
+        .sort-icon-desc {
+            display: inline-block;
+            color: #ffffff;
+            font-size: 0.8em;
+            padding-top: 1px;
+            margin-left: 5px;
+            transform: rotate(180deg); /* Flips the triangle down */
+        }
 
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #FFA500;
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e9e9e9;
+        }
     </style>
 
 </head>
-
-
 <body>
     <section class="section py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10 col-md-12">
-                <div class="card border-0 shadow-lg rounded-lg overflow-hidden">
-                    <div class="row g-0 align-items-center">
-                        <div class="col-md-5">
-                            <div class="slider slider-for position-relative p-3">
-                                <img src="${productId.imagePath}" alt="${productId.productName}" class="img-fluid rounded">
-                                <span class="badge bg-success position-absolute top-0 start-0 m-3">Bán chạy</span>
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <form action="orderCompletion" class="card-body">
-                                <input type="hidden" name="productId" value="${productId.productID}"/>
-                                <h4 class="card-title text-primary fw-bold">${productId.productName}</h4>
-                                
+        <div class="container">
+            <!-- Search and Filters Section -->
+            <form class = "row mb-12" action = "salesOrderList">
+                <!-- Search Bar -->
+                <div class="col-md-3">
+                    <input type="text" name ="search" id="searchTerm" placeholder="Search by Order ID or User Name" class="form-control" value = "${search}">
+                </div>
 
-                                <p><strong>Giá Sản Phẩm</strong> <span id="priceDisplay">--</span></p>
-
-                                <p class="text-muted mb-2"><strong>Thương hiệu:</strong> ${productId.brand}</p>
-                                <p class="text-muted mb-2"><strong>Nhà sản xuất:</strong> ${productId.manufacturer}</p>
-                                <p class="text-muted mb-2"><strong>Đối tượng mục tiêu:</strong> ${productId.targetAudience}</p>
-                                <p class="text-muted mb-2"><strong>Mô tả ngắn gọn:</strong><p class="mb-4">${productId.shortDescription}</p>
-                                <p class="text-muted mb-3"><strong>Số đăng ký:</strong> ${productId.registrationNumber}</p>
-
-                                <div class="d-flex shop-list align-items-center">
-                                    <h6 class="mb-0">Unit:</h6>
-                                    <div class="qty-icons ms-3">
-                                        <input type="hidden" id="selectedUnit" name="selectedUnit" value=""/>
-                                        <c:if test="${not empty ownUnit}">
-                                            <c:forEach var="unit" items="${ownUnit}">
-                                                <button type="button" 
-                                                        class="btn btn-soft-primary ms-2 unit-button" 
-                                                        data-price="${unitPrices[unit.unitID]}" 
-                                                        value="${unit.unitID}" 
-                                                        onclick="selectUnit(this)">
-                                                    ${unit.unitName}
-                                                </button>
-                                            </c:forEach>
-                                        </c:if>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex shop-list align-items-center mt-2">
-                                    <h6 class="mb-0">Quantity:</h6>
-                                    <div class="qty-icons ms-3">
-                                        <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-primary minus">-</button>
-                                        <input min="0" name="quantity" value="0" type="number" class="btn btn-icon btn-primary qty-btn quantity">
-                                        <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-primary plus">+</button>
-                                    </div>
-                                </div>
-
-                                <div class="mt-4 pt-2">
-                                    <button type="submit" class="btn btn-primary" name="action" value="single">Shop Now</button>
-                                    <a href="#" class="btn btn-soft-primary ms-2">Add to Cart</a>
-                                </div>
-                            </form>        
-                        </div>
+                <!-- Product Filter Dropdown -->
+                <div class="d-flex col-md-3">
+                    <div class="col-md-6">
+                        <input class="form-control" type="date" name="from" value="${fromDate}" placeholder="From: "/>
+                    </div>
+                    <div class="col-md-6">
+                        <input class="form-control" type="date" name="to" value="${toDate}" placeholder="To: "/>
                     </div>
                 </div>
-            </div>
+                <!-- Status Filter Dropdown -->
+                <div class="col-md-3">
+                    <select id="statusFilter" class="form-select" name = "status">
+                        <option value="">Filter by Status</option>
+                        <c:forEach var="i" begin="0" end="5">
+                            <option value="${i}" ${status == i ? 'selected' : ''}>${statusList.get(i)}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <!-- Apply Filters Button -->
+                <div class="col-md-3">
+                    <button class="btn btn-primary w-100" onclick="applyFilters()">Apply Filters</button>
+                </div>
+
+                <!-- Table with Pagination and Sorting -->
+                <div class = "col-md-12">
+                    <div class="card border-0 shadow-lg rounded-md overflow-hidden">
+                        <table class="table" id ="orderTableContainer">
+                            <thead>
+                                <tr style = "background-color: #4CAF50;
+                                    color: white;">
+                                    <!-- Sortable columns -->
+                                    <th>
+                                        <a href="?sortColumn=order_id&sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'}&status=${currentStatus}&search=${search}">
+                                            Order ID
+                                            <c:if test="${sortColumn == 'order_id'}">
+                                                <span class="${sortOrder == 'ASC' ? 'sort-icon-asc' : 'sort-icon-desc'}">&#9650;</span>
+                                            </c:if>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a href="?sortColumn=order_date&sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'}&status=${currentStatus}&search=${search}">
+                                            Order Date
+                                            <c:if test="${sortColumn == 'order_date'}">
+                                                <span class="${sortOrder == 'ASC' ? 'sort-icon-asc' : 'sort-icon-desc'}">&#9650;</span>
+                                            </c:if>
+                                        </a>
+                                    </th>
+                                    <th>User Name</th>
+                                    <th>Products</th>
+                                    <th>
+                                        <a href="?sortColumn=status&sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'}&status=${currentStatus}&search=${search}">
+                                            Status
+                                            <c:if test="${sortColumn == 'status'}">
+                                                <span class="${sortOrder == 'ASC' ? 'sort-icon-asc' : 'sort-icon-desc'}">&#9650;</span>
+                                            </c:if>
+                                        </a>
+                                    </th>
+                                    <th>Sales</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="order" items="${orders}">
+                                    <tr>
+                                        <td><a href = 'orderdtl?id=${order.order_id}'" class = "btn btn-primary">${order.order_id}</a></td>
+                                        <td>${order.order_date}</td>
+                                        <td>${order.user.fullname}</td>
+                                        <td>
+                                            <c:if test="${not empty order.orderDetail}">
+                                                ${order.orderDetail.get(0).product.productName}
+                                                <c:if test="${order.orderDetail.size() > 1}">
+                                                    and ${order.orderDetail.size() - 1} more product
+                                                    <c:choose>
+                                                        <c:when test="${order.orderDetail.size() - 1 != 1}">s</c:when>
+                                                    </c:choose>
+                                                </c:if>
+                                            </c:if>
+                                        </td>
+                                        <td>${order.getStatus(order.status)}</td>
+                                        <td>${order.sales.fullName}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center mt-3">
+                                <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                    <a class="page-link" href="?page=1&status=${currentStatus}&sortColumn=${sortColumn}&sortOrder=${sortOrder}&search=${search}&status=${status}&limit=${limit}" aria-label="First" tabindex="${currentPage == 1 ? '-1' : '0'}">
+                                        <span aria-hidden="true">First</span>
+                                    </a>
+                                </li>
+                                <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                    <a class="page-link" href="?page=${currentPage - 1}&sortColumn=${sortColumn}&sortOrder=${sortOrder}&search=${search}&status=${status}&limit=${limit}" aria-label="Previous" tabindex="${currentPage == 1 ? '-1' : '0'}">
+                                        <span aria-hidden="true">Previous</span>
+                                    </a>
+                                </li>
+                                <c:forEach begin="1" end="${totalPages}" var="i">
+                                    <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                        <a class="page-link" href="?page=${i}&sortColumn=${sortColumn}&sortOrder=${sortOrder}&search=${search}&status=${status}">
+                                            ${i}
+                                        </a>
+                                    </li>
+                                </c:forEach>
+                                <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                    <a class="page-link" href="?page=${currentPage + 1}&status=${currentStatus}&sortColumn=${sortColumn}&sortOrder=${sortOrder}&search=${search}&status=${status}&limit=${limit}" aria-label="Next" tabindex="${currentPage == totalPages ? '-1' : '0'}">
+                                        <span aria-hidden="true">Next</span>
+                                    </a>
+                                </li>
+                                <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                    <a class="page-link" href="?page=${totalPages}&status=${currentStatus}&sortColumn=${sortColumn}&sortOrder=${sortOrder}&search=${search}&status=${status}&limit=${limit}" aria-label="Last" tabindex="${currentPage == totalPages ? '-1' : '0'}">
+                                        <span aria-hidden="true">Last</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
-</section>
-
+    </section>
+</body>
 <script>
-    function selectUnit(selectedButton) {
-        // Deselect all buttons
-        const buttons = document.querySelectorAll('.unit-button');
-        buttons.forEach(button => {
-            button.classList.remove('btn-dark');
-            button.classList.add('btn-soft-primary');
-        });
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
 
-        // Select the clicked button
-        selectedButton.classList.remove('btn-soft-primary');
-        selectedButton.classList.add('btn-dark');
-
-        // Lấy giá trị price từ data-price và hiển thị nó
-        const price = selectedButton.getAttribute('data-price');
-        document.getElementById('priceDisplay').innerText = price + " VND"; // định dạng giá tiền theo VND
-
-        document.getElementById('selectedUnit').value = selectedButton.value;
-    }
-
-    // Khi tải trang, chọn unit đầu tiên mặc định
-    window.addEventListener("load", function() {
-        const firstButton = document.querySelector('.unit-button');
-        if (firstButton) {
-            selectUnit(firstButton);
-        }
-    });
-    
-    
-</script>
-<style>
-        /* CSS cơ bản cho sidebar và nội dung */
-        .container {
-            display: flex;
-            gap: 20px;
-        }
-
-        .sidebar {
-            width: 25%;
-            position: sticky;
-            top: 20px;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .sidebar ul li {
-            margin: 10px 0;
-        }
-
-        .sidebar ul li a {
-            text-decoration: none;
-            color: #0d6efd;
-            transition: color 0.3s;
-        }
-
-        .sidebar ul li a:hover {
-            color: #0056b3;
-        }
-
-        .content {
-            width: 70%;
-        }
-
-        .content h2 {
-            margin-top: 40px;
-            font-size: 24px;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-
- <style>
-        /* CSS tổng thể cho trang */
-        .container {
-            display: flex;
-            gap: 20px;
-            padding-top: 20px;
-        }
-
-        /* CSS cho Sidebar */
-        .sidebar {
-            width: 25%;
-            position: sticky;
-            top: 100px;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .scroll-link {
-            display: block;
-            padding: 12px 15px;
-            color: #0d6efd;
-            font-weight: 500;
-            text-decoration: none;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .scroll-link:hover {
-            background-color: #e9ecef;
-            color: #0056b3;
-            border-radius: 5px;
-        }
-
-        /* CSS cho phần nội dung */
-        .content {
-            width: 70%;
-            padding: 20px;
-        }
-
-        .content h2 {
-            font-size: 24px;
-            margin-top: 60px; /* Khoảng cách phía trên mỗi tiêu đề */
-            color: #333;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 8px;
-        }
-
-        .content p {
-            font-size: 16px;
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        .button-container {
-    text-align: center;
-    margin: 1rem 0;
-}
-
-.back-home-button {
-    background-color: #5a99d4; /* Light blue background */
-    color: #ffffff; /* White text for contrast */
-    padding: 0.75rem 1.5rem;
-    border-radius: 5px;
-    font-weight: bold;
-    text-decoration: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    display: inline-block;
-}
-
-.back-home-button:hover {
-    background-color: #4176a3; /* Darker blue on hover */
-    color: #ffffff;
-}
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <ul>
-            <li><a href="#country-of-production" class="scroll-link">Nước Sản Xuất</a></li>
-            <li><a href="#ingredients" class="scroll-link">Thành phần</a></li>
-            <li><a href="#benefits" class="scroll-link">Công dụng</a></li>
-            <li><a href="#usage" class="scroll-link">Cách dùng</a></li>
-            <li><a href="#target-audience" class="scroll-link">Đối tượng sử dụng</a></li>
-            <li><a href="#storage" class="scroll-link">Bảo quản</a></li>
-        </ul>
-    </div>
-
-    <!-- Content Section -->
-    <div class="content">
-        <h2 id="country-of-production">Nước Sản Xuất</h2>
-        <p>${productId.countryOfProduction}</p>
-
-        <h2 id="ingredients">Thành phần</h2>
-        <c:forEach var="ingredient" items="${ingredients}">
-        <li>${ingredient.ingredientName}</li>
-    </c:forEach>
-
-        <h2 id="benefits">Công dụng</h2>
-        <p>${productId.shortDescription}</p>
-
-        <h2 id="usage">Cách dùng</h2>
-        <p>${productId.contentReviewer}</p>
-
-        <h2 id="target-audience">Đối tượng sử dụng</h2>
-        <p>${productId.targetAudience}</p>
-
-        <h2 id="storage">Bảo quản</h2>
-        <p>${productId.productReviews}</p>
-    </div>
-</div>
-
-<script>
-    // JavaScript cho hiệu ứng cuộn mượt và bù khoảng cách
-    document.querySelectorAll('.scroll-link').forEach(link => {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();  // Ngăn chặn hành vi mặc định
-
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-
-            // Tính toán khoảng cách bù trừ cho header cố định
-            const offset = 80; // Thay đổi giá trị nếu header cố định cao hơn
-
-            // Tính toán vị trí đích để cuộn đến
-            const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+            const target = document.querySelector(this.getAttribute('href'));
+            const offset = 100; // khoảng cách bù trừ
+            const elementPosition = target.getBoundingClientRect().top;
             const offsetPosition = elementPosition - offset;
 
-            // Cuộn đến vị trí đã tính với hiệu ứng mượt
-            window.scrollTo({
+            window.scrollBy({
                 top: offsetPosition,
                 behavior: 'smooth'
             });
         });
     });
+
+
+    // Lấy tất cả các mục sidebar
+    const sidebarLinks = document.querySelectorAll('.sidebar ul li a');
+
+    // Lấy tất cả các phần nội dung tương ứng
+    const contentSections = document.querySelectorAll('.content-section');
+
+    // Lặp qua từng mục trong sidebar
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            // Loại bỏ lớp 'active' từ tất cả các phần nội dung
+            contentSections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Thêm lớp 'active' cho phần nội dung được nhấp vào
+            const targetSection = document.querySelector(this.getAttribute('href'));
+            targetSection.classList.add('active');
+        });
+    });
+
+    function applyFilters() {
+        const searchTerm = document.getElementById("searchTerm").value;
+        const productFilter = document.getElementById("productFilter").value;
+        const statusFilter = document.getElementById("statusFilter").value;
+
+        // Construct URL
+        const url = 'salesOrderList?searchTerm=${searchTerm}&productFilter=${productFilter}&statusFilter=${statusFilter}';
+
+        // Load filtered data with AJAX
+        fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("orderTableContainer").innerHTML = data;
+                })
+                .catch(error => console.error('Error:', error));
+    }
 </script>
 
-</body>
-  <style>
-        /* CSS cho nút quay lại trang chủ */
-        .back-home-button {
-            display: inline-block;
-            padding: 12px 24px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #0d6efd; /* Màu xanh dương nổi bật */
-            text-decoration: none;
-            border-radius: 8px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ */
-            font-weight: bold;
-        }
 
-        .back-home-button:hover {
-            background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
-            transform: translateY(-3px); /* Hiệu ứng nổi lên khi hover */
-            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Tăng bóng khi hover */
-        }
-
-        .back-home-button:active {
-            transform: translateY(0); /* Trở về vị trí ban đầu khi nhấn */
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Giảm bóng khi nhấn */
-        }
-
-        /* Định dạng vị trí nút để nó căn giữa */
-        .button-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 40px; /* Khoảng cách phía trên */
-        }
-    </style>
-</head>
-<body>
-
-<div class="button-container">
-    <a href="home" class="back-home-button">Back To Home</a>
-</div>
-
-</body>
 </body>
 <!-- Start -->
 <footer class="bg-footer">
