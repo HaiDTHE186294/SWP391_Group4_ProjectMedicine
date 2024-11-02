@@ -1,8 +1,7 @@
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+ <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
- 
 
     <head>
         <jsp:include page="header.jsp" />
