@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.CartDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,12 +13,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Order;
+import model.OrderDetail;
+import model.User;
 
 /**
  *
  * @author trant
  */
-public class LogoutController extends HttpServlet {
+public class CheckoutController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,10 +39,10 @@ public class LogoutController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LogoutController</title>");  
+            out.println("<title>Servlet CheckoutController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LogoutController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet CheckoutController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -55,12 +60,31 @@ public class LogoutController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         //processRequest(request, response);
+        
         HttpSession session = request.getSession();
-        if (session.getAttribute("username") != null) {
-            session.removeAttribute("username");
-            session.removeAttribute("userRoleID");
+        User user = (User) session.getAttribute("User");
+
+        if (user == null) {
+            response.sendRedirect("login");
+            return;
         }
-        response.sendRedirect("home");
+        request.setAttribute("userr", user);
+
+        CartDAO cartDao = new CartDAO();
+
+        //
+        String status = "Cart";
+        Order order = cartDao.getOrderWhereStatus(user.getUserId(), status);
+        List<OrderDetail> listOrderDetail = cartDao.getListCartDetailByOrderId(order.getOrderId());
+
+        request.setAttribute("order", order);
+        request.setAttribute("listOrderDetail", listOrderDetail);
+
+        double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
+        request.setAttribute("totalPricee", totalPrice);
+
+        request.getRequestDispatcher("checkout.jsp").forward(request, response);
+        
     } 
 
     /** 
@@ -73,7 +97,32 @@ public class LogoutController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        
+        String fullName = request.getParameter("fullName");
+        String phone = request.getParameter("phone");
+        String address = request.getParameter("address");
+        String totalPrice = request.getParameter("totalPrice");
+        String orderId = request.getParameter("orderId");
+        CartDAO cdao = new CartDAO();
+
+        // update quantity
+        List<OrderDetail> listOrderDetail = cdao.getListCartDetailByOrderId(Integer.parseInt(orderId));
+        // trừ quantity
+        boolean checkUpdateQuantity = cdao.updateQuantiyByListCartDetail(listOrderDetail);
+        if (checkUpdateQuantity) {
+            request.setAttribute("mess", "success");
+        } else {
+            response.sendRedirect("cart");
+            return;
+
+        }
+
+        String status = "Processing";
+        boolean checkout = cdao.updateStatusByOrderId(orderId, status, totalPrice, phone, address);
+
+        response.sendRedirect("orderHistory");
+
     }
 
     /** 

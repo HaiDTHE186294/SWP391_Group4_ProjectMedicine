@@ -426,12 +426,7 @@
 
                         <label for="status" class="required">Status *</label>
                         <select id="status" name="status" required>
-                            <option value="1" ${product.status == 1 ? "selected" : ""}>Active</option>
-                            <option value="0" ${product.status == 0 ? "selected" : ""}>Inactive</option>
                             <option value="3" ${product.status == 3 ? "selected" : ""}>Pending</option>
-                            <option value="4" ${product.status == 4 ? "selected" : ""}>Discontinued</option>
-                            <option value="4" ${product.status == 2 ? "selected" : ""}>Out of Stock</option>
-
                         </select>
 
                         <label for="prescriptionRequired" class="required">Prescription Required *</label>
@@ -526,6 +521,9 @@
                     </table>
                     <button type="button" onclick="addUnitRow()">Add Unit</button>
                 </div>
+                
+                <label for="detail">Update description </label>
+                <textarea id="detailforUpdate" name="detailforUpdate" required rows="4" style="resize: both; width: 100%;"> Enter your update details here </textarea>
 
                 <div>
                     <p>All fields must be filled in correctly.</p>

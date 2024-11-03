@@ -5,19 +5,24 @@
 
 package controller;
 
+import dal.CartDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Order;
+import model.User;
 
 /**
  *
  * @author trant
  */
-public class LogoutController extends HttpServlet {
+public class OrderHistoryController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,10 +39,10 @@ public class LogoutController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LogoutController</title>");  
+            out.println("<title>Servlet OrderHistoryController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LogoutController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet OrderHistoryController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,11 +61,20 @@ public class LogoutController extends HttpServlet {
     throws ServletException, IOException {
         //processRequest(request, response);
         HttpSession session = request.getSession();
-        if (session.getAttribute("username") != null) {
-            session.removeAttribute("username");
-            session.removeAttribute("userRoleID");
+        User user = (User) session.getAttribute("User");
+
+        if (user == null) {
+            response.sendRedirect("login");
+            return;
         }
-        response.sendRedirect("home");
+        
+        CartDAO cdao = new CartDAO();
+        
+        List<Order> listOrderByUser = cdao.getListCartByUserId(user.getUserId())  ;
+        
+        request.setAttribute("orders", listOrderByUser);
+        
+        request.getRequestDispatcher("orderHistory.jsp").forward(request, response);
     } 
 
     /** 

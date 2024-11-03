@@ -249,12 +249,7 @@
                     <button type="button" onclick="window.location.href = 'ProductDetail?productID=P${fn:substringAfter(entry.key, 'P')}'">
                         <i class="fas fa-eye"></i> View Product
                     </button>
-                    <form action="importServlet" method="get" style="display:inline;">
-                        <input type="hidden" name="productID" value="P${fn:substringAfter(entry.key, 'P')}">
-                        <button type="submit" onclick="return confirm('Are you sure you want to import this product?');">
-                            <i class="fas fa-download"></i> Import
-                        </button>
-                    </form>
+
                     <form action="viewImports" method="POST" style="display:inline;">
                         <input type="hidden" name="Pid" value="P${fn:substringAfter(entry.key, 'P')}">
                         <button type="submit">

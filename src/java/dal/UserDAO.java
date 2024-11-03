@@ -10,6 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.mindrot.jbcrypt.BCrypt;
 import util.PasswordUtil;
+import java.util.List;
+import java.util.ArrayList;
+
 
 /**
  *
@@ -32,6 +35,25 @@ public class UserDAO extends DBContext {
                             rs.getString("phone"), rs.getString("address"), rs.getString("image"));
                     return u;
                 }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    public User checkTest(String username, String password) {
+        String sql = "SELECT * FROM Users WHERE username = ? AND password = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            st.setString(2, password); // Truyền mật khẩu trực tiếp để kiểm tra
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                User u = new User(rs.getInt("user_id"), rs.getString("full_name"), rs.getString("username"),
+                        rs.getString("password"), rs.getString("email"), rs.getInt("role_id"), rs.getInt("status"),
+                        rs.getString("phone"), rs.getString("address"), rs.getString("image"));
+                return u;
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -194,4 +216,96 @@ public class UserDAO extends DBContext {
         }
         return user;
     }
+
+
+    public List<User> getAllUsersWithRoleId(int roleId) {
+        List<User> userList = new ArrayList<>();
+        String sql = "SELECT * FROM users WHERE role_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, roleId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                User user = new User(
+                        rs.getInt("user_id"),
+                        rs.getString("full_name"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getInt("role_id"),
+                        rs.getInt("status"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getString("image")
+                );
+                userList.add(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return userList;
+    }
+
+    public void deleteUserById(String user_id) {
+        String sql = "DELETE FROM Users WHERE user_id = ?";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setString(1, user_id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<User> getTop5Staff() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT TOP 5 * FROM Users WHERE role_id = 3 ORDER BY user_id DESC";
+
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setFullName(rs.getString("full_name"));
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone(rs.getString("phone"));
+                user.setAddress(rs.getString("address"));
+                user.setImage(rs.getString("image"));
+                user.setRoleId(rs.getInt("role_id"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+    
+    
+    public User getUserByUserId(int userId) {
+        User user = null;
+        String query = "SELECT * FROM Users WHERE user_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setFullName(rs.getString("full_name"));
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone(rs.getString("phone"));
+                user.setAddress(rs.getString("address"));
+                user.setImage(rs.getString("image"));
+                user.setRoleId(rs.getInt("role_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+ 
+
 }

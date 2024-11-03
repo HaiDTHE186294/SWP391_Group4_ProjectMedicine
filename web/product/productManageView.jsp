@@ -141,7 +141,7 @@
                     <option value="Inactive">Inactive</option>
                     <option value="Active">Active</option>
                     <option value="Pending">Pending</option>
-                    <option value="Discontinued">Discontinued</option>
+                    <option value="Rejected">Rejected</option>
                     <option value="Out of stock">Out of stock</option>
                 </select>
                 <input type="date" id="dateFilter" />
@@ -192,7 +192,7 @@
                                         statusText = "Pending";
                                         break;
                                     case 4:
-                                        statusText = "Discontinued";
+                                        statusText = "Rejected";
                                         break;
                                     default:
                                         statusText = "Unknown";
@@ -251,12 +251,6 @@
                                 </a>
                             </button>
 
-                            <form action="importServlet" method="get" style="display:inline;">
-                                <input type="hidden" name="productID" value="<%= product.getProductID() %>">
-                                <button type="submit" onclick="return confirm('Are you sure you want to import this product?');" style="margin-right: 10px;">
-                                    <i class="fas fa-download"></i> <!-- Use an icon for the import button -->
-                                </button>
-                            </form>
                         </td>
 
                     </tr>
@@ -381,7 +375,7 @@
 
             function search() {
                 clearSearch();
-                const query = searchInput.value.toLowerCase();
+                const query = searchInput.value.toLowerCase().trim();
                 const filteredRows = allRows.filter(row => {
                     const productName = row.querySelector('td:nth-child(5)').textContent.toLowerCase(); // Cột Tên sản phẩm
                     return productName.includes(query);
