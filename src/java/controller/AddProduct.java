@@ -120,7 +120,7 @@ public class AddProduct extends HttpServlet {
         String prescriptionRequired = request.getParameter("prescriptionRequired");
         String targetAudience = request.getParameter("targetAudience");
         String ing = request.getParameter("ing");
-        System.out.println(ing);
+
 
         // Tạo đối tượng Product từ dữ liệu nhận được
         Product product = new Product(categoryID, brand, productID, productName, pharmaceuticalForm, brandOrigin,
@@ -130,6 +130,7 @@ public class AddProduct extends HttpServlet {
 
         // Thêm sản phẩm vào cơ sở dữ liệu
         productDAO.addProduct(product);
+        productDAO.addAdminApprovalLog(product.getProductID(), "ADD", product.getStatus(), "Add new product", 1, product.getProductName());
         productDAO.addIng(productID, ing);
 
         // Lưu đường dẫn ảnh vào cơ sở dữ liệu
@@ -190,7 +191,7 @@ public class AddProduct extends HttpServlet {
 
                 // Tạo đối tượng ProductPriceQuantity
                 ProductPriceQuantity p = new ProductPriceQuantity(productUnitId, packagingDetail, productID, unit, UStatus, sPrice);
-                productDAO.addProductPriceQuantity(p);
+                productDAO.addProductPriceQuantity(p);               
             }
         } else {
             // Xử lý lỗi khi độ dài các mảng không khớp

@@ -1,9 +1,10 @@
-  package dal;
+package dal;
 
 import model.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.util.Set;
+import model.AdminApprovalLog;
 
 import model.Ingredient;
 import model.ProductPriceQuantity;
@@ -658,56 +660,55 @@ public class ProductDAO extends DBContext {
         }
         return audiences;
     }
- public Product getProductByID1(String productID) {
-    Product product = null;
-    String sql = "SELECT p.CategoryID, p.Brand, p.ProductID, p.ProductName, p.PharmaceuticalForm, "
-               + "p.BrandOrigin, p.Manufacturer, p.CountryOfProduction, p.ShortDescription, "
-               + "p.RegistrationNumber, p.ProductDescription, p.ContentReviewer, p.FAQ, "
-               + "p.ProductReviews, p.Status, p.Sold, p.DateCreated, p.ProductVersion, "
-               + "p.PrescriptionRequired, p.TargetAudience, p.ImagePath, ppq.SalePrice " // Lưu ý phải viết đúng tên cột (chữ hoa SalePrice)
-               + "FROM Product p "
-               + "JOIN ProductPriceQuantity ppq ON p.ProductID = ppq.ProductID "
-               + "WHERE p.ProductID = ?";
 
-    try (PreparedStatement st = connection.prepareStatement(sql)) {
-        // Sử dụng setInt để truyền productID là kiểu int vào câu lệnh SQL
-        st.setString(1, productID);
+    public Product getProductByID1(String productID) {
+        Product product = null;
+        String sql = "SELECT p.CategoryID, p.Brand, p.ProductID, p.ProductName, p.PharmaceuticalForm, "
+                + "p.BrandOrigin, p.Manufacturer, p.CountryOfProduction, p.ShortDescription, "
+                + "p.RegistrationNumber, p.ProductDescription, p.ContentReviewer, p.FAQ, "
+                + "p.ProductReviews, p.Status, p.Sold, p.DateCreated, p.ProductVersion, "
+                + "p.PrescriptionRequired, p.TargetAudience, p.ImagePath, ppq.SalePrice " // Lưu ý phải viết đúng tên cột (chữ hoa SalePrice)
+                + "FROM Product p "
+                + "JOIN ProductPriceQuantity ppq ON p.ProductID = ppq.ProductID "
+                + "WHERE p.ProductID = ?";
 
-        try (ResultSet rs = st.executeQuery()) {
-            if (rs.next()) {
-                // Tạo đối tượng Product và gán các giá trị từ kết quả truy vấn
-                product = new Product();
-                product.setCategoryID(rs.getString("CategoryID"));
-                product.setBrand(rs.getString("Brand"));
-                product.setProductID(rs.getString("ProductID")); 
-                product.setProductName(rs.getString("ProductName"));
-                product.setPharmaceuticalForm(rs.getString("PharmaceuticalForm"));
-                product.setBrandOrigin(rs.getString("BrandOrigin"));
-                product.setManufacturer(rs.getString("Manufacturer"));
-                product.setCountryOfProduction(rs.getString("CountryOfProduction"));
-                product.setShortDescription(rs.getString("ShortDescription"));
-                product.setRegistrationNumber(rs.getString("RegistrationNumber"));
-                product.setProductDescription(rs.getString("ProductDescription"));
-                product.setContentReviewer(rs.getString("ContentReviewer"));
-                product.setFaq(rs.getString("FAQ"));
-                product.setProductReviews(rs.getString("ProductReviews"));
-                product.setStatus(rs.getInt("Status"));
-                product.setSold(rs.getInt("Sold"));
-                product.setDateCreated(rs.getString("DateCreated"));
-                product.setProductVersion(rs.getInt("ProductVersion"));
-                product.setPrescriptionRequired(rs.getString("PrescriptionRequired"));
-                product.setTargetAudience(rs.getString("TargetAudience"));
-                product.setImagePath(rs.getString("ImagePath"));
-                             
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            // Sử dụng setInt để truyền productID là kiểu int vào câu lệnh SQL
+            st.setString(1, productID);
 
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    // Tạo đối tượng Product và gán các giá trị từ kết quả truy vấn
+                    product = new Product();
+                    product.setCategoryID(rs.getString("CategoryID"));
+                    product.setBrand(rs.getString("Brand"));
+                    product.setProductID(rs.getString("ProductID"));
+                    product.setProductName(rs.getString("ProductName"));
+                    product.setPharmaceuticalForm(rs.getString("PharmaceuticalForm"));
+                    product.setBrandOrigin(rs.getString("BrandOrigin"));
+                    product.setManufacturer(rs.getString("Manufacturer"));
+                    product.setCountryOfProduction(rs.getString("CountryOfProduction"));
+                    product.setShortDescription(rs.getString("ShortDescription"));
+                    product.setRegistrationNumber(rs.getString("RegistrationNumber"));
+                    product.setProductDescription(rs.getString("ProductDescription"));
+                    product.setContentReviewer(rs.getString("ContentReviewer"));
+                    product.setFaq(rs.getString("FAQ"));
+                    product.setProductReviews(rs.getString("ProductReviews"));
+                    product.setStatus(rs.getInt("Status"));
+                    product.setSold(rs.getInt("Sold"));
+                    product.setDateCreated(rs.getString("DateCreated"));
+                    product.setProductVersion(rs.getInt("ProductVersion"));
+                    product.setPrescriptionRequired(rs.getString("PrescriptionRequired"));
+                    product.setTargetAudience(rs.getString("TargetAudience"));
+                    product.setImagePath(rs.getString("ImagePath"));
 
+                }
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } catch (SQLException ex) {
-        Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        return product;
     }
-    return product;
-}
 
     public List<Map<String, Object>> searchProductsByName(String productName) {
         List<Map<String, Object>> productList = new ArrayList<>();
@@ -798,6 +799,163 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
         return priceQuantities;
+    }
+
+    // Method to add a new AdminApprovalLog entry with an auto-generated approvalID
+    public boolean addAdminApprovalLog(String pid, String action, int status, String detail, int decider, String pName) {
+        String approvalID = generateApprovalID(pid);
+        String sql = "INSERT INTO AdminApprovalLog (approvalID, Pid, Action, Status, Detail, Decider, pName) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, approvalID);
+            stmt.setString(2, pid);
+            stmt.setString(3, action);
+            stmt.setInt(4, status);
+            stmt.setString(5, detail);
+            stmt.setInt(6, decider);
+            stmt.setString(7, pName);
+
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log the error for troubleshooting
+            return false;
+        }
+    }
+
+    // Helper method to generate the next approvalID based on the pid
+    private String generateApprovalID(String pid) {
+        String sql = "SELECT Top 1 approvalID FROM AdminApprovalLog WHERE Pid = ? ORDER BY approvalID DESC";
+        String newApprovalID = pid + "_1";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, pid);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    String lastApprovalID = rs.getString("approvalID");
+                    String[] parts = lastApprovalID.split("_");
+
+                    // Parse the current sequence number and increment it
+                    if (parts.length > 1) {
+                        int sequenceNumber = Integer.parseInt(parts[1]) + 1;
+                        newApprovalID = pid + "_" + sequenceNumber;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log the error for troubleshooting
+        }
+
+        return newApprovalID;
+    }
+
+    // Method to get all AdminApprovalLog entries
+    public List<AdminApprovalLog> getAdminApprovalLogs() {
+        List<AdminApprovalLog> logList = new ArrayList<>();
+        String sql = "select * from AdminApprovalLog";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                AdminApprovalLog log = new AdminApprovalLog();
+                log.setApprovalID(rs.getString("approvalID"));
+                log.setPid(rs.getString("Pid"));
+                log.setAction(rs.getString("Action"));
+                log.setStatus(rs.getInt("Status"));
+                log.setDetail(rs.getString("Detail"));
+                log.setDecider(rs.getInt("Decider"));
+                log.setDate(rs.getString("date"));
+                log.setpName(rs.getString("pName"));
+
+                logList.add(log);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log the error for troubleshooting
+        }
+
+        return logList;
+    }
+
+    public Map<Integer, String> getAllStatuses() {
+        Map<Integer, String> statuses = new HashMap<>();
+        String sql = "SELECT statusID, statusName FROM Status";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int statusID = rs.getInt("statusID");
+                String statusName = rs.getString("statusName");
+                statuses.put(statusID, statusName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log the error for troubleshooting
+        }
+
+        return statuses;
+    }
+
+    public void updateApprovalLog(AdminApprovalLog approvalLog) {
+        String sql = "UPDATE AdminApprovalLog SET Action = ?, Status = ?, Detail = ?, Decider = ? WHERE approvalID = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, approvalLog.getAction());
+            stmt.setInt(2, approvalLog.getStatus());
+            stmt.setString(3, approvalLog.getDetail());
+            stmt.setInt(4, approvalLog.getDecider());
+            stmt.setString(5, approvalLog.getApprovalID());
+
+
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Approval log updated successfully.");
+            } else {
+                System.out.println("No approval log found with the specified approvalID.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log the error for troubleshooting
+        }
+    }
+
+    public AdminApprovalLog getAdminApprovalLogByID(String approvalID) {
+        AdminApprovalLog approvalLog = null;
+        String sql = "SELECT * FROM AdminApprovalLog WHERE approvalID = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, approvalID);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Create a new AdminApprovalLog object and populate it with data from the ResultSet
+                    approvalLog = new AdminApprovalLog();
+                    approvalLog.setApprovalID(rs.getString("approvalID"));
+                    approvalLog.setPid(rs.getString("Pid"));
+                    approvalLog.setAction(rs.getString("Action"));
+                    approvalLog.setStatus(rs.getInt("Status"));
+                    approvalLog.setDetail(rs.getString("Detail"));
+                    approvalLog.setDecider(rs.getInt("Decider"));
+                    approvalLog.setDate(rs.getString("date"));
+                    approvalLog.setpName(rs.getString("pName"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log the error for troubleshooting
+        }
+
+        return approvalLog;
+    }
+    
+    public void updateProductStatus(String productID, int status) {
+        String sql = "UPDATE Product SET status = ? WHERE productID = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setString(2, productID);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

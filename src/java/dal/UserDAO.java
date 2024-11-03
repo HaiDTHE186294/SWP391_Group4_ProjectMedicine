@@ -8,8 +8,6 @@ import model.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
 import util.PasswordUtil;
 
@@ -80,47 +78,11 @@ public class UserDAO extends DBContext {
         }
     }
 
-    public void createStaff(String fullname, String username, String password, String email, String phone, String address, String image) {
-
-        String hashedPassword = PasswordUtil.hashPasswordBCrypt(password);
-        String sql = "INSERT INTO Users (full_name, username, password, email, role_id, status, phone, address, image) VALUES (?, ?, ?, ?, 3, 1, ?, ?, ?)";
-
-        try (PreparedStatement st = connection.prepareStatement(sql)) {
-            st.setString(1, fullname);
-            st.setString(2, username);
-            st.setString(3, hashedPassword);
-            st.setString(4, email);
-            st.setString(5, phone);
-            st.setString(6, address);
-            st.setString(7, image);
-
-            st.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public boolean checkUserExists(String username, String email) {
         String sql = "SELECT COUNT(*) FROM Users WHERE username = ? OR email = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, username);
             ps.setString(2, email);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean checkStaffExists(String username, String email, String phone) {
-        String sql = "SELECT COUNT(*) FROM Users WHERE username = ? OR email = ? OR phone = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, username);
-            ps.setString(2, email);
-            ps.setString(3, phone);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1) > 0;
@@ -203,8 +165,10 @@ public class UserDAO extends DBContext {
                 ps.setString(2, user.getEmail());
                 ps.setString(3, user.getPhone());
                 ps.setString(4, user.getAddress());
-                ps.setString(5, user.getImage());
+              ps.setString(5, user.getImage());
                 ps.setInt(6, user.getUserId());
+                
+                
 
                 int rowsUpdated = ps.executeUpdate();
 
@@ -216,21 +180,21 @@ public class UserDAO extends DBContext {
         }
     }
 
-    public boolean changePassword(String username, String hashedPassword) {
-        String sql = "UPDATE users SET password = ? WHERE username = ?";
+   public boolean changePassword(String username, String hashedPassword) {
+    String sql = "UPDATE users SET password = ? WHERE username = ?";
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, hashedPassword); // Mật khẩu đã mã hóa
-            ps.setString(2, username);
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, hashedPassword); // Mật khẩu đã mã hóa
+        ps.setString(2, username);
 
-            int rowsUpdated = ps.executeUpdate();
-            return rowsUpdated > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        int rowsUpdated = ps.executeUpdate();
+        return rowsUpdated > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
+}
 
     public User getUserByEmail(String email) {
         User user = null;
@@ -249,6 +213,7 @@ public class UserDAO extends DBContext {
         }
         return user;
     }
+
 
     public List<User> getAllUsersWithRoleId(int roleId) {
         List<User> userList = new ArrayList<>();
@@ -339,4 +304,5 @@ public class UserDAO extends DBContext {
         return user;
     }
  
+
 }

@@ -136,6 +136,14 @@
         <servlet-name>OrderHistoryController</servlet-name>
         <servlet-class>controller.OrderHistoryController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminApprovalLogServlet</servlet-name>
+        <servlet-class>controller.AdminApprovalLogServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditApprovalLogServlet</servlet-name>
+        <servlet-class>controller.EditApprovalLogServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -279,5 +287,13 @@
     <servlet-mapping>
         <servlet-name>OrderHistoryController</servlet-name>
         <url-pattern>/orderHistory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminApprovalLogServlet</servlet-name>
+        <url-pattern>/AdminApprovalLogServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditApprovalLogServlet</servlet-name>
+        <url-pattern>/EditApprovalLogServlet</url-pattern>
     </servlet-mapping>
 </web-app>

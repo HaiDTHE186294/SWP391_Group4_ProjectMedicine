@@ -1,13 +1,14 @@
 <%@ page language="java" %>
 <div class="header">
     <div class="navigation">
-        <a href="#" onclick="confirmNavigation('home')">Home</a>
-        <a href="showProductManageView">Product Manage Menu</a>       
-        <a href="product/addxx">Add Product</a>  
-        <a href="GetImport">Import Product</a> 
-        <a href="stockManagement">Stock</a>
-        <a href="viewImports">Import History</a>
-        <a href="CategoryURL">Category List</a>
+        <a href="#" onclick="confirmNavigation('http://localhost:8080/MedicineShop/home')">Home</a>
+        <a href="http://localhost:8080/MedicineShop/showProductManageView">Product Manage Menu</a>       
+        <a href="http://localhost:8080/MedicineShop/product/addxx">Add Product</a> 
+        <a href="http://localhost:8080/MedicineShop/GetImport">Import Product</a> 
+        <a href="http://localhost:8080/MedicineShop/stockManagement">Stock</a>
+        <a href="http://localhost:8080/MedicineShop/viewImports">Import History</a>
+        <a href="http://localhost:8080/MedicineShop/CategoryServlet">Category List</a>
+        <a href="http://localhost:8080/MedicineShop/AdminApprovalLogServlet">Admin Approval</a>
 
         <script>
             function showError(event) {
@@ -15,8 +16,8 @@
                 alert("Error: Missing part - Can not access");
             }
         </script>
-        <a href="changeProfile">Profile</a>
-        <a href="login">Login</a>
+        <a href="http://localhost:8080/MedicineShop/changeProfile">Profile</a>
+        <a href="http://localhost:8080/MedicineShop/login">Login</a>
         <a href="#" onclick="confirmLogout()">Logout</a>
     </div>
 </div>
@@ -32,7 +33,6 @@
         color: white;
         padding: 15px;
         text-align: center;
-        width: 100%;
     }
     .navigation {
         margin-top: 10px; /* Space between title and links */

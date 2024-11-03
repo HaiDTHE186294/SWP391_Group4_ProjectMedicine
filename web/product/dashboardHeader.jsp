@@ -7,11 +7,12 @@
         <a href="http://localhost:8080/MedicineShop/GetImport">Import Product</a> 
         <a href="http://localhost:8080/MedicineShop/stockManagement">Stock</a>
         <a href="http://localhost:8080/MedicineShop/viewImports">Import History</a>
-        <a href="http://localhost:8080/MedicineShop/CategoryURL">Category List</a>
+        <a href="http://localhost:8080/MedicineShop/CategoryServlet">Category List</a>
+        <a href="http://localhost:8080/MedicineShop/AdminApprovalLogServlet">Admin Approval</a>
 
         <script>
             function showError(event) {
-                event.preventDefault(); // Ng?n ch?n chuy?n h??ng
+                event.preventDefault();
                 alert("Error: Missing part - Can not access");
             }
         </script>

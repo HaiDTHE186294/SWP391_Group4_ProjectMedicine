@@ -200,8 +200,9 @@ public class Update extends HttpServlet {
         existingProduct.setTargetAudience(request.getParameter("targetAudience"));
         existingProduct.setIng(request.getParameter("ing"));
 
-        // Update the product in the database
-        productDAO.updateProduct(existingProduct);
+        // Update the product in the 
+        productDAO.addAdminApprovalLog(existingProduct.getProductID(), "UPDATE", existingProduct.getStatus(), "Update product detail", 1, existingProduct.getProductName());
+        productDAO.updateProduct(existingProduct);  
         productDAO.addIng(existingProduct.getProductID(), existingProduct.getIng());
 
         // Save image path in the database if a new image was uploaded
@@ -231,6 +232,7 @@ public class Update extends HttpServlet {
 
         // Update the product in the database
         productDAO.addProduct(existingProduct);
+        productDAO.addAdminApprovalLog(existingProduct.getProductID(), "ADD", existingProduct.getStatus(), "Add new product", 1, existingProduct.getProductName());
         productDAO.addIng(existingProduct.getProductID(), existingProduct.getIng());
 
         // Save image path in the database if a new image was uploaded
