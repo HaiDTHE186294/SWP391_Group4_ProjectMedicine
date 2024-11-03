@@ -16,6 +16,50 @@ public class ProductPriceQuantity {
     private String unitID;  // Foreign key referencing the Unit table
     private int unitStatus;
     private float salePrice;
+    
+    // thêm
+    private Unit unit;
+    private int packaging;
+
+    public ProductPriceQuantity() {
+    }
+    
+    public ProductPriceQuantity(String productUnitID, String packagingDetails, String productID, String unitID, int unitStatus, float salePrice, Unit unit) {
+        this.productUnitID = productUnitID;
+        this.packagingDetails = packagingDetails;
+        this.productID = productID;
+        this.unitID = unitID;
+        this.unitStatus = unitStatus;
+        this.salePrice = salePrice;
+        this.unit = unit;
+    }
+
+    public ProductPriceQuantity(String productUnitID, String packagingDetails, String productID, String unitID, int unitStatus, float salePrice, Unit unit, int packaging) {
+        this.productUnitID = productUnitID;
+        this.packagingDetails = packagingDetails;
+        this.productID = productID;
+        this.unitID = unitID;
+        this.unitStatus = unitStatus;
+        this.salePrice = salePrice;
+        this.unit = unit;
+        this.packaging = packaging;
+    }
+    
+    public int getPackaging() {
+        return packaging;
+    }
+
+    public void setPackaging(int packaging) {
+        this.packaging = packaging;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
 
     public float getSalePrice() {
         return salePrice;
