@@ -313,7 +313,7 @@
                     <!-- Left Section -->
                     <div>
                         <label for="productId">ID - Unique *</label>
-                        <input type="text" id="productId" name="productId" required maxlength="15" 
+                        <input type="text" id="productId" name="productId" required maxlength="8" 
                                pattern="^P[A-Za-z0-9]{1,14}$" 
                                title="Product ID must start with 'P' followed by up to 14 alphanumeric characters">
 

@@ -199,9 +199,10 @@ public class Update extends HttpServlet {
         existingProduct.setPrescriptionRequired(request.getParameter("prescriptionRequired"));
         existingProduct.setTargetAudience(request.getParameter("targetAudience"));
         existingProduct.setIng(request.getParameter("ing"));
+        String detailForUpdate = request.getParameter("detailforUpdate");
 
         // Update the product in the 
-        productDAO.addAdminApprovalLog(existingProduct.getProductID(), "UPDATE", existingProduct.getStatus(), "Update product detail", 1, existingProduct.getProductName());
+        productDAO.addAdminApprovalLog(existingProduct.getProductID(), "UPDATE", existingProduct.getStatus(), detailForUpdate, 1, existingProduct.getProductName());
         productDAO.updateProduct(existingProduct);  
         productDAO.addIng(existingProduct.getProductID(), existingProduct.getIng());
 
@@ -229,10 +230,11 @@ public class Update extends HttpServlet {
         existingProduct.setTargetAudience(request.getParameter("targetAudience"));
         existingProduct.setIng(request.getParameter("ing"));
         existingProduct.setSold(0);
+        String detailForUpdate = request.getParameter("detailforUpdate");
 
         // Update the product in the database
         productDAO.addProduct(existingProduct);
-        productDAO.addAdminApprovalLog(existingProduct.getProductID(), "ADD", existingProduct.getStatus(), "Add new product", 1, existingProduct.getProductName());
+        productDAO.addAdminApprovalLog(existingProduct.getProductID(), "ADD", existingProduct.getStatus(), detailForUpdate, 1, existingProduct.getProductName());
         productDAO.addIng(existingProduct.getProductID(), existingProduct.getIng());
 
         // Save image path in the database if a new image was uploaded
@@ -305,6 +307,7 @@ public class Update extends HttpServlet {
             }
             // Add all price-quantity details to the database
             productDAO.updateProductPriceQuantity2(productID, priceQuantities); // Modify this method to accept a list
+            productDAO.updateBaseUnitId();
         }
     }
 

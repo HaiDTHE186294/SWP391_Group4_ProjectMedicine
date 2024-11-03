@@ -957,5 +957,30 @@ public class ProductDAO extends DBContext {
         }
 
     }
+    
+    public void updateBaseUnitId() {
+        String sql = "UPDATE stock " +
+                     "SET stock.Base_unit_ID = (" +
+                     "    SELECT ProductPriceQuantity.UnitID " +
+                     "    FROM ProductPriceQuantity " +
+                     "    WHERE stock.Pid = ProductPriceQuantity.ProductID " +
+                     "      AND ProductPriceQuantity.PackagingDetails = 1 " +
+                     ") " +
+                     "WHERE EXISTS (" +
+                     "    SELECT 1 " +
+                     "    FROM ProductPriceQuantity " +
+                     "    WHERE stock.Pid = ProductPriceQuantity.ProductID " +
+                     "      AND ProductPriceQuantity.PackagingDetails = 1 " +
+                     ");";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // Execute the update
+            int affectedRows = pstmt.executeUpdate();
+            System.out.println("Updated " + affectedRows + " rows in stock table.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exception as needed
+        }
+    }
 
 }

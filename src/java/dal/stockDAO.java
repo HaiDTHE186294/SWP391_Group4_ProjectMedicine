@@ -625,6 +625,7 @@ public class stockDAO extends DBContext {
             stmt.setString(2, batchNo);
 
             int rowsAffected = stmt.executeUpdate();
+            updateProductStatus();
 
             if (rowsAffected > 0) {
                 System.out.println("Tồn kho đã được cập nhật thành công cho Batch_no: " + batchNo);

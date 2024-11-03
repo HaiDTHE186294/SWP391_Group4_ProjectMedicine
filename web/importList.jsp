@@ -14,7 +14,7 @@
                 font-family: Arial, sans-serif;
                 background-color: #f8f9fa; /* Màu nền sáng */
                 margin: 0;
-                padding: 20px;
+                padding: 0;
             }
             h1 {
                 text-align: center;

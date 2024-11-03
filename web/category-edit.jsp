@@ -9,7 +9,7 @@
         <style>
             body {
                 font-family: Arial, sans-serif; /* Chọn font chữ thân thiện */
-                margin: 20px; /* Thêm khoảng cách cho toàn bộ body */
+                margin: 0; /* Thêm khoảng cách cho toàn bộ body */
                 background-color: #f4f4f4; /* Màu nền cho body */
             }
 

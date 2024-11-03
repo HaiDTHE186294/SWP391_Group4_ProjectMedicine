@@ -141,7 +141,7 @@
                     <option value="Inactive">Inactive</option>
                     <option value="Active">Active</option>
                     <option value="Pending">Pending</option>
-                    <option value="Discontinued">Discontinued</option>
+                    <option value="Rejected">Rejected</option>
                     <option value="Out of stock">Out of stock</option>
                 </select>
                 <input type="date" id="dateFilter" />
@@ -192,7 +192,7 @@
                                         statusText = "Pending";
                                         break;
                                     case 4:
-                                        statusText = "Discontinued";
+                                        statusText = "Rejected";
                                         break;
                                     default:
                                         statusText = "Unknown";
