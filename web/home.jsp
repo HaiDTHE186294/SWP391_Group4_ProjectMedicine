@@ -128,7 +128,8 @@
                                         <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                         <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
                                         <form action="cart" method="post">
-                                            <input hidden="" title="text" name="productId" value="${product.productID}">
+                                            <input hidden="" name="action" value="addCart">
+                                            <input hidden=""  title="text" name="productId" value="${product.ProductID}">
                                             <li class="mt-2"><button type="submit" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></button></li>
                                         </form>
                                     </ul>                                
@@ -290,7 +291,8 @@
                                         <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                         <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
                                         <form action="cart" method="post">
-                                            <input hidden="" title="text" name="productId" value="${product.productID}">
+                                            <input hidden="" name="action" value="addCart">
+                                            <input hidden=""  title="text" name="productId" value="${product.ProductID}">
                                             <li class="mt-2"><button type="submit" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></button></li>
                                         </form>
                                     </ul>                                

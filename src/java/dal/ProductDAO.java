@@ -18,6 +18,7 @@ import java.util.Set;
 import model.Ingredient;
 import model.ProductPriceQuantity;
 import model.ProductUnit;
+import model.Unit;
 
 public class ProductDAO extends DBContext {
 
@@ -310,29 +311,29 @@ public class ProductDAO extends DBContext {
         return null;
     }
 
-    public List<ProductPriceQuantity> getProductPriceQuantitiesByProductID(String productID) {
-        List<ProductPriceQuantity> priceQuantities = new ArrayList<>();
-        String sql = "SELECT * FROM ProductPriceQuantity WHERE ProductID = ?";
-
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, productID);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                // Tạo đối tượng ProductPriceQuantity và thêm vào danh sách
-                String productUnitID = rs.getString("ProductUnitID");
-                String packagingDetails = rs.getString("PackagingDetails");
-                String unitID = rs.getString("UnitID");
-                int unitStatus = rs.getInt("UnitStatus");
-                float salePrice = rs.getFloat("SalePrice");
-                ProductPriceQuantity priceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus, salePrice);
-                priceQuantities.add(priceQuantity);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return priceQuantities;
-    }
+//    public List<ProductPriceQuantity> getProductPriceQuantitiesByProductID(String productID) {
+//        List<ProductPriceQuantity> priceQuantities = new ArrayList<>();
+//        String sql = "SELECT * FROM ProductPriceQuantity WHERE ProductID = ?";
+//
+//        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+//            ps.setString(1, productID);
+//            ResultSet rs = ps.executeQuery();
+//
+//            while (rs.next()) {
+//                // Tạo đối tượng ProductPriceQuantity và thêm vào danh sách
+//                String productUnitID = rs.getString("ProductUnitID");
+//                String packagingDetails = rs.getString("PackagingDetails");
+//                String unitID = rs.getString("UnitID");
+//                int unitStatus = rs.getInt("UnitStatus");
+//                float salePrice = rs.getFloat("SalePrice");
+//                ProductPriceQuantity priceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus, salePrice);
+//                priceQuantities.add(priceQuantity);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return priceQuantities;
+//    }
 
     public void saveImagePath(String productID, String imagePath) {
         String sql = "UPDATE product SET imagepath = ? WHERE productid = ?";
@@ -741,6 +742,62 @@ public class ProductDAO extends DBContext {
         }
 
         return productList;
+    }
+    
+    
+    private Unit getUnitByUnitID(String unitID) {
+        Unit unit = null;
+
+        try {
+            String sql = "SELECT UnitID, UnitName FROM dbo.Unit WHERE UnitID = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, unitID);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String unitId = resultSet.getString("UnitID");
+                        String unitName = resultSet.getString("UnitName");
+                        unit = new Unit(unitId, unitName);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return unit;
+    }
+    
+    
+    public List<ProductPriceQuantity> getProductPriceQuantitiesByProductID(String productID) {
+        List<ProductPriceQuantity> priceQuantities = new ArrayList<>();
+        String sql = "SELECT * FROM ProductPriceQuantity WHERE ProductID = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, productID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                // Tạo đối tượng ProductPriceQuantity và thêm vào danh sách
+                String productUnitID = rs.getString("ProductUnitID");
+                String packagingDetails = rs.getString("PackagingDetails");
+                String unitID = rs.getString("UnitID");
+                int unitStatus = rs.getInt("UnitStatus");
+                float salePrice = rs.getFloat("SalePrice");
+
+                ProductDAO pdao = new ProductDAO();
+                Unit unit = pdao.getUnitByUnitID(unitID);
+
+                int packaging = rs.getInt("PackagingDetails");
+
+                ProductPriceQuantity priceQuantity = new ProductPriceQuantity(productUnitID, packagingDetails, productID, unitID, unitStatus, salePrice, unit, packaging);
+                priceQuantities.add(priceQuantity);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return priceQuantities;
     }
 
 }

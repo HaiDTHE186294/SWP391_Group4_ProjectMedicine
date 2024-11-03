@@ -40,6 +40,25 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
+    
+    public User checkTest(String username, String password) {
+        String sql = "SELECT * FROM Users WHERE username = ? AND password = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            st.setString(2, password); // Truyền mật khẩu trực tiếp để kiểm tra
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                User u = new User(rs.getInt("user_id"), rs.getString("full_name"), rs.getString("username"),
+                        rs.getString("password"), rs.getString("email"), rs.getInt("role_id"), rs.getInt("status"),
+                        rs.getString("phone"), rs.getString("address"), rs.getString("image"));
+                return u;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 
     public void createUser(String fullname, String username, String password, String email, String phone, String address, String image) {
 
