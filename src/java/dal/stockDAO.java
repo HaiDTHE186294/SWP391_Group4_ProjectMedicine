@@ -585,6 +585,57 @@ public class stockDAO extends DBContext {
         return users;
     }
     
-    
+    public Stock getStockByProductId(String productId) {
+        String query = "SELECT Batch_no, Pid, Base_unit_ID, Quantity, Price_import, Date_manufacture, Date_expired "
+                + "FROM Stock "
+                + "WHERE Pid = ? "
+                + "ORDER BY Date_expired ASC"; // Lấy tất cả các mục hàng, sắp xếp theo ngày hết hạn
 
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, productId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                // Lặp qua từng kết quả để tìm mục có quantity > 0
+                while (rs.next()) {
+                    float quantity = rs.getFloat("Quantity");
+                    if (quantity > 0) {
+                        Stock stock = new Stock();
+                        stock.setBatchNo(rs.getString("Batch_no"));
+                        stock.setProductId(rs.getString("Pid"));
+                        stock.setBaseUnitId(rs.getString("Base_unit_ID"));
+                        stock.setQuantity(quantity);
+                        stock.setPriceImport(rs.getFloat("Price_import"));
+                        stock.setDateManufacture(rs.getString("Date_manufacture"));
+                        stock.setDateExpired(rs.getString("Date_expired"));
+                        return stock;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    boolean updateQuantityStock(float updatedQuantityStock, String batchNo) {
+        String sql = "UPDATE Stock SET Quantity = ? WHERE Batch_no = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setFloat(1, updatedQuantityStock);
+            stmt.setString(2, batchNo);
+
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Tồn kho đã được cập nhật thành công cho Batch_no: " + batchNo);
+                return true;
+            } else {
+                System.out.println("Không tìm thấy Batch_no: " + batchNo + " để cập nhật tồn kho.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

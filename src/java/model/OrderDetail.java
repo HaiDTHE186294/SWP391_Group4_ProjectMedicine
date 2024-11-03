@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,19 +17,81 @@ public class OrderDetail {
     private Map<String, Object> productId;
     private int quantity;
     private double price;
-    private String address;
-
+    
+    // thêm 
+    private Product product;
+    private List<ProductPriceQuantity> productPriceQuantity;
+    private int idOrder;
+    private String unitId;
+    
+    
     public OrderDetail() {
     }
 
-    public OrderDetail(int orderDetailId, Order orderId, Map<String, Object> productId, int quantity, double price, String address) {
+    public OrderDetail(int orderDetailId, Order orderId, Map<String, Object> productId, int quantity, double price) {
         this.orderDetailId = orderDetailId;
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
-        this.address = address;
     }
+
+    public OrderDetail(int orderDetailId, int quantity, double price, Product product, List<ProductPriceQuantity> productPriceQuantity, int idOrder) {
+        this.orderDetailId = orderDetailId;
+        this.quantity = quantity;
+        this.price = price;
+        this.product = product;
+        this.productPriceQuantity = productPriceQuantity;
+        this.idOrder = idOrder;
+    }
+
+    public OrderDetail(int orderDetailId, int quantity, double price, Product product, List<ProductPriceQuantity> productPriceQuantity, int idOrder, String unitId) {
+        this.orderDetailId = orderDetailId;
+        this.quantity = quantity;
+        this.price = price;
+        this.product = product;
+        this.productPriceQuantity = productPriceQuantity;
+        this.idOrder = idOrder;
+        this.unitId = unitId;
+    }
+
+    public String getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(String unitId) {
+        this.unitId = unitId;
+    }
+
+    public int getIdOrder() {
+        return idOrder;
+    }
+
+    public void setIdOrder(int idOrder) {
+        this.idOrder = idOrder;
+    }
+
+   
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public List<ProductPriceQuantity> getProductPriceQuantity() {
+        return productPriceQuantity;
+    }
+
+    public void setProductPriceQuantity(List<ProductPriceQuantity> productPriceQuantity) {
+        this.productPriceQuantity = productPriceQuantity;
+    }
+
+  
+        
+    
 
     public int getOrderDetailId() {
         return orderDetailId;
@@ -70,13 +133,11 @@ public class OrderDetail {
         this.price = price;
     }
 
-    public String getAddress() {
-        return address;
+    @Override
+    public String toString() {
+        return "OrderDetail{" + "orderDetailId=" + orderDetailId + ", orderId=" + orderId + ", productId=" + productId + ", quantity=" + quantity + ", price=" + price + ", product=" + product + ", productPriceQuantity=" + productPriceQuantity + ", idOrder=" + idOrder + '}';
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
+  
     
 }

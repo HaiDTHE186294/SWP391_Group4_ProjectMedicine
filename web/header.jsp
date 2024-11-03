@@ -53,7 +53,7 @@
 
     </head>
     <body>
-        <!-- Loader -->
+        <!-- Loader 
         <div id="preloader">
             <div id="status">
                 <div class="spinner">
@@ -63,7 +63,7 @@
             </div>
         </div>
         <!-- Loader -->
-        
+
         <!-- Navbar STart -->
         <header id="topnav" class="defaultscroll sticky">
             <div class="container">
@@ -93,7 +93,7 @@
                 <!-- Start Dropdown -->
                 <ul class="dropdowns list-inline mb-0">
                     <li class="list-inline-item mb-0">
-                        <a href="javascript:void(0)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <a href="cart" >
                             <div class="btn btn-icon btn-pills btn-primary"><i data-feather="shopping-cart" class="fea icon-sm"></i></div>
                         </a>
                     </li>
@@ -118,9 +118,10 @@
                                     </a>
                                     <c:if test="${sessionScope.User.getRoleId() == 1 || sessionScope.User.roleId == 3}">
                                         <a class="dropdown-item text-dark" href="showProductManageView"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
-                                    </c:if>
+                                            </c:if>
                                     <a class="dropdown-item text-dark" href="changeProfile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
                                     <div class="dropdown-divider border-top"></div>
+                                    <a class="dropdown-item text-dark" href="orderHistory"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Order History</a>
                                     <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
                                 </div>
                             </div>
@@ -157,7 +158,7 @@
                                             <ul class="submenu">
                                                 <c:forEach var="subcategory" items="${sessionScope.subcategoriesMapR1[listCategoryR1.categoryID]}">
                                                     <li><a href="listproduct?categoryID=${subcategory.categoryID}" class="sub-menu-item">${subcategory.categoryName}</a></li>
-                                                </c:forEach>
+                                                    </c:forEach>
                                             </ul>
                                         </c:if>
                                     </li>
@@ -171,13 +172,13 @@
                                 <c:forEach var="listCategoryR2" items="${sessionScope.listCategoryR2}">
                                     <li class="has-submenu">
                                         <a href="listproduct?categoryID=${listCategoryR2.categoryID}" class="sub-menu-item">${listCategoryR2.getCategoryName()}</a>
-                                        
+
                                         <!-- Get subcategories for R2 -->
                                         <c:if test="${not empty sessionScope.subcategoriesMapR2[listCategoryR2.categoryID]}">
                                             <ul class="submenu">
                                                 <c:forEach var="subcategory" items="${sessionScope.subcategoriesMapR2[listCategoryR2.categoryID]}">
                                                     <li><a href="listproduct?categoryID=${subcategory.categoryID}" class="sub-menu-item">${subcategory.categoryName}</a></li>
-                                                </c:forEach>
+                                                    </c:forEach>
                                             </ul>
                                         </c:if>
                                     </li>
@@ -191,13 +192,13 @@
                                 <c:forEach var="listCategoryR3" items="${sessionScope.listCategoryR3}">
                                     <li class="has-submenu">
                                         <a href="listproduct?categoryID=${listCategoryR3.categoryID}" class="sub-menu-item">${listCategoryR3.getCategoryName()}</a>
-                                        
+
                                         <!-- Get subcategories for R3 -->
                                         <c:if test="${not empty sessionScope.subcategoriesMapR3[listCategoryR3.categoryID]}">
                                             <ul class="submenu">
                                                 <c:forEach var="subcategory" items="${sessionScope.subcategoriesMapR3[listCategoryR3.categoryID]}">
                                                     <li><a href="listproduct?categoryID=${subcategory.categoryID}" class="sub-menu-item">${subcategory.categoryName}</a></li>
-                                                </c:forEach>
+                                                    </c:forEach>
                                             </ul>
                                         </c:if>
                                     </li>
