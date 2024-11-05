@@ -211,23 +211,30 @@
         %>
         <script>
             function filterProducts() {
-                var input = document.getElementById('searchInput').value.toLowerCase();  // Get the search input
-                var products = document.querySelectorAll('.product-wrapper');  // Select all product wrappers
+                var input = document.getElementById('searchInput').value.toLowerCase().trim();  // Lấy và chuyển thành chữ thường, loại bỏ khoảng trắng
+                var keywords = input.split(/\s+/);  // Tách từ khóa thành các từ dựa trên khoảng trắng
+                var products = document.querySelectorAll('.product-wrapper');  // Chọn tất cả các phần tử sản phẩm
 
-                // Loop through each product
+                // Lặp qua mỗi sản phẩm
                 products.forEach(function (product) {
                     var productName = product.querySelector('.product-display h3').textContent.toLowerCase();
-                    var productId = product.querySelector('.product-display h3').textContent.split('-')[0].trim().toLowerCase();
+                    var productId = productName.split('-')[0].trim();  // Tách phần ID của sản phẩm từ tên (nếu ID nằm trước dấu '-')
 
-                    // Check if the input matches product name or product ID
-                    if (productName.includes(input) || productId.includes(input)) {
-                        product.style.display = '';  // Show product
+                    // Kiểm tra nếu bất kỳ từ nào trong keywords xuất hiện trong tên hoặc ID sản phẩm
+                    var isMatch = keywords.some(function (keyword) {
+                        return productName.includes(keyword) || productId.includes(keyword);
+                    });
+
+                    // Hiển thị hoặc ẩn sản phẩm tùy thuộc vào kết quả khớp
+                    if (isMatch) {
+                        product.style.display = '';  // Hiển thị sản phẩm
                     } else {
-                        product.style.display = 'none';  // Hide product
+                        product.style.display = 'none';  // Ẩn sản phẩm
                     }
                 });
             }
         </script>
+
 
 
         <%@include file="dashboardHeader.jsp" %>

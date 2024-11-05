@@ -207,7 +207,7 @@
                         </li>
 
                         <li class="has-submenu parent-menu-item">
-                            <a href="usermanagement">Bệnh</a>
+                            <a href="usermanagement">User managenent</a>
                         </li>
                     </ul><!--end navigation menu-->
                 </div><!--end navigation-->

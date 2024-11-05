@@ -66,32 +66,49 @@
                 text-decoration: underline; /* Gạch chân link khi hover */
             }
         </style>
+        <script>
+            function validateNullInput() {
+                const form = document.forms[0];
+                const requiredFields = form.querySelectorAll('input[required], select[required]');
+
+                for (const field of requiredFields) {
+                    // Trim whitespace and check if the input is empty
+                    if (field.value.trim() === "") {
+                        alert("Vui lòng điền thông tin hợp lệ vào tất cả các trường bắt buộc.");
+                        field.focus();
+                        location.reload();
+                        return false; // Prevent form submission
+                    }
+                }
+                return true; // Call date validation as well
+            }
+        </script>
         <%@include file="dashboardHeader.jsp" %>
 
-</head>
-<body>
-    <h2>Edit Category</h2>
-    <form action="CategoryServlet" method="post">
-        <input type="hidden" name="action" value="update">
-        <input type="hidden" name="categoryID" value="${category.categoryID}">
+    </head>
+    <body>
+        <h2>Edit Category</h2>
+        <form action="CategoryServlet" method="post" onsubmit="return validateNullInput()">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="categoryID" value="${category.categoryID}">
 
-        <label for="categoryName">Category Name:</label>
-        <input type="text" name="categoryName" value="${category.categoryName}" required>
-        <input type="hidden" name="icon" value="${category.icon}"><br>
-        <input type="hidden" name="parentCategoryID" value="${category.parentCategoryID}" readonly="">
+            <label for="categoryName">Category Name *:</label>
+            <input type="text" name="categoryName" value="${category.categoryName}" required>
+            <input type="hidden" name="icon" value="${category.icon}"><br>
+            <input type="hidden" name="parentCategoryID" value="${category.parentCategoryID}" readonly="">
 
-        <label for="status">Status:</label>
-        <select name="status">
-            <option value="1" <c:if test="${category.status == 1}">selected</c:if>>Active</option>
-            <option value="0" <c:if test="${category.status == 0}">selected</c:if>>Inactive</option>
-            </select><br>
+            <label for="status">Status:</label>
+            <select name="status">
+                <option value="1" <c:if test="${category.status == 1}">selected</c:if>>Active</option>
+                <option value="0" <c:if test="${category.status == 0}">selected</c:if>>Inactive</option>
+                </select><br>
 
-            <label for="description">Description:</label>
-            <textarea name="description">${category.description}</textarea><br>
+                <label for="description">Description:</label>
+                <textarea name="description">${category.description}</textarea><br>
 
-        <input type="submit" value="Update Category">
-    </form>
+                <input type="submit" value="Update Category" >
+        </form>
 
-    <a href="CategoryServlet">Cancel</a>
-</body>
+        <a href="CategoryServlet">Cancel</a>
+    </body>
 </html>
