@@ -94,7 +94,7 @@
                 <ul class="dropdowns list-inline mb-0">
                     <li class="list-inline-item mb-0">
                         <a href="cart" >
-                            <div class="btn btn-icon btn-pills btn-primary"><i data-feather="shopping-cart" class="fea icon-sm"></i></div>
+                            <div class="btn btn-icon btn-pills btn-primary"><i class="fa-solid fa-cart-shopping"></i></div>
                         </a>
                     </li>
 
@@ -116,7 +116,7 @@
                                             <small class="text-muted">Orthopedic</small>
                                         </div>
                                     </a>
-                                    <c:if test="${sessionScope.User.getRoleId() == 1}">
+                                    <c:if test="${sessionScope.User.getRoleId() == 1 || sessionScope.User.roleId == 3}">
                                         <a class="dropdown-item text-dark" href="showProductManageView"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
                                             </c:if>
                                     <a class="dropdown-item text-dark" href="changeProfile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
@@ -198,7 +198,7 @@
                                             <ul class="submenu">
                                                 <c:forEach var="subcategory" items="${sessionScope.subcategoriesMapR3[listCategoryR3.categoryID]}">
                                                     <li><a href="listproduct?categoryID=${subcategory.categoryID}" class="sub-menu-item">${subcategory.categoryName}</a></li>
-                                                    </c:forEach>
+                                                </c:forEach>
                                             </ul>
                                         </c:if>
                                     </li>

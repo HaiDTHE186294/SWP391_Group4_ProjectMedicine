@@ -22,7 +22,9 @@ public class DBContext {
 
             String pass = "123";
 
+
             String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=SWP2";
+
 
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
