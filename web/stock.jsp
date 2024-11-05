@@ -18,7 +18,7 @@
                 width: 100%;
                 border-collapse: collapse;
             }
-            
+
             .actions button {
                 margin-bottom: 8px; /* Khoảng cách giữa các nút theo chiều dọc */
             }
@@ -132,10 +132,18 @@
                 unitMap.put(unit.getUnitID(), unit.getUnitName());
             }
 
-            // Filter the stock list based on the search query
-            if (searchQuery != null && !searchQuery.isEmpty()) {
-                stockList.removeIf(stock -> !productMap.get(stock.getProductId()).toLowerCase().contains(searchQuery.toLowerCase()));
-            }
+            // Lọc danh sách stock dựa trên searchQuery
+if (searchQuery != null && !searchQuery.isEmpty()) {
+    // Tạo biểu thức chính quy từ searchQuery để khớp với các từ trong tên sản phẩm
+    searchQuery = ".*" + searchQuery.replaceAll("\\s+", ".*") + ".*";
+    String finalSearchQuery = searchQuery.toLowerCase();
+
+    // Xóa các mục không khớp với biểu thức tìm kiếm
+    stockList.removeIf(stock -> 
+        !productMap.get(stock.getProductId()).toLowerCase().matches(finalSearchQuery)
+    );
+}
+
 
             if (stockList != null && !stockList.isEmpty()) {
                 // Calculate the total number of pages

@@ -67,35 +67,55 @@
                 text-decoration: underline; /* Gạch chân link khi hover */
             }
         </style>
+        <script>
+            function validateNullInput() {
+                const form = document.forms[0];
+                const requiredFields = form.querySelectorAll('input[required], select[required]');
+
+                for (const field of requiredFields) {
+                    // Trim whitespace and check if the input is empty
+                    if (field.value.trim() === "") {
+                        alert("Vui lòng điền thông tin hợp lệ vào tất cả các trường bắt buộc.");
+                        location.reload();
+                        return false; // Prevent form submission
+                    }
+                }
+                return true; // Call date validation as well
+            }
+        </script>
         <%@include file="dashboardHeader.jsp" %>
 
-</head>
-<body>
-    <h2>Add Category</h2>
-    <form action="CategoryServlet" method="post">
-        <input type="hidden" name="action" value="insert">
-        <input type="hidden" name="categoryID" value="${category.categoryID}">
+    </head>
+    <body>
+        <h2>Add Category</h2>
+        <form action="CategoryServlet" method="post" >
+            <input type="hidden" name="action" value="insert">
+            <input type="hidden" name="categoryID" value="${category.categoryID}">
 
-        <label for="categoryName">Category Name:</label>
-        <input type="text" name="categoryName" required maxlength="50 "><br>
+            <label for="categoryName">Category Name *:</label>
+            <input type="text" name="categoryName" required maxlength="50 "><br>
 
 
-        <label for="parentCategoryID">Parent Category:</label>
-        <input type="text" name="PName" value="${category.categoryName}" readonly><br>
-        <input type="hidden" name="ParentCategoryID" value="${category.categoryID}" readonly=""><br>
+            <label for="parentCategoryID">Parent Category:</label>
+            <input type="text" name="PName" value="${category.categoryName}" readonly><br>
+            <input type="hidden" name="ParentCategoryID" value="${category.categoryID}" readonly=""><br>
 
-        <label for="status">Status:</label>
-        <select name="status">
-            <option value="1" >Active</option>
-            <option value="0" >Inactive</option>
+            <label for="status">Status:</label>
+            <select name="status">
+                <option value="1" >Active</option>
+                <option value="0" >Inactive</option>
             </select><br>
 
             <label for="description">Description:</label>
             <textarea name="description"></textarea><br>
+            <label>
+                <input type="checkbox" id="confirmCheckbox" required onclick="validateNullInput()">
+                Confirm
+            </label><br>
 
-        <input type="submit" value="Add Category">
-    </form>
+            <input type="submit" value="Add Category">
+        </form>
 
-    <a href="CategoryServlet">Cancel</a>
-</body>
+        <a href="CategoryServlet">Cancel</a>
+    </body>
 </html>
