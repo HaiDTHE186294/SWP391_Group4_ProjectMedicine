@@ -9,6 +9,7 @@
         <a href="http://localhost:8080/MedicineShop/viewImports">Import History</a>
         <a href="http://localhost:8080/MedicineShop/CategoryServlet">Category List</a>
         <a href="http://localhost:8080/MedicineShop/AdminApprovalLogServlet?status=3">Admin Approval</a>
+        <a href="http://localhost:8080/MedicineShop/usermanagement">User Management</a>
 
         <script>
             function showError(event) {
