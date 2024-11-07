@@ -100,6 +100,8 @@
         </style>
 
         <script>
+
+
             // Function to check and display the Based Unit message on page load
             function checkBasedUnitOnLoad() {
                 const packagingInputs = document.querySelectorAll('input[name="packagingDetails[]"]');
@@ -303,7 +305,22 @@
                 }
 
                 // Call all other check functions for validation
-                return checkDuplicateUnits() && checkPackagingDetails() && validateTargetAudience(); // Ensure other checks are also valid
+                return checkDuplicateUnits() && checkPackagingDetails() && validateTargetAudience() && validateNullInput(); // Ensure other checks are also valid
+            }
+
+            function validateNullInput() {
+                const form = document.forms[0];
+                const requiredFields = form.querySelectorAll('input[required], select[required]');
+
+                for (const field of requiredFields) {
+                    // Trim whitespace and check if the input is empty
+                    if (field.value.trim() === "") {
+                        alert("Vui lòng điền thông tin hợp lệ vào tất cả các trường bắt buộc.");
+                        field.focus();
+                        return false; // Prevent form submission
+                    }
+                }
+                return true; 
             }
 
             // Hàm kiểm tra ít nhất một checkbox được tích
@@ -521,7 +538,7 @@
                     </table>
                     <button type="button" onclick="addUnitRow()">Add Unit</button>
                 </div>
-                
+
                 <label for="detail">Update description </label>
                 <textarea id="detailforUpdate" name="detailforUpdate" required rows="4" style="resize: both; width: 100%;"> Enter your update details here </textarea>
 

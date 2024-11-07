@@ -188,7 +188,7 @@
 
             // Form validation before submission
             function validateForm() {
-            return checkDuplicateProductId() && checkDuplicateUnits() && checkPackagingDetails(); // Call all check functions
+            return checkDuplicateProductId() && checkDuplicateUnits() && checkPackagingDetails() && validateNullInput(); // Call all check functions
             }
 
             // Function to add ingredient row
@@ -290,6 +290,21 @@
                     allowClear: true
                 });
             });
+            
+            function validateNullInput() {
+                const form = document.forms[0];
+                const requiredFields = form.querySelectorAll('input[required], select[required]');
+
+                for (const field of requiredFields) {
+                    // Trim whitespace and check if the input is empty
+                    if (field.value.trim() === "") {
+                        alert("Vui lòng điền thông tin hợp lệ vào tất cả các trường bắt buộc.");
+                        field.focus();
+                        return false; // Prevent form submission
+                    }
+                }
+                return true; 
+            }
 
         </script>
         <%@ include file="dashboardHeader.jsp" %>

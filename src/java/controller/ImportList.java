@@ -26,7 +26,7 @@ import model.Product;
 import model.ProductPriceQuantity;
 import model.ProductUnit;
 import model.Provider;
-import model.Unit;
+import model.*;
 
 /**
  *
@@ -80,6 +80,8 @@ public class ImportList extends HttpServlet {
         // Lấy danh sách nhà cung cấp
         List<Provider> providerList = sDao.getAllProviders();
         request.setAttribute("providerList", providerList);
+        List<Stock> stocks = sDao.getAllStocks();
+        request.setAttribute("stocks", stocks);
 
         // Tạo map để lưu unitID và unitName
         Map<String, String> unitMap = new HashMap<>();
