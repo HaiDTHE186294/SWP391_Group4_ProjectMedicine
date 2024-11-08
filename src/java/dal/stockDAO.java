@@ -584,7 +584,7 @@ public class stockDAO extends DBContext {
         }
         return users;
     }
-    
+
     public Stock getStockByProductId(String productId) {
         String query = "SELECT Batch_no, Pid, Base_unit_ID, Quantity, Price_import, Date_manufacture, Date_expired "
                 + "FROM Stock "
@@ -637,6 +637,44 @@ public class stockDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    boolean updateSold(float normalizedOrderQuantity, String productId) {
+        String selectQuery = "SELECT Sold FROM [dbo].[Product] WHERE ProductID = ?";
+        String updateQuery = "UPDATE [dbo].[Product] SET Sold = ? WHERE ProductID = ?";
+
+        try (PreparedStatement selectStmt = connection.prepareStatement(selectQuery)) {
+            selectStmt.setString(1, productId);
+
+            try (ResultSet rs = selectStmt.executeQuery()) {
+                if (rs.next()) {
+                    float currentSold = rs.getFloat("Sold");
+
+                    float updatedSold = currentSold + normalizedOrderQuantity;
+
+                    try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
+                        updateStmt.setFloat(1, updatedSold);
+                        updateStmt.setString(2, productId);
+
+                        int rowsAffected = updateStmt.executeUpdate();
+
+                        if (rowsAffected > 0) {
+                            System.out.println("Product 'Sold' value updated successfully for ProductID: " + productId);
+                            return true;
+                        } else {
+                            System.out.println("Failed to update 'Sold' value for ProductID: " + productId);
+                            return false;
+                        }
+                    }
+                } else {
+                    System.out.println("Product not found for ProductID: " + productId);
+                    return false; // Product not found
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Error during the process
         }
     }
 }

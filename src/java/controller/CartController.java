@@ -173,7 +173,7 @@ public class CartController extends HttpServlet {
                     doPost(request, response);
                     return;
                 }
-                boolean checkAddCart = cartDao.addCart(order.getOrderId(), productId, price);
+                boolean checkAddCart = cartDao.addCart(order.getOrderId(), productId, price,quantity);
                 if (checkAddCart) {
                     System.out.println("Order detail add successfully.");
                 } else {

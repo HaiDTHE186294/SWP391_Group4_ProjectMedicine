@@ -30,8 +30,10 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+
     </head>
     <body>
+
         <jsp:include page="header.jsp" />
         <section class="section"  style="padding-top: 17px;">
             <div class="page-wrapper doctris-theme">
@@ -41,7 +43,7 @@
                     <div class="container-fluid">
                         <div class="layout-specing">
                             <div class="d-md-flex justify-content-between">
-                                <h5 class="mb-0">Cart</h5>
+                                <h5 class="mb-0">Shop cart</h5>
                             </div>
 
                             <div class="row mt-4">
@@ -52,7 +54,8 @@
                                                 <tr>
                                                     <th class="border-bottom p-3" style="min-width:20px "></th>
                                                     <th class="border-bottom p-3" style="min-width: 300px;">Sản phẩm</th>
-                                                    <th class="border-bottom text-center p-3" style="min-width: 160px;">Giá thành</th>
+                                                    <th class="border-bottom text-center p-3" style="min-width: 80px;">Đơn vị</th>
+                                                    <th class="border-bottom text-center p-3" style="min-width: 80px;">Giá thành</th>
                                                     <th class="border-bottom text-center p-3" style="min-width: 190px;">Số lượng</th>
                                                     <th class="border-bottom text-end p-3" style="min-width: 50px;">Thành tiền</th>
                                                 </tr>
@@ -72,7 +75,7 @@
                                                     <input hidden="" value="${orderDetail.idOrder}" name="idOrder">
                                                     <input hidden="" value="${orderDetail.product.productID}" name="ProductID">
 
-                                                    <br>
+                                                    <!--<br>-->
                                                     <td class="h5 p-3 text-center"><a href="cart?action=deleteCart&&orderDetailId=${orderDetail.orderDetailId}" class="text-danger"><i class="uil uil-times"></i></a></td>
                                                     <td class="p-3">
                                                         <div class="d-flex align-items-center">
@@ -97,15 +100,21 @@
                                                                 selectElement.addEventListener('change', function () {
                                                                     let selectedOption = selectElement.options[selectElement.selectedIndex];
                                                                     let salePrice = selectedOption.getAttribute('data-sale-price');
+
+                                                                    // Cập nhật giá trị của input ẩn
                                                                     let hiddenInput = selectElement.closest('td').querySelector('input[name="salePrice"]');
                                                                     hiddenInput.value = salePrice;
+
+                                                                    // Cập nhật giá thành trong <td> kế tiếp
+                                                                    let giaThanhCell = selectElement.closest('td').nextElementSibling;
+                                                                    giaThanhCell.innerText = salePrice;
                                                                 });
                                                             });
-
                                                         </script>
-
-
                                                     </td>
+
+                                                    <td class="gia-thanh">${orderDetail.productPriceQuantity[0].salePrice}</td>
+
 
                                                     <td class="text-center shop-list p-3">
                                                         <div class="qty-icons">
@@ -158,11 +167,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="col-lg-8 col-md-6 mt-4 pt-2">
-                                        <button type="submit" class="btn btn-soft-primary ms-2">
-                                            Update Cart
-                                        </button>
-                                    </div>
                                 </div><!--end col-->
                             </div><!--end row-->
 
@@ -170,7 +174,7 @@
 
                                 <div class="col-lg-4 col-md-6 ms-auto mt-4 pt-2">
                                     <form action="checkout" method="doget">
-                                        
+
 
                                         <div class="table-responsive bg-white rounded shadow">
 
@@ -181,28 +185,46 @@
                                                     <tr class="bg-light">
                                                         <td class="h6 p-3">Tổng tiền</td>
                                                         <td class="text-end font-weight-bold p-3">
-                                                            <input id="totalPriceDisplay" class="text-end font-weight-bold p-3 border-0" type="text" name="totalPrice" readonly>VND
+                                                            <input id="totalPriceDisplay" class="text-end font-weight-bold p-3 border-0" type="text" name="totalPrice" readonly> VND
                                                         </td>
                                                     </tr>
-
 
                                                 <script>
                                                     function calculateTotalPrice() {
                                                         let total = 0;
-                                                        document.querySelectorAll('td.text-end.font-weight-bold.p-3:not(#totalPriceDisplay)').forEach(function (priceCell) {
-                                                            let priceText = priceCell.textContent.trim();
-                                                            let price = parseFloat(priceText.replace(/[^0-9.]/g, ''));
-                                                            if (!isNaN(price)) {
-                                                                total += price;
+
+                                                        // Loop through each row that contains a cart item
+                                                        document.querySelectorAll('tr').forEach(function (row) {
+                                                            // Find the quantity input for this row
+                                                            let quantityInput = row.querySelector('input[name="quantity"]');
+                                                            if (quantityInput) {
+                                                                let quantity = parseInt(quantityInput.value); // Get the quantity value
+                                                                let priceSelect = row.querySelector('select[name="productUnit"]'); // Get the unit price select
+                                                                if (priceSelect) {
+                                                                    let selectedOption = priceSelect.options[priceSelect.selectedIndex]; // Get selected option
+                                                                    let unitPrice = parseFloat(selectedOption.textContent.split('-')[1].trim()); // Extract price from option text
+
+                                                                    // Calculate total price for this item and add it to the overall total
+                                                                    let itemTotalPrice = unitPrice * quantity;
+                                                                    total += itemTotalPrice;
+                                                                }
                                                             }
                                                         });
 
-                                                        // Display total price in the input field
+                                                        // Display total price in the input field (format it to 2 decimal places)
                                                         document.getElementById('totalPriceDisplay').value = total.toFixed(2);
                                                     }
 
-                                                    // Call the function on page load and whenever needed
+                                                    // Call the function on page load
                                                     window.onload = calculateTotalPrice;
+
+                                                    // Recalculate total price when quantity or unit price changes
+                                                    document.querySelectorAll('input[name="quantity"], select[name="productUnit"]').forEach(function (element) {
+                                                        element.addEventListener('change', calculateTotalPrice);
+                                                    });
+
+                                                    // Ensure the function runs immediately after definition in case the DOM is ready
+                                                    calculateTotalPrice();
                                                 </script>
                                                 </tbody>
                                             </table>
@@ -225,11 +247,15 @@
 
         <jsp:include page="footer.jsp" />
         
-        <!-- javascript -->
+         <!-- javascript -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->
         <script src="assets/js/simplebar.min.js"></script>
         <!-- Icons -->
         <script src="assets/js/feather.min.js"></script>
+        <!-- Main Js -->
+        <script src="assets/js/app.js"></script>
+
+
     </body>
 </html>

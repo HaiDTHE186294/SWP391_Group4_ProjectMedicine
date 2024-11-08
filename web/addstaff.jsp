@@ -118,7 +118,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-8 mt-4">
+                            <div class="col-lg-12 mt-4">
                                 <div class="card border-0 p-4 rounded shadow">
                                     <div class="row align-items-center">
                                         <div class="col-lg-2 col-md-4">
@@ -131,7 +131,7 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Full Name <span class="text-danger">*</span></label>
-                                                    <input name="fullName" id="name" type="text" class="form-control" placeholder="Full Name" pattern="^[a-zA-Z\s]+$" title="Full name should only contain letters and spaces." required>
+                                                    <input name="fullName" id="name" type="text" class="form-control" placeholder="Full Name" pattern="^[\p{L}\s]+$" title="Full name should only contain letters and spaces." required>
                                                 </div>
                                             </div><!--end col-->
 
@@ -179,7 +179,7 @@
                                 </div>
                             </div><!--end col-->
 
-                            <div class="col-lg-4 mt-4">
+                     <!--   <div class="col-lg-4 mt-4">
                                 <div class="card rounded border-0 shadow">
                                     <div class="p-4 border-bottom">
                                         <h5 class="mb-0">Staff List</h5>
@@ -192,7 +192,7 @@
 
                                                 <div class="ms-md-3 mt-4 mt-sm-0">
                                                     <a href="#" class="text-dark h6">${staff.fullName}</a>
-                                                    <p>${staff.username}</p> <!-- Add other details as needed -->
+                                                    <p>${staff.username}</p> <!-- Add other details as needed 
                                                 </div>
                                             </li>
                                         </c:forEach>
@@ -202,7 +202,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div>-->
                         </div><!--end row-->
                     </div>
                 </div><!--end container-->

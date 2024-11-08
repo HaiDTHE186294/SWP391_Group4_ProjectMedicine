@@ -120,11 +120,16 @@ public class CategoryDAO extends DBContext {
         List<Map<String, Object>> productList = new ArrayList<>();
 
         String sql = "SELECT p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
-                + "FROM Product p "
-                + "JOIN Category c ON p.CategoryID = c.CategoryID "
-                + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
-                + "JOIN Unit u ON pp.UnitID = u.UnitID "
-                + "WHERE pp.PackagingDetails = 1 AND (p.CategoryID = ? OR c.ParentCategoryID = ?)";
+            + "FROM Product p "
+            + "JOIN Category c ON p.CategoryID = c.CategoryID "
+            + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
+            + "JOIN Unit u ON pp.UnitID = u.UnitID "
+            + "JOIN Stock s ON p.ProductID = s.Pid "
+            + "WHERE pp.PackagingDetails = 1 "
+            + "AND (p.CategoryID = ? OR c.ParentCategoryID = ?) "
+            + "AND c.Status = 1 "
+            + "GROUP BY p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+            + "HAVING MIN(s.quantity) > 0;";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -169,11 +174,16 @@ public class CategoryDAO extends DBContext {
         List<Map<String, Object>> productList = new ArrayList<>();
 
         String sql = "SELECT p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
-                + "FROM Product p "
-                + "JOIN Category c on p.CategoryID = c.CategoryID "
-                + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
-                + "JOIN Unit u ON pp.UnitID = u.UnitID "
-                + "WHERE pp.PackagingDetails = 1 AND c.ParentCategoryID LIKE ? ";
+            + "FROM Product p "
+            + "JOIN Category c on p.CategoryID = c.CategoryID "
+            + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
+            + "JOIN Unit u ON pp.UnitID = u.UnitID "
+            + "JOIN Stock s ON p.ProductID = s.Pid "
+            + "WHERE pp.PackagingDetails = 1 "
+            + "AND c.ParentCategoryID LIKE ? "
+            + "AND c.Status = 1 "
+            + "GROUP BY p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+            + "HAVING MIN(s.quantity) > 0;";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 

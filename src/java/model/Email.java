@@ -84,7 +84,7 @@ public class Email {
     }
     
     
-    public String messageVerification(int code) {
+    public String messageVerification(String name, int code) {
         return "<!DOCTYPE html>\n"
                 + "<html lang=\"en\">\n"
                 + "<head>\n"
@@ -102,7 +102,7 @@ public class Email {
                 + "        </tr>\n"
                 + "        <tr>\n"
                 + "            <td style=\"padding: 20px;\">\n"
-                + "                <p>Hi new one</p>\n"
+                + "                <p>Hi "+name+",</p>\n"
                 + "                <p>If you didn't make this request, just ignore this email. If you'd like to proceed, your verify code is:</p>\n"
                 + "                <p style=\"font-size: 28px; font-weight: bold; color: #4CAF50;\">" + code + "</p>\n"
                 + "                <p>This Code will expire in 1 minute. Thanks for reading!</p>\n"
@@ -155,27 +155,31 @@ public class Email {
                 + "</html>";
     }
     
-     public String messageStaffInfor(String username, String password) {
+     public String messageStaffInfor(String fullName, String username, String password) {
         return "<!DOCTYPE html>\n"
                 + "<html lang=\"en\">\n"
                 + "<head>\n"
                 + "    <meta charset=\"UTF-8\">\n"
                 + "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
-                + "    <title>Staff Information</title>\n"
+                + "    <title>Welcome to Medicine Shop</title>\n"
                 + "</head>\n"
                 + "<body style=\"font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;\">\n"
                 + "\n"
                 + "    <table style=\"width: 100%; max-width: 600px; margin: 20px auto; background-color: #ffffff; border-collapse: collapse;\">\n"
                 + "        <tr>\n"
                 + "            <td style=\"padding: 20px; text-align: center; background-color: #4CAF50; color: #ffffff; font-size: 24px;\">\n"
-                + "                Staff Information\n"
+                + "                Welcome to Medicine Shop!\n"
                 + "            </td>\n"
                 + "        </tr>\n"
                 + "        <tr>\n"
                 + "            <td style=\"padding: 20px;\">\n"
-                + "                <p>Hi new one</p>\n"
-                + "                <p>Your username is:" + username + "</p>\n"
-                + "                <p>Your password is:" + password + "</p>\n"
+                + "                <p>Dear "+fullName+",</p>\n"
+                + "                <p>We are excited to welcome you to the team! Below are your login credentials:</p>\n"
+                + "                <p><strong>Username:</strong> " + username + "</p>\n"
+                + "                <p><strong>Password:</strong> " + password + "</p>\n"
+                + "                <p>You can access the staff portal by clicking the link below:</p>\n"
+                + "                <p><a href=\"http://localhost:8080/MedicineShop/login\" style=\"color: #4CAF50; text-decoration: none; font-weight: bold;\">Login to the Staff Portal</a></p>\n"
+                + "                <p>We look forward to your contributions to the team!</p>\n"
                 + "            </td>\n"
                 + "        </tr>\n"
                 + "        <tr>\n"

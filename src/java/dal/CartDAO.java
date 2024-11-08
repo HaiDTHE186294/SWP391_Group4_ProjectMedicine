@@ -388,36 +388,43 @@ public class CartDAO extends DBContext {
 //            return false;
 //        }
 //    }
-    public boolean addCart(int orderId, String productId, double price) {
-        String checkSql = "SELECT quantity FROM OrderDetails WHERE order_id = ? AND ProductID = ?";
-        String updateSql = "UPDATE OrderDetails SET quantity = quantity + 1 WHERE order_id = ? AND ProductID = ?";
-        String insertSql = "INSERT INTO OrderDetails (order_id, ProductID, quantity, price) VALUES (?, ?, ?, ?)";
+   public boolean addCart(int orderId, String productId, double price, int quantity) {
+    String checkSql = "SELECT quantity FROM OrderDetails WHERE order_id = ? AND ProductID = ?";
+    String updateSql = "UPDATE OrderDetails SET quantity = quantity + ? WHERE order_id = ? AND ProductID = ?";
+    String insertSql = "INSERT INTO OrderDetails (order_id, ProductID, quantity, price) VALUES (?, ?, ?, ?)";
 
-        try (
-                PreparedStatement checkPs = connection.prepareStatement(checkSql); PreparedStatement updatePs = connection.prepareStatement(updateSql); PreparedStatement insertPs = connection.prepareStatement(insertSql)) {
-            checkPs.setInt(1, orderId);
-            checkPs.setString(2, productId);
-            ResultSet rs = checkPs.executeQuery();
+    try (
+        PreparedStatement checkPs = connection.prepareStatement(checkSql);
+        PreparedStatement updatePs = connection.prepareStatement(updateSql);
+        PreparedStatement insertPs = connection.prepareStatement(insertSql)) {
+        
+        // Kiểm tra xem sản phẩm đã có trong OrderDetails chưa
+        checkPs.setInt(1, orderId);
+        checkPs.setString(2, productId);
+        ResultSet rs = checkPs.executeQuery();
 
-            if (rs.next()) {
-                updatePs.setInt(1, orderId);
-                updatePs.setString(2, productId);
-                int rowsUpdated = updatePs.executeUpdate();
-                return rowsUpdated > 0;
-            } else {
-                insertPs.setInt(1, orderId);
-                insertPs.setString(2, productId);
-                insertPs.setInt(3, 1);
-                insertPs.setDouble(4, price);
-                int rowsInserted = insertPs.executeUpdate();
-                return rowsInserted > 0;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+        if (rs.next()) {
+            // Nếu đã có, cập nhật số lượng bằng cách cộng thêm `quantity`
+            updatePs.setInt(1, quantity);
+            updatePs.setInt(2, orderId);
+            updatePs.setString(3, productId);
+            int rowsUpdated = updatePs.executeUpdate();
+            return rowsUpdated > 0;
+        } else {
+            // Nếu chưa có, chèn mới vào OrderDetails với số lượng `quantity`
+            insertPs.setInt(1, orderId);
+            insertPs.setString(2, productId);
+            insertPs.setInt(3, quantity);
+            insertPs.setDouble(4, price);
+            int rowsInserted = insertPs.executeUpdate();
+            return rowsInserted > 0;
         }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
+}
 
     public boolean updateStatusByOrderId(String orderId, String status, String totalPrice, String phone, String address) {
         String sql = "UPDATE [Order] SET status = ?, order_date = GETDATE(), order_total = ?, phone_number_order = ?, address = ? WHERE order_id = ?";
@@ -444,7 +451,6 @@ public class CartDAO extends DBContext {
         for (OrderDetail orderDetail : listOrderDetail) {
             String productId = orderDetail.getProduct().getProductID();
 
-            // Lấy tồn kho với ngày hết hạn nhỏ nhất và số lượng còn lại
             Stock stock = sdao.getStockByProductId(productId);
             if (stock == null) {
                 System.out.println("Không tìm thấy thông tin tồn kho cho sản phẩm ID: " + productId);
@@ -512,7 +518,8 @@ public class CartDAO extends DBContext {
             } else {
                 System.out.println("false");
             }
-
+                       
+            boolean updateSold = sdao.updateSold(normalizedOrderQuantity, productId);
             return true;
         } else {
             System.out.println("Tồn kho không đủ để đáp ứng yêu cầu.");
@@ -582,14 +589,14 @@ public class CartDAO extends DBContext {
 
         return orders;
     }
-    
+
     public static void main(String[] args) {
-        CartDAO cart = new CartDAO();
-        List<OrderDetail> getListCartDetailByOrderId= cart.getListCartDetailByOrderId(1);
-        for (OrderDetail orderDetail : getListCartDetailByOrderId) {
-            System.out.println(orderDetail.getProductPriceQuantity());
+        CartDAO cdao = new CartDAO();
+            List<OrderDetail> getListCartDetailByOrderId = cdao.getListCartDetailByOrderId(20);
+            for (OrderDetail orderDetail : getListCartDetailByOrderId) {
+                System.out.println(orderDetail.getPrice());
         }
+
     }
-    
 
 }
