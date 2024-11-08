@@ -1,14 +1,35 @@
 <%@ page language="java" %>
+<%
+    // Get userRoleID from session
+    Integer userRoleID = (Integer) session.getAttribute("userRoleID");
+    String userName = (String) session.getAttribute("userName");
+
+    // Determine role display based on userRoleID
+    String roleDisplay = "";
+    if (userRoleID != null) {
+        if (userRoleID == 1) {
+            roleDisplay = "Admin: " + userName;
+        } else if (userRoleID == 3) {
+            roleDisplay = "Staff: " + userName;
+        }
+    }
+%>
 <div class="header">
     <div class="navigation">
+        <a href="http://localhost:8080/MedicineShop/changeProfile"><%= roleDisplay %></a>
         <a href="#" onclick="confirmNavigation('http://localhost:8080/MedicineShop/home')">Home</a>
         <a href="http://localhost:8080/MedicineShop/showProductManageView">Product Manage Menu</a>       
-        <a href="http://localhost:8080/MedicineShop/product/addxx">Add Product</a> 
-        <a href="http://localhost:8080/MedicineShop/GetImport">Import Product</a> 
+        <% if (userRoleID != null && userRoleID == 3) { %>
+            <a href="http://localhost:8080/MedicineShop/product/addxx">Add Product</a>
+            <a href="http://localhost:8080/MedicineShop/GetImport">Import Product</a>
+        <% } %>
         <a href="http://localhost:8080/MedicineShop/stockManagement">Stock</a>
         <a href="http://localhost:8080/MedicineShop/viewImports">Import History</a>
         <a href="http://localhost:8080/MedicineShop/CategoryServlet">Category List</a>
-        <a href="http://localhost:8080/MedicineShop/AdminApprovalLogServlet?status=3">Admin Approval</a>
+        <% if (userRoleID != null && userRoleID == 1) { %>
+            <a href="http://localhost:8080/MedicineShop/AdminApprovalLogServlet?status=3">Admin Approval</a>
+        <% } %>
+        
         <a href="http://localhost:8080/MedicineShop/usermanagement">User Management</a>
 
         <script>
@@ -17,11 +38,10 @@
                 alert("Error: Missing part - Can not access");
             }
         </script>
-        <a href="http://localhost:8080/MedicineShop/changeProfile">Profile</a>
-        <a href="http://localhost:8080/MedicineShop/login">Login</a>
         <a href="#" onclick="confirmLogout()">Logout</a>
     </div>
 </div>
+
 
 <style>
     body {
