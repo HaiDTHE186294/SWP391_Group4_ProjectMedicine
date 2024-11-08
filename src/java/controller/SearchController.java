@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.CategoryDAO;
 import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 import model.Product;
@@ -62,6 +64,14 @@ public class SearchController extends HttpServlet {
        // Tạo đối tượng để tương tác với cơ sở dữ liệu
         ProductDAO productDAO = new ProductDAO(); // Giả sử bạn đã có lớp DAO này
         List<Map<String, Object>> products = productDAO.searchProductsByName(searchproduct);
+        
+        HttpSession session = request.getSession();
+        CategoryDAO categoryDAO = new CategoryDAO();
+        List<String> audienceList = categoryDAO.getAllAudiences();
+        session.setAttribute("audienceList", audienceList);
+
+        List<String> countryList = categoryDAO.getAllCountries();
+        session.setAttribute("countryList", countryList);
         
         // Đặt danh sách sản phẩm vào request
        request.setAttribute("searchproduct", products);

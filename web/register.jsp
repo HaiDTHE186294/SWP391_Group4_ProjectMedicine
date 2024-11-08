@@ -62,7 +62,7 @@
                                             <div class="col-md-12">
                                                 <div class="mb-3">                                               
                                                     <label class="form-label">Full Name <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" placeholder="Full Name" name="fullName" pattern="^[a-zA-Z\s]+$" title="Full name should only contain letters and spaces." value="${sessionScope.fullName}" required>
+                                                    <input type="text" class="form-control" placeholder="Full Name" name="fullName" pattern="^[\p{L}\s]+$" title="Full name should only contain letters and spaces." value="${sessionScope.fullName}" required>
                                                 </div>
                                             </div>
 

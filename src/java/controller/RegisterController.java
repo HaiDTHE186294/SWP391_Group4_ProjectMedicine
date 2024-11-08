@@ -105,14 +105,13 @@ public class RegisterController extends HttpServlet {
         }
 
         session.setAttribute("fullName", fullName);
-        session.setAttribute("phone", phone);
         session.setAttribute("address", address);
 
         UserDAO userDao = new UserDAO();
 
         // Kiểm tra nếu username hoặc email đã tồn tại
-        if (userDao.checkUserExists(username, email)) {
-            request.setAttribute("registerError", "Registration failed. Username or email might already be taken!");
+        if (userDao.checkUserExists(username, email, phone)) {
+            request.setAttribute("registerError", "Registration failed. Username or email or phone might already be taken!");
             request.getRequestDispatcher("register.jsp").forward(request, response);
         } else {
             Email handleEmail = new Email();
@@ -120,7 +119,7 @@ public class RegisterController extends HttpServlet {
             Integer code = 100000 + random.nextInt(900000);
             String verificationCode = code.toString();
             String subject = handleEmail.subjectVerification();
-            String msgEmail = handleEmail.messageVerification(code);
+            String msgEmail = handleEmail.messageVerification(username, code);
 
             boolean isEmailSent = handleEmail.sendEmail(subject, msgEmail, email);
 
@@ -140,6 +139,7 @@ public class RegisterController extends HttpServlet {
                 session.setAttribute("registrationData", user);
                 session.setAttribute("username", username);
                 session.setAttribute("email", email);
+                session.setAttribute("phone", phone);
 
                 request.setAttribute("check", "true");
                 request.setAttribute("message", "EXIST - valid email, check your email to have verify code");
