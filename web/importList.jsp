@@ -122,8 +122,8 @@
             for (int i = 0; i < stocks.size(); i++) {
                 Stock stock = stocks.get(i);
         %> {
-                productId: "<%= stock.getProductId() %>",
-                batchNo: "<%= stock.getBatchNo() %>",
+                productId: "<%= stock.getProductId().trim() %>",
+                batchNo: "<%= stock.getBatchNo().trim() %>",
                 dateManufacture: "<%= stock.getDateManufacture() != null ? stock.getDateManufacture().toString() : "" %>",
                 dateExpired: "<%= stock.getDateExpired() != null ? stock.getDateExpired().toString() : "" %>"
             }<%= (i < stocks.size() - 1) ? "," : "" %>
@@ -134,24 +134,26 @@
         ];
 
         function checkStockExistence(input) {
-            const batchNo = input.value;
+            const batchNo = input.value.trim();
             const productId = input.getAttribute('data-product-id');
             const dateManufactureInput = input.closest('tr').querySelector('input[name="dateManufacture[]"]');
             const dateExpiredInput = input.closest('tr').querySelector('input[name="dateExpired[]"]');
+            console.log('Checking stock for:', { productId, batchNo });
             
             if (!batchNo) return; // Do nothing if batch number is empty
 
             const stock = stocks.find(stock => stock.productId === productId && stock.batchNo === batchNo);
+            console.log('Stock found:', stock);
             if (stock) {
                 dateManufactureInput.value = stock.dateManufacture; // Set production date
                 dateExpiredInput.value = stock.dateExpired; // Set expiration date
                 input.style.borderColor = "green"; // Change border color to indicate success
-                document.getElementById('statusMessage').innerText = "Số lô đã tồn tại."; // Show message
+                document.getElementById('statusMessage').innerText = "Số lô đã tồn tại trong kho."; // Show message
             } else {
                 dateManufactureInput.value = ""; // Clear if not found
                 dateExpiredInput.value = ""; // Clear if not found
                 input.style.borderColor = "red"; // Change border color to indicate error
-                document.getElementById('statusMessage').innerText = "Số lô không tồn tại."; // Show message
+                document.getElementById('statusMessage').innerText = "Số lô chưa tồn tại trong kho."; // Show message
             }
         }
         
@@ -164,6 +166,7 @@
                     if (field.value.trim() === "") {
                         alert("Vui lòng điền thông tin hợp lệ vào tất cả các trường bắt buộc.");
                         field.focus();
+                        confirmCheckbox.checked = false;
                         return false; // Prevent form submission
                     }
                 }
@@ -194,13 +197,12 @@
                     <th>Tên sản phẩm</th>
                     <th>ID sản phẩm</th>
                     <th>Đơn vị cơ bản</th>
-                    <th>Số lô</th>
-                    <th>Ngày sản xuất</th>
-                    <th>Ngày hết hạn</th>
-                    <th>Ngày Nhập hàng</th>
-                    <th>Giá Bán</th>
-                    <th>Giá Nhập</th>
-                    <th>Số lượng nhập</th>
+                    <th>Số lô *</th>
+                    <th>Ngày sản xuất *</th>
+                    <th>Ngày hết hạn *</th>
+                    <th>Ngày Nhập hàng *</th>
+                    <th>Giá Nhập - VND *</th>
+                    <th>Số lượng nhập *</th>
                 </tr>
             </thead>
             <tbody>
@@ -230,7 +232,7 @@
                     </td>
                     <td>
                         <input type="text" name="batchNo[]" required data-product-id="<%= product.getProductID() %>" 
-                               onblur="checkStockExistence(this)" />
+                               onchange="checkStockExistence(this)" />
                     </td>
                     <td>
                         <input type="date" name="dateManufacture[]" required />
@@ -241,9 +243,9 @@
                     <td>
                         <input type="date" name="dateImport[]" />
                     </td>
-                    <td>
-                        <input type="number" name="priceSale[]" value="<%= ppq.getSalePrice() %>" />
-                    </td>
+
+                        <input type="hidden" name="priceSale[]" value="<%= ppq.getSalePrice() %>" />
+
                     <td>
                         <input type="number" name="priceImport[]" required />
                     </td>
@@ -256,7 +258,11 @@
                 %>
             </tbody>
         </table>
-            <button type="submit" onclick="validateForm()">Submit</button>
+            <label>
+                <input type="checkbox" id="confirmCheckbox" required onclick="validateNullInput()">
+                Confirm
+            </label>
+            <button type="submit" onclick="validateNullInput()">Submit</button>
     </form>
 </body>
 </html>

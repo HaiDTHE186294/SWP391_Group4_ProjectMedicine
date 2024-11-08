@@ -9,6 +9,14 @@
 <%
     List<Product> products = (List<Product>) session.getAttribute("products");
 %>
+<%
+Integer userRoleID = (Integer) session.getAttribute("userRoleID");
+if (userRoleID == null || userRoleID != 3) {
+    // Điều hướng về trang đăng nhập nếu roleID không hợp lệ
+    response.sendRedirect("http://localhost:8080/MedicineShop/login");
+    return; // Ngừng xử lý JSP
+}
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -361,14 +369,14 @@
                         <input type="text" id="productName" name="productName" required maxlength="1000">
 
 
-                        <label for="shortDescription">Short Description</label>
-                        <textarea id="shortDescription" name="shortDescription"></textarea>
+                        <label for="shortDescription">Product Uses</label>
+                        <textarea id="shortDescription" name="shortDescription">Do not bold text</textarea>
 
-                        <label for="faq">FAQ</label>
-                        <textarea id="faq" name="faq"></textarea>
+                        <label for="faq">Another details</label>
+                        <textarea id="faq" name="faq">Do not bold text (How to use + Side effects + Notes + Storage)</textarea>
 
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description"></textarea>
+                        <label for="description">Product Description</label>
+                        <textarea id="description" name="description">Do not bold text</textarea>
                     </div>
 
                     <!-- Right Section -->
@@ -401,11 +409,11 @@
 
                         <label for="status">Adding request will be reviewed by admin</label>
                         <select id="status" name="status" required>
-<!--                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>-->
+                            <!--                            <option value="1">Active</option>
+                                                        <option value="0">Inactive</option>-->
                             <option value="3">Pending</option>
-<!--                            <option value="4">Discontinued</option>
-                            <option value="2">Out of stock</option>-->
+                            <!--                            <option value="4">Discontinued</option>
+                                                        <option value="2">Out of stock</option>-->
                         </select>
 
                         <label for="prescriptionRequired">Prescription Required *</label>

@@ -86,14 +86,14 @@
                     <li>
                         <span class="toggle" onclick="toggleSubCategories('${category.categoryID}')">${category.categoryName}</span>
                         <button onclick="window.location.href = 'CategoryServlet?action=edit&id=${category.categoryID}'">Update</button>
-                        <button onclick="window.location.href = 'CategoryServlet?action=insert&id=${category.categoryID}'">Add</button>
+                        <button onclick="window.location.href = 'CategoryServlet?action=insert&id=${category.categoryID}'">Add Sub-Category</button>
                         <ul id="subCategories-${category.categoryID}" class="nested">
                             <c:forEach var="subCategory" items="${categories}">
                                 <c:if test="${subCategory.parentCategoryID == category.categoryID}">
                                     <li>
                                         <span class="toggle" onclick="toggleSubCategories('${subCategory.categoryID}')">${subCategory.categoryName}</span>
                                         <button onclick="window.location.href = 'CategoryServlet?action=edit&id=${subCategory.categoryID}'">Update</button>
-                                        <button onclick="window.location.href = 'CategoryServlet?action=insert&id=${subCategory.categoryID}'">Add</button>
+                                        <button onclick="window.location.href = 'CategoryServlet?action=insert&id=${subCategory.categoryID}'">Add Sub-Category</button>
                                         <ul id="subCategories-${subCategory.categoryID}" class="nested">
                                             <c:forEach var="subSubCategory" items="${categories}">
                                                 <c:if test="${subSubCategory.parentCategoryID == subCategory.categoryID}">
