@@ -16,8 +16,8 @@ public class stockDAO extends DBContext {
     }
 
     public boolean addImport(Import importData) {
-        String insertImportSQL = "INSERT INTO Import (O_id, NCC, Pid, Base_unit_ID, Batch_no, Date_manufacture, Date_expired, Price_import, Importer, Quantity) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertImportSQL = "INSERT INTO Import (O_id, NCC, Pid, Base_unit_ID, Batch_no, Date_manufacture, Date_expired, Price_import, Importer, Quantity, Date_Import) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String checkStockSQL = "SELECT Quantity FROM Stock WHERE Pid = ? AND Batch_no = ?";
         String updateStockSQL = "UPDATE Stock SET Quantity = Quantity + ?, Price_import = ?, Date_manufacture = ?, Date_expired = ? "
                 + "WHERE Pid = ? AND Batch_no = ?";
@@ -37,6 +37,7 @@ public class stockDAO extends DBContext {
             importStmt.setDouble(8, importData.getPriceImport());
             importStmt.setInt(9, importData.getImporter());
             importStmt.setDouble(10, importData.getQuantity());
+            importStmt.setString(11, importData.getDateImport());
 
             // Thực hiện câu lệnh thêm vào bảng Import
             importStmt.executeUpdate();
@@ -95,8 +96,7 @@ public class stockDAO extends DBContext {
         }
     }
 
-    // Function to add stock to the database
-    // Function to retrieve all stock entries from the database
+
     public List<Stock> getAllStocks() {
         List<Stock> stocks = new ArrayList<>();
         String sql = "SELECT * FROM Stock"; // Adjust the SQL query if needed
@@ -107,7 +107,7 @@ public class stockDAO extends DBContext {
                 String batchNo = rs.getString("Batch_no");
                 String productId = rs.getString("Pid");
                 String baseUnitId = rs.getString("Base_unit_ID");
-                float quantity = rs.getInt("Quantity");
+                float quantity = rs.getFloat("Quantity");
                 float priceImport = rs.getFloat("Price_import");
                 String dateManufacture = rs.getString("Date_manufacture"); // Adjust type if needed
                 String dateExpired = rs.getString("Date_expired"); // Adjust type if needed
