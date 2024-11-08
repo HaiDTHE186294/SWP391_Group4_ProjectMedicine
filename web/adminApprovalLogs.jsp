@@ -7,7 +7,7 @@
 <html>
     <%
 Integer userRoleID = (Integer) session.getAttribute("userRoleID");
-if (userRoleID == null || userRoleID != 1) {
+if (userRoleID == null || userRoleID == 2) {
    // Điều hướng về trang đăng nhập nếu roleID không hợp lệ
    response.sendRedirect("login.jsp");
    return; // Ngừng xử lý JSP

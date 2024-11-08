@@ -157,14 +157,14 @@ public class ImportList extends HttpServlet {
         for (int i = 0; i < productIds.length; i++) {
             // Lấy thông tin từ từng sản phẩm
 
-            String productName = productNames[i];
-            String productId = productIds[i];
-            String baseUnitId = baseUnitIds[i];
-            String batchNo = batchNos[i];
-            String dateManufacture = dateManufactures[i];
-            String dateExpired = dateExpiers[i];
-            String dateImport = dateImports[i];
-            String priceSale = priceSales[i];
+            String productName = productNames[i].trim();
+            String productId = productIds[i].trim();
+            String baseUnitId = baseUnitIds[i].trim();
+            String batchNo = batchNos[i].trim();
+            String dateManufacture = dateManufactures[i].trim();
+            String dateExpired = dateExpiers[i].trim();
+            String dateImport = dateImports[i].trim();
+            String priceSale = priceSales[i].trim();
             float priceImport = Float.parseFloat(priceImports[i]);
             float quantity = Float.parseFloat(quantities[i]);
             String orderId = sDAO.generateOrderId(productIds[i]);

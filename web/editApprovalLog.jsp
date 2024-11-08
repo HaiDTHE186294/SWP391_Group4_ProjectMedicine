@@ -120,6 +120,7 @@ if (userRoleID == null || userRoleID != 1) {
                         </c:forEach>
                     </select>
                 </div>
+                
 
                 <button type="submit" class="submit-button" onclick="document.getElementById('status').value = '1'">Accept</button>
                 <button type="submit" class="submit-button" onclick="document.getElementById('status').value = '4'" style="background-color: #dc3545;">Reject</button>
