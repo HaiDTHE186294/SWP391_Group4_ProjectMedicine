@@ -19,7 +19,7 @@
 <html>
     <head> 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script type="text/javascript">
+<!--        <script type="text/javascript">
             var kommunicateSettings = {
                 "appId": "19a459080780f8a3e18a542ff44c64e9f",
                 "userId": "<%= session.getAttribute("userId") %>",
@@ -37,7 +37,7 @@
                 window.kommunicate = m;
                 m._globals = kommunicateSettings;
             })(document, window.kommunicate || {});
-        </script>
+        </script>-->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Product Manage</title>
         <style>

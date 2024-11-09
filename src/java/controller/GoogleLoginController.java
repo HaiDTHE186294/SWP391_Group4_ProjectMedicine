@@ -94,6 +94,7 @@ public class GoogleLoginController extends HttpServlet {
             session.setAttribute("userName", user.getUsername());
             session.setAttribute("userEmail", user.getEmail());
             session.setAttribute("userRoleID", user.getRoleId());
+            session.setAttribute("fullName", user.getFullName());
             response.sendRedirect("home");
         }
     }

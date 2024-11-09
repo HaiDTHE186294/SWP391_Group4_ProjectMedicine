@@ -96,7 +96,6 @@ public class stockDAO extends DBContext {
         }
     }
 
-
     public List<Stock> getAllStocks() {
         List<Stock> stocks = new ArrayList<>();
         String sql = "SELECT * FROM Stock"; // Adjust the SQL query if needed
@@ -497,6 +496,9 @@ public class stockDAO extends DBContext {
                 totalQuantity += stock.getQuantity();  // Add the quantity of each stock
             }
 
+            // Round totalQuantity to two decimal places
+            totalQuantity = Math.round(totalQuantity * 100.0f) / 100.0f;
+
             // Store the total quantity in the map
             totalQuantityByProduct.put(productId, totalQuantity);
         }
@@ -623,7 +625,7 @@ public class stockDAO extends DBContext {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setFloat(1, updatedQuantityStock);
             stmt.setString(2, batchNo);
-            stmt.setString(3,  Pid);
+            stmt.setString(3, Pid);
 
             int rowsAffected = stmt.executeUpdate();
             updateProductStatus();

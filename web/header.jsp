@@ -31,7 +31,7 @@
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script type="text/javascript">
+<!--        <script type="text/javascript">
             var kommunicateSettings = {
                 "appId": "19a459080780f8a3e18a542ff44c64e9f",
                 "userId": "<%= session.getAttribute("userId") %>",
@@ -49,7 +49,7 @@
                 window.kommunicate = m;
                 m._globals = kommunicateSettings;
             })(document, window.kommunicate || {});
-        </script>
+        </script>-->
 
     </head>
     <body>
@@ -109,7 +109,7 @@
                             <div class="dropdown dropdown-primary">
                                 <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="${User.image}" class="avatar avatar-ex-small rounded-circle" alt=""></button>
                                 <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                    <a class="dropdown-item d-flex align-items-center text-dark" href="doctor-profile.html">
+                                    <a class="dropdown-item d-flex align-items-center text-dark" href="changeProfile">
                                         <img src="${User.image}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                         <div class="flex-1 ms-2">
                                             <span class="d-block mb-1">${User.fullName}</span>

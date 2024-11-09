@@ -144,6 +144,7 @@
                     </div>
                     <div class="row" id="productContainer">
                         <c:forEach var="product" items="${productList}">
+                            <c:if test="${product.Status == 1}">
                             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}">
                                 <div class="card shop-list border-0">
                                     <div class="shop-image position-relative overflow-hidden rounded shadow">
@@ -166,11 +167,13 @@
                                     </div>
                                 </div>
                             </div><!--end col-->
+                            </c:if>
                         </c:forEach>
                     </div><!--end row-->
 
                     <div class="row" id="productContainer">
                         <c:forEach var="product" items="${searchproduct}">
+                            <c:if test="${product.Status == 1}">
                             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}">
                                 <div class="card shop-list border-0">
                                     <div class="shop-image position-relative overflow-hidden rounded shadow">
@@ -193,6 +196,7 @@
                                     </div>
                                 </div>
                             </div><!--end col-->
+                            </c:if>
                         </c:forEach>
                     </div><!--end row-->
 
