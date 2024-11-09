@@ -38,40 +38,48 @@
             <!-- Start Page Content -->
             <main class="page-content bg-light">
                 <div class="container-fluid">
-                    <div class="layout-specing">
+                    <div class="layout-specing" style="margin-top: 30px">
                         <div class="d-md-flex justify-content-between">
-                            <h4 class="mb-0">Order History</h4>
+                            <h5 class="mb-0">Order Detail</h5>
                         </div>
 
-                        <!-- Bắt đầu phần hiển thị danh sách đơn hàng -->
                         <div class="order-list mt-4">
                             <c:choose>
-                                <c:when test="${not empty orders}">
+                                <c:when test="${not empty listdetail}">
                                     <div class="table-responsive">
                                         <table id="orderTable" class="table table-bordered table-hover table-striped">
                                             <thead class="thead-dark">
                                                 <tr>
-                                            <!--    <th scope="col">Order ID</th>-->
-                                                    <th scope="col">Order Date</th>
-                                                    <th scope="col">Status</th>
-                                                    <th scope="col">Order Total</th>
-                                                    <th scope="col">Phone Number</th>
-                                                    <th scope="col">Address</th>
-                                                    <th scope="col">View</th>
+                                                    <th>Product ID</th>
+                                                    <th>Product Name</th>
+                                                    <th>Image</th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit</th>
+                                                    <th>Total Price</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <c:forEach var="order" items="${orders}">
+                                                <c:forEach var="detail" items="${listdetail}">
                                                     <tr>
-                                                <%--    <th scope="row">${order.orderId}</th>--%>
-                                                        <td>${order.orderDate}</td>
-                                                        <td>${order.status}</td>
-                                                        <td>${order.orderTotal}</td>
-                                                        <td>${order.phone_number_order}</td>
-                                                        <td>${order.address}</td>
-                                                       <td>
-                                                            <a href="orderHistory?id=${order.orderId}" class="btn btn-primary">View</a>
+                                                        <td>${detail.product.productID}</td>
+                                                        <td>${detail.product.productName}</td>
+                                                        <td><img src="${detail.product.imagePath}" alt="${detail.product.productName}" style="width: 50px; height: auto;"></td>
+                                                        <td>${detail.quantity}</td>
+                                                        <td><c:choose>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U001'}">Viên</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U002'}">Chai</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U003'}">Lọ</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U004'}">Hộp</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U005'}">Gói</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U006'}">Ống</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U007'}">Tuýp</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U008'}">Bình</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U009'}">Thùng</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U010'}">Vỉ</c:when>
+                                                                <c:otherwise>${detail.getUnitId()}</c:otherwise>
+                                                            </c:choose>
                                                         </td>
+                                                        <td>${detail.quantity * detail.price}</td>
                                                     </tr>
                                                 </c:forEach>
                                             </tbody>
@@ -106,7 +114,8 @@
             });
         </script>
 
-       
+        <jsp:include page="footer.jsp" />
+
         <!-- javascript -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->

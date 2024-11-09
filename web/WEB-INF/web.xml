@@ -89,18 +89,6 @@
         <servlet-class>controller.ViewImportsServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>productDetailCusController</servlet-name>
-        <servlet-class>ControllerCustomer.productDetailCusController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UserManagementController</servlet-name>
-        <servlet-class>controller.UserManagementController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteStaffController</servlet-name>
-        <servlet-class>controller.DeleteStaffController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>StockManagementServlet</servlet-name>
         <servlet-class>controller.StockManagementServlet</servlet-class>
     </servlet>
@@ -143,6 +131,22 @@
     <servlet>
         <servlet-name>EditApprovalLogServlet</servlet-name>
         <servlet-class>controller.EditApprovalLogServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserManagementController</servlet-name>
+        <servlet-class>controller.UserManagementController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteStaffController</servlet-name>
+        <servlet-class>controller.DeleteStaffController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductDetailController</servlet-name>
+        <servlet-class>controller.ProductDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>productDetailCusController</servlet-name>
+        <servlet-class>ControllerCustomer.productDetailCusController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -241,18 +245,6 @@
         <url-pattern>/viewImports</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>productDetailCusController</servlet-name>
-        <url-pattern>/prodetails</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UserManagementController</servlet-name>
-        <url-pattern>/usermanagement</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DeleteStaffController</servlet-name>
-        <url-pattern>/delete</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>StockManagementServlet</servlet-name>
         <url-pattern>/stockManagement</url-pattern>
     </servlet-mapping>
@@ -295,5 +287,17 @@
     <servlet-mapping>
         <servlet-name>EditApprovalLogServlet</servlet-name>
         <url-pattern>/EditApprovalLogServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserManagementController</servlet-name>
+        <url-pattern>/usermanagement</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteStaffController</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>productDetailCusController</servlet-name>
+        <url-pattern>/prodetails</url-pattern>
     </servlet-mapping>
 </web-app>

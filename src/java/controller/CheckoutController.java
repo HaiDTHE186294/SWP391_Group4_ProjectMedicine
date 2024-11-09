@@ -75,10 +75,9 @@ public class CheckoutController extends HttpServlet {
         //
         String status = "Cart";
         Order order = cartDao.getOrderWhereStatus(user.getUserId(), status);
-        List<OrderDetail> listOrderDetail = cartDao.getListCartDetailByOrderId(order.getOrderId());
-
+        List<OrderDetail> getListCartDetailByOrderId = cartDao.getListCartDetailByOrderId(order.getOrderId());
         request.setAttribute("order", order);
-        request.setAttribute("listOrderDetail", listOrderDetail);
+        request.setAttribute("listOrderDetail", getListCartDetailByOrderId);
 
         double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
         request.setAttribute("totalPricee", totalPrice);

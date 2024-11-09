@@ -202,7 +202,7 @@ public class Update extends HttpServlet {
         String detailForUpdate = request.getParameter("detailforUpdate");
 
         // Update the product in the 
-        productDAO.addAdminApprovalLog(existingProduct.getProductID(), "UPDATE", existingProduct.getStatus(), detailForUpdate, 1, existingProduct.getProductName());
+        productDAO.addAdminApprovalLog(existingProduct.getProductID(), "UPDATE", existingProduct.getStatus(), detailForUpdate, 2, existingProduct.getProductName());
         productDAO.updateProduct(existingProduct);  
         productDAO.addIng(existingProduct.getProductID(), existingProduct.getIng());
 

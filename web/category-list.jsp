@@ -79,6 +79,23 @@
         <%@include file="dashboardHeader.jsp" %>
     </head>
     <body>
+        <%
+    // Get roleID from session
+    Integer roleID = (Integer) session.getAttribute("userRoleID");
+
+    // Check if roleID is not 3
+    if (roleID == null || roleID == 2) {
+        // Get the previous page URL from the referer header
+        String referer = request.getHeader("referer");
+        %>
+        <script>
+            alert("You do not have permission to access this page.");
+            window.location.href = "<%= (referer != null) ? referer : "http://localhost:8080/MedicineShop/home" %>";
+        </script>
+        <%
+                return;
+            }
+        %>
         <h1>Danh sách danh mục</h1>
         <ul id="category-list">
             <c:forEach var="category" items="${categories}">
@@ -86,14 +103,14 @@
                     <li>
                         <span class="toggle" onclick="toggleSubCategories('${category.categoryID}')">${category.categoryName}</span>
                         <button onclick="window.location.href = 'CategoryServlet?action=edit&id=${category.categoryID}'">Update</button>
-                        <button onclick="window.location.href = 'CategoryServlet?action=insert&id=${category.categoryID}'">Add</button>
+                        <button onclick="window.location.href = 'CategoryServlet?action=insert&id=${category.categoryID}'">Add Sub-Category</button>
                         <ul id="subCategories-${category.categoryID}" class="nested">
                             <c:forEach var="subCategory" items="${categories}">
                                 <c:if test="${subCategory.parentCategoryID == category.categoryID}">
                                     <li>
                                         <span class="toggle" onclick="toggleSubCategories('${subCategory.categoryID}')">${subCategory.categoryName}</span>
                                         <button onclick="window.location.href = 'CategoryServlet?action=edit&id=${subCategory.categoryID}'">Update</button>
-                                        <button onclick="window.location.href = 'CategoryServlet?action=insert&id=${subCategory.categoryID}'">Add</button>
+                                        <button onclick="window.location.href = 'CategoryServlet?action=insert&id=${subCategory.categoryID}'">Add Sub-Category</button>
                                         <ul id="subCategories-${subCategory.categoryID}" class="nested">
                                             <c:forEach var="subSubCategory" items="${categories}">
                                                 <c:if test="${subSubCategory.parentCategoryID == subCategory.categoryID}">

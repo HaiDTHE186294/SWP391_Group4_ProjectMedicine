@@ -144,21 +144,20 @@
                     </div>
                     <div class="row" id="productContainer">
                         <c:forEach var="product" items="${productList}">
+                            <c:if test="${product.Status == 1}">
                             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}">
                                 <div class="card shop-list border-0">
                                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                        <a href="product-detail.jsp?productId=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
+                                        <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                         <ul class="list-unstyled shop-icons">
                                             <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                             <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                                            <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
+                                            <form action="cart" method="post">
+                                                <input hidden="" name="action" value="addCart">
+                                                <input hidden=""  title="text" name="productId" value="${product.ProductID}">
+                                                <li class="mt-2"><button type="submit" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></button></li>
+                                            </form>
                                         </ul>
-
-                                        <div class="qty-icons">
-                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-pills btn-icon btn-primary minus">-</button>
-                                            <input min="0" name="quantity" value="0" type="number" class="btn btn-pills btn-icon btn-primary qty-btn quantity">
-                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-pills btn-icon btn-primary plus">+</button>
-                                        </div>
                                     </div>
                                     <div class="card-body content pt-4 p-2">
                                         <a href="pharmacy-product-detail.html" class="text-dark product-name h6">${product.productName}</a>
@@ -168,26 +167,26 @@
                                     </div>
                                 </div>
                             </div><!--end col-->
+                            </c:if>
                         </c:forEach>
                     </div><!--end row-->
 
                     <div class="row" id="productContainer">
                         <c:forEach var="product" items="${searchproduct}">
+                            <c:if test="${product.Status == 1}">
                             <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2 product-item" data-price="${product.salePrice}" data-audience="${product.audience}" data-country="${product.countryofproduction}">
                                 <div class="card shop-list border-0">
                                     <div class="shop-image position-relative overflow-hidden rounded shadow">
-                                        <a href="product-detail.jsp?productId=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
+                                        <a href="prodetails?productid=${product.ProductID}"><img src="${product.imagePath}" class="img-fluid" alt="${product.productName}"></a>
                                         <ul class="list-unstyled shop-icons">
                                             <li><a href="#" class="btn btn-icon btn-pills btn-soft-danger"><i data-feather="heart" class="icons"></i></a></li>
                                             <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="eye" class="icons"></i></a></li>
-                                            <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></a></li>
+                                            <form action="cart" method="post">
+                                                <input hidden="" name="action" value="addCart">
+                                                <input hidden=""  title="text" name="productId" value="${product.ProductID}">
+                                                <li class="mt-2"><button type="submit" class="btn btn-icon btn-pills btn-soft-warning"><i data-feather="shopping-cart" class="icons"></i></button></li>
+                                            </form>
                                         </ul>                                
-
-                                        <div class="qty-icons">
-                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-pills btn-icon btn-primary minus">-</button>
-                                            <input min="0" name="quantity" value="0" type="number" class="btn btn-pills btn-icon btn-primary qty-btn quantity">
-                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-pills btn-icon btn-primary plus">+</button>
-                                        </div>
                                     </div>
                                     <div class="card-body content pt-4 p-2">
                                         <a href="pharmacy-product-detail.html" class="text-dark product-name h6">${product.productName}</a>
@@ -197,15 +196,16 @@
                                     </div>
                                 </div>
                             </div><!--end col-->
+                            </c:if>
                         </c:forEach>
                     </div><!--end row-->
 
-                <!--<div id="pagination" class="text-center mt-4">
-                        <button id="prevButton" onclick="changePage(-1)">Previous</button>
-                        <span id="pageInfo"></span>
-                        <button id="nextButton" onclick="changePage(1)">Next</button>
-                    </div>
-
+                    <!--<div id="pagination" class="text-center mt-4">
+                            <button id="prevButton" onclick="changePage(-1)">Previous</button>
+                            <span id="pageInfo"></span>
+                            <button id="nextButton" onclick="changePage(1)">Next</button>
+                        </div>
+    
                     <!-- 'See More' button -->
                     <!--<div id="moreProductsContainer" class="text-center mt-4">
                         <a href="javascript:void(0);" id="seeMoreProduct" onclick="showMoreProducts()">Xem thêm</a>
@@ -229,215 +229,215 @@
 
         <script>
 
-                            // Function to sort products
-                            function sortProducts(order) {
-                                let productContainer = document.getElementById('productContainer');
-                                let products = Array.from(document.getElementsByClassName('product-item'));
+                                // Function to sort products
+                                function sortProducts(order) {
+                                    let productContainer = document.getElementById('productContainer');
+                                    let products = Array.from(document.getElementsByClassName('product-item'));
 
-                                // Sort the products based on price (data-price attribute)
-                                products.sort(function (a, b) {
-                                    let priceA = parseFloat(a.getAttribute('data-price'));
-                                    let priceB = parseFloat(b.getAttribute('data-price'));
+                                    // Sort the products based on price (data-price attribute)
+                                    products.sort(function (a, b) {
+                                        let priceA = parseFloat(a.getAttribute('data-price'));
+                                        let priceB = parseFloat(b.getAttribute('data-price'));
 
-                                    if (order === 'asc') {
-                                        return priceA - priceB;
-                                    } else if (order === 'desc') {
-                                        return priceB - priceA;
-                                    }
-                                });
+                                        if (order === 'asc') {
+                                            return priceA - priceB;
+                                        } else if (order === 'desc') {
+                                            return priceB - priceA;
+                                        }
+                                    });
 
-                                // Clear the product container and append the sorted products
-                                productContainer.innerHTML = "";
-                                products.forEach(function (product) {
-                                    productContainer.appendChild(product);
-                                });
-                            }
+                                    // Clear the product container and append the sorted products
+                                    productContainer.innerHTML = "";
+                                    products.forEach(function (product) {
+                                        productContainer.appendChild(product);
+                                    });
+                                }
 
-                            let currentFilter = ''; // To track the current price filter
+                                let currentFilter = ''; // To track the current price filter
 
-                            // Function to apply filters based on price, audience, and country together
-                            function applyFilters() {
-                                // Get all products
-                                const products = document.querySelectorAll('#productContainer .product-item');
+                                // Function to apply filters based on price, audience, and country together
+                                function applyFilters() {
+                                    // Get all products
+                                    const products = document.querySelectorAll('#productContainer .product-item');
 
-                                // Get the selected price range
-                                const selectedPrice = currentFilter;
+                                    // Get the selected price range
+                                    const selectedPrice = currentFilter;
 
-                                // Get all selected audiences (checkboxes that are checked)
-                                const selectedAudiences = Array.from(document.querySelectorAll('input[name="targetAudience"]:checked')).map(cb =>
-                                    cb.value.replace(/,|\s+/g, '').toLowerCase()
-                                );
-
-                                // Get all selected countries (checkboxes that are checked)
-                                const selectedCountries = Array.from(document.querySelectorAll('input[name="countryofproduction"]:checked')).map(cb =>
-                                    cb.value
-                                );
-
-                                // Filter products based on selected filters
-                                products.forEach(product => {
-                                    const price = parseFloat(product.getAttribute('data-price'));
-                                    const productAudience = product.getAttribute('data-audience').replace(/,|\s+/g, '').toLowerCase();
-                                    const productCountry = product.getAttribute('data-country');
-
-                                    // Check if the product matches the selected price
-                                    let priceMatch = false;
-                                    if (selectedPrice === 'duoi100' && price < 100000) {
-                                        priceMatch = true;
-                                    } else if (selectedPrice === '100-300' && price >= 100000 && price <= 300000) {
-                                        priceMatch = true;
-                                    } else if (selectedPrice === '300-500' && price >= 300000 && price <= 500000) {
-                                        priceMatch = true;
-                                    } else if (selectedPrice === 'tren500' && price > 500000) {
-                                        priceMatch = true;
-                                    } else if (!selectedPrice) {
-                                        priceMatch = true; // No price filter selected, so treat it as a match
-                                    }
-
-                                    // Check if the product matches the selected audiences
-                                    const audienceMatch = selectedAudiences.length === 0 || selectedAudiences.some(audience =>
-                                        productAudience.includes(audience)
+                                    // Get all selected audiences (checkboxes that are checked)
+                                    const selectedAudiences = Array.from(document.querySelectorAll('input[name="targetAudience"]:checked')).map(cb =>
+                                        cb.value.replace(/,|\s+/g, '').toLowerCase()
                                     );
 
-                                    // Check if the product matches the selected countries
-                                    const countryMatch = selectedCountries.length === 0 || selectedCountries.includes(productCountry);
+                                    // Get all selected countries (checkboxes that are checked)
+                                    const selectedCountries = Array.from(document.querySelectorAll('input[name="countryofproduction"]:checked')).map(cb =>
+                                        cb.value
+                                    );
 
-                                    // Show the product if it matches all selected filters
-                                    if (priceMatch && audienceMatch && countryMatch) {
-                                        product.style.display = 'block';
-                                    } else {
-                                        product.style.display = 'none';
-                                    }
-                                });
-                            }
+                                    // Filter products based on selected filters
+                                    products.forEach(product => {
+                                        const price = parseFloat(product.getAttribute('data-price'));
+                                        const productAudience = product.getAttribute('data-audience').replace(/,|\s+/g, '').toLowerCase();
+                                        const productCountry = product.getAttribute('data-country');
 
-                            // Function to filter by price and apply all filters
-                            function filterByPrice(priceRange) {
-                                const buttons = document.querySelectorAll('.price-filter-buttons button');
+                                        // Check if the product matches the selected price
+                                        let priceMatch = false;
+                                        if (selectedPrice === 'duoi100' && price < 100000) {
+                                            priceMatch = true;
+                                        } else if (selectedPrice === '100-300' && price >= 100000 && price <= 300000) {
+                                            priceMatch = true;
+                                        } else if (selectedPrice === '300-500' && price >= 300000 && price <= 500000) {
+                                            priceMatch = true;
+                                        } else if (selectedPrice === 'tren500' && price > 500000) {
+                                            priceMatch = true;
+                                        } else if (!selectedPrice) {
+                                            priceMatch = true; // No price filter selected, so treat it as a match
+                                        }
 
-                                // If the same button is clicked again, clear the filter and remove the active state
-                                if (currentFilter === priceRange) {
-                                    currentFilter = ''; // Reset the price filter
-                                    buttons.forEach(btn => btn.classList.remove('active')); // Remove active state from all buttons
-                                } else {
-                                    currentFilter = priceRange; // Set the current filter
+                                        // Check if the product matches the selected audiences
+                                        const audienceMatch = selectedAudiences.length === 0 || selectedAudiences.some(audience =>
+                                            productAudience.includes(audience)
+                                        );
 
-                                    // Add the active class to the clicked button and remove it from others
-                                    buttons.forEach(btn => {
-                                        if (btn.getAttribute('onclick').includes(priceRange)) {
-                                            btn.classList.add('active');
+                                        // Check if the product matches the selected countries
+                                        const countryMatch = selectedCountries.length === 0 || selectedCountries.includes(productCountry);
+
+                                        // Show the product if it matches all selected filters
+                                        if (priceMatch && audienceMatch && countryMatch) {
+                                            product.style.display = 'block';
                                         } else {
-                                            btn.classList.remove('active');
+                                            product.style.display = 'none';
                                         }
                                     });
                                 }
 
-                                applyFilters(); // Apply all filters
-                            }
+                                // Function to filter by price and apply all filters
+                                function filterByPrice(priceRange) {
+                                    const buttons = document.querySelectorAll('.price-filter-buttons button');
 
-                            // Function to filter by audience and apply all filters
-                            function filterByAudience() {
-                                applyFilters(); // Apply all filters
-                            }
-
-                            // Function to filter by country and apply all filters
-                            function filterByCountry() {
-                                applyFilters(); // Apply all filters
-                            }
-
-
-
-                            const countriesPerPage = 5; // Number of countries to display per click
-                            let currentCountryIndex = 0; // Index of the last displayed country
-
-                            document.addEventListener('DOMContentLoaded', function () {
-                                let countries = document.querySelectorAll('#countryList .country-item');
-
-                                // Initially display the first 5 countries
-                                for (let i = 0; i < countriesPerPage && i < countries.length; i++) {
-                                    countries[i].style.display = 'block';
-                                    currentCountryIndex++;
-                                }
-
-                                // If there are fewer than 5 countries, hide the "See More" link
-                                if (countries.length <= countriesPerPage) {
-                                    document.getElementById('seeMore').style.display = 'none';
-                                }
-                            });
-
-                            function showMoreCountries() {
-                                const countries = document.querySelectorAll('#countryList .country-item');
-                                const seeMoreButton = document.getElementById('seeMore');
-
-                                // Display the next set of countries
-                                let newCountriesDisplayed = false;
-                                for (let i = currentCountryIndex; i < currentCountryIndex + countriesPerPage && i < countries.length; i++) {
-                                    countries[i].style.display = 'block';
-                                    currentCountryIndex++;
-                                    newCountriesDisplayed = true;
-                                }
-
-                                // Check if we have displayed all countries
-                                if (currentCountryIndex >= countries.length) {
-                                    seeMoreButton.textContent = 'Thu hẹp'; // Change button text to "Thu hẹp"
-                                    seeMoreButton.setAttribute('onclick', 'hideCountries()'); // Change the function for the button
-                                }
-
-                                // If there are no more countries to show, hide the button
-                                if (!newCountriesDisplayed) {
-                                    seeMoreButton.style.display = 'none';
-                                }
-                            }
-
-                            function hideCountries() {
-                                const countries = document.querySelectorAll('#countryList .country-item');
-                                const seeMoreButton = document.getElementById('seeMore');
-
-                                // Hide all countries
-                                countries.forEach((country, index) => {
-                                    if (index >= countriesPerPage) {
-                                        country.style.display = 'none'; // Hide country
-                                    }
-                                });
-
-                                // Reset currentCountryIndex and button text
-                                currentCountryIndex = countriesPerPage;
-                                seeMoreButton.textContent = 'Xem thêm'; // Change button text back to "Xem thêm"
-                                seeMoreButton.setAttribute('onclick', 'showMoreCountries()'); // Reset the function for the button
-                            }
-
-                            function filterCountries() {
-                                // Get the value of the search input
-                                const input = document.getElementById('countrySearch');
-                                const filter = input.value.toLowerCase();
-                                const countryItems = document.querySelectorAll('.country-item');
-
-                                // Loop through all country items and hide those that don't match the search query
-                                countryItems.forEach(item => {
-                                    const countryName = item.textContent.toLowerCase();
-                                    if (countryName.includes(filter)) {
-                                        item.style.display = 'block'; // Show item
+                                    // If the same button is clicked again, clear the filter and remove the active state
+                                    if (currentFilter === priceRange) {
+                                        currentFilter = ''; // Reset the price filter
+                                        buttons.forEach(btn => btn.classList.remove('active')); // Remove active state from all buttons
                                     } else {
-                                        item.style.display = 'none'; // Hide item
+                                        currentFilter = priceRange; // Set the current filter
+
+                                        // Add the active class to the clicked button and remove it from others
+                                        buttons.forEach(btn => {
+                                            if (btn.getAttribute('onclick').includes(priceRange)) {
+                                                btn.classList.add('active');
+                                            } else {
+                                                btn.classList.remove('active');
+                                            }
+                                        });
+                                    }
+
+                                    applyFilters(); // Apply all filters
+                                }
+
+                                // Function to filter by audience and apply all filters
+                                function filterByAudience() {
+                                    applyFilters(); // Apply all filters
+                                }
+
+                                // Function to filter by country and apply all filters
+                                function filterByCountry() {
+                                    applyFilters(); // Apply all filters
+                                }
+
+
+
+                                const countriesPerPage = 5; // Number of countries to display per click
+                                let currentCountryIndex = 0; // Index of the last displayed country
+
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    let countries = document.querySelectorAll('#countryList .country-item');
+
+                                    // Initially display the first 5 countries
+                                    for (let i = 0; i < countriesPerPage && i < countries.length; i++) {
+                                        countries[i].style.display = 'block';
+                                        currentCountryIndex++;
+                                    }
+
+                                    // If there are fewer than 5 countries, hide the "See More" link
+                                    if (countries.length <= countriesPerPage) {
+                                        document.getElementById('seeMore').style.display = 'none';
                                     }
                                 });
 
-                                // Reset the current country index and button visibility after filtering
-                                currentCountryIndex = 0; // Reset index
-                                // Show the first 5 matching countries
-                                const visibleItems = Array.from(countryItems).filter(item => item.style.display === 'block');
-                                visibleItems.forEach((item, index) => {
-                                    if (index < countriesPerPage) {
-                                        item.style.display = 'block'; // Show first 5 matching countries
-                                        currentCountryIndex++; // Update index
-                                    } else {
-                                        item.style.display = 'none'; // Hide others
-                                    }
-                                });
+                                function showMoreCountries() {
+                                    const countries = document.querySelectorAll('#countryList .country-item');
+                                    const seeMoreButton = document.getElementById('seeMore');
 
-                                // Update "See More" button visibility
-                                const seeMoreButton = document.getElementById('seeMore');
-                                seeMoreButton.style.display = visibleItems.length > countriesPerPage ? 'block' : 'none';
-                            }
+                                    // Display the next set of countries
+                                    let newCountriesDisplayed = false;
+                                    for (let i = currentCountryIndex; i < currentCountryIndex + countriesPerPage && i < countries.length; i++) {
+                                        countries[i].style.display = 'block';
+                                        currentCountryIndex++;
+                                        newCountriesDisplayed = true;
+                                    }
+
+                                    // Check if we have displayed all countries
+                                    if (currentCountryIndex >= countries.length) {
+                                        seeMoreButton.textContent = 'Thu hẹp'; // Change button text to "Thu hẹp"
+                                        seeMoreButton.setAttribute('onclick', 'hideCountries()'); // Change the function for the button
+                                    }
+
+                                    // If there are no more countries to show, hide the button
+                                    if (!newCountriesDisplayed) {
+                                        seeMoreButton.style.display = 'none';
+                                    }
+                                }
+
+                                function hideCountries() {
+                                    const countries = document.querySelectorAll('#countryList .country-item');
+                                    const seeMoreButton = document.getElementById('seeMore');
+
+                                    // Hide all countries
+                                    countries.forEach((country, index) => {
+                                        if (index >= countriesPerPage) {
+                                            country.style.display = 'none'; // Hide country
+                                        }
+                                    });
+
+                                    // Reset currentCountryIndex and button text
+                                    currentCountryIndex = countriesPerPage;
+                                    seeMoreButton.textContent = 'Xem thêm'; // Change button text back to "Xem thêm"
+                                    seeMoreButton.setAttribute('onclick', 'showMoreCountries()'); // Reset the function for the button
+                                }
+
+                                function filterCountries() {
+                                    // Get the value of the search input
+                                    const input = document.getElementById('countrySearch');
+                                    const filter = input.value.toLowerCase();
+                                    const countryItems = document.querySelectorAll('.country-item');
+
+                                    // Loop through all country items and hide those that don't match the search query
+                                    countryItems.forEach(item => {
+                                        const countryName = item.textContent.toLowerCase();
+                                        if (countryName.includes(filter)) {
+                                            item.style.display = 'block'; // Show item
+                                        } else {
+                                            item.style.display = 'none'; // Hide item
+                                        }
+                                    });
+
+                                    // Reset the current country index and button visibility after filtering
+                                    currentCountryIndex = 0; // Reset index
+                                    // Show the first 5 matching countries
+                                    const visibleItems = Array.from(countryItems).filter(item => item.style.display === 'block');
+                                    visibleItems.forEach((item, index) => {
+                                        if (index < countriesPerPage) {
+                                            item.style.display = 'block'; // Show first 5 matching countries
+                                            currentCountryIndex++; // Update index
+                                        } else {
+                                            item.style.display = 'none'; // Hide others
+                                        }
+                                    });
+
+                                    // Update "See More" button visibility
+                                    const seeMoreButton = document.getElementById('seeMore');
+                                    seeMoreButton.style.display = visibleItems.length > countriesPerPage ? 'block' : 'none';
+                                }
 
 //                            //Phân trang
 //                            const productsPerPage = 8; // Number of products per page

@@ -31,7 +31,7 @@
         <!-- Css -->
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script type="text/javascript">
+<!--        <script type="text/javascript">
             var kommunicateSettings = {
                 "appId": "19a459080780f8a3e18a542ff44c64e9f",
                 "userId": "<%= session.getAttribute("userId") %>",
@@ -49,7 +49,7 @@
                 window.kommunicate = m;
                 m._globals = kommunicateSettings;
             })(document, window.kommunicate || {});
-        </script>
+        </script>-->
 
     </head>
     <body>
@@ -94,7 +94,7 @@
                 <ul class="dropdowns list-inline mb-0">
                     <li class="list-inline-item mb-0">
                         <a href="cart" >
-                            <div class="btn btn-icon btn-pills btn-primary"><i data-feather="shopping-cart" class="fea icon-sm"></i></div>
+                            <div class="btn btn-icon btn-pills btn-primary"><i class="fa-solid fa-cart-shopping"></i></div>
                         </a>
                     </li>
 
@@ -109,19 +109,19 @@
                             <div class="dropdown dropdown-primary">
                                 <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="${User.image}" class="avatar avatar-ex-small rounded-circle" alt=""></button>
                                 <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                                    <a class="dropdown-item d-flex align-items-center text-dark" href="doctor-profile.html">
+                                    <a class="dropdown-item d-flex align-items-center text-dark" href="changeProfile">
                                         <img src="${User.image}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                         <div class="flex-1 ms-2">
                                             <span class="d-block mb-1">${User.fullName}</span>
-                                            <small class="text-muted">Orthopedic</small>
+                                            <small class="text-muted">SE1979</small>
                                         </div>
                                     </a>
-                                    <c:if test="${sessionScope.User.getRoleId() == 1}">
+                                    <c:if test="${sessionScope.User.getRoleId() == 1 || sessionScope.User.roleId == 3}">
                                         <a class="dropdown-item text-dark" href="showProductManageView"><span class="mb-0 d-inline-block me-1"><i class="uil uil-dashboard align-middle h6"></i></span> Dashboard</a>
                                             </c:if>
                                     <a class="dropdown-item text-dark" href="changeProfile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
                                     <div class="dropdown-divider border-top"></div>
-                                    <a class="dropdown-item text-dark" href="orderHistory"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Order History</a>
+                                    <a class="dropdown-item text-dark" href="orderHistory"><span class="mb-0 d-inline-block me-1"><i class="uil uil-history align-middle h6"></i></span> Order History</a>
                                     <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
                                 </div>
                             </div>
@@ -198,7 +198,7 @@
                                             <ul class="submenu">
                                                 <c:forEach var="subcategory" items="${sessionScope.subcategoriesMapR3[listCategoryR3.categoryID]}">
                                                     <li><a href="listproduct?categoryID=${subcategory.categoryID}" class="sub-menu-item">${subcategory.categoryName}</a></li>
-                                                    </c:forEach>
+                                                </c:forEach>
                                             </ul>
                                         </c:if>
                                     </li>
@@ -207,7 +207,9 @@
                         </li>
 
                         <li class="has-submenu parent-menu-item">
-                            <a href="usermanagement">User managenent</a>
+
+                            <a href=""></a>
+
                         </li>
                     </ul><!--end navigation menu-->
                 </div><!--end navigation-->
