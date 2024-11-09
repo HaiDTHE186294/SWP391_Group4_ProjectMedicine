@@ -102,16 +102,16 @@ public class AddProduct extends HttpServlet {
             request.getRequestDispatcher("addProduct.jsp").forward(request, response);
             return;
         }
-        String productName = request.getParameter("productName");
-        String pharmaceuticalForm = request.getParameter("pharmaceuticalForm");
-        String brandOrigin = request.getParameter("brandOrigin");
-        String manufacturer = request.getParameter("manufacturer");
-        String countryOfProduction = request.getParameter("countryOfProduction");
-        String shortDescription = request.getParameter("shortDescription");
-        String registrationNumber = request.getParameter("registrationNumber");
-        String productDescription = request.getParameter("description");
+        String productName = request.getParameter("productName").trim();
+        String pharmaceuticalForm = request.getParameter("pharmaceuticalForm").trim();
+        String brandOrigin = request.getParameter("brandOrigin").trim();
+        String manufacturer = request.getParameter("manufacturer").trim();
+        String countryOfProduction = request.getParameter("countryOfProduction").trim();
+        String shortDescription = request.getParameter("shortDescription").trim();
+        String registrationNumber = request.getParameter("registrationNumber").trim();
+        String productDescription = request.getParameter("description").trim();
         String contentReviewer = "none";
-        String faq = request.getParameter("faq");
+        String faq = request.getParameter("faq").trim();
         String productReviews = "";  // Không có reviews khi tạo sản phẩm
         int status = Integer.parseInt(request.getParameter("status"));
         int sold = 0;  // Giá trị mặc định cho số lượng bán
@@ -119,7 +119,7 @@ public class AddProduct extends HttpServlet {
         int productVersion = 1;  // Phiên bản sản phẩm mặc định
         String prescriptionRequired = request.getParameter("prescriptionRequired");
         String targetAudience = request.getParameter("targetAudience");
-        String ing = request.getParameter("ing");
+        String ing = request.getParameter("ing").trim();
 
 
         // Tạo đối tượng Product từ dữ liệu nhận được
@@ -130,7 +130,7 @@ public class AddProduct extends HttpServlet {
 
         // Thêm sản phẩm vào cơ sở dữ liệu
         productDAO.addProduct(product);
-        productDAO.addAdminApprovalLog(product.getProductID(), "ADD", product.getStatus(), "Add new product", 1, product.getProductName());
+        productDAO.addAdminApprovalLog(product.getProductID(), "ADD", product.getStatus(), "Add new product", 2, product.getProductName());
         productDAO.addIng(productID, ing);
 
         // Lưu đường dẫn ảnh vào cơ sở dữ liệu
@@ -167,8 +167,8 @@ public class AddProduct extends HttpServlet {
         if (units != null && packagingDetails != null && unitStatus != null
                 && units.length == packagingDetails.length && units.length == unitStatus.length) {
             for (int i = 0; i < units.length; i++) {
-                String productUnitId = productID + "_U" + i;
-                String packagingDetail = packagingDetails[i];
+                String productUnitId = productID.trim() + "_U" + i;
+                String packagingDetail = packagingDetails[i].trim();
                 String unit = units[i];
                 String salePrice = salePrices[i];
 

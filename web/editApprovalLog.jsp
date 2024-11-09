@@ -17,13 +17,23 @@
         return; // Prevent further execution if log is not found
     }
 %>
+
 <%
-Integer userRoleID = (Integer) session.getAttribute("userRoleID");
-if (userRoleID == null || userRoleID != 1) {
-    // Điều hướng về trang đăng nhập nếu roleID không hợp lệ
-    response.sendRedirect("login.jsp");
-    return; // Ngừng xử lý JSP
-}
+    // Get roleID from session
+    Integer roleID = (Integer) session.getAttribute("userRoleID");
+
+    // Check if roleID is 2
+    if (roleID != null && roleID != 1) {
+        // Get the previous page URL from the referer header
+        String referer = request.getHeader("referer");
+%>
+        <script>
+            alert("You do not have permission to access this page.");
+            window.location.href = "<%= (referer != null) ? referer : "http://localhost:8080/MedicineShop/home" %>";
+        </script>
+<%
+        return;
+    }
 %>
 
 <!DOCTYPE html>
@@ -120,6 +130,7 @@ if (userRoleID == null || userRoleID != 1) {
                         </c:forEach>
                     </select>
                 </div>
+                
 
                 <button type="submit" class="submit-button" onclick="document.getElementById('status').value = '1'">Accept</button>
                 <button type="submit" class="submit-button" onclick="document.getElementById('status').value = '4'" style="background-color: #dc3545;">Reject</button>

@@ -9,6 +9,23 @@
 <%
     List<Product> products = (List<Product>) session.getAttribute("products");
 %>
+<%
+    // Get roleID from session
+    Integer roleID = (Integer) session.getAttribute("userRoleID");
+
+    // Check if roleID is not 2
+    if (roleID == null || roleID != 3) {
+        // Get the previous page URL from the referer header
+        String referer = request.getHeader("referer");
+        %>
+        <script>
+            alert("You do not have permission to access this page.");
+            window.location.href = "<%= (referer != null) ? referer : "http://localhost:8080/MedicineShop/home" %>";
+        </script>
+        <%
+                return;
+            }
+        %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -361,14 +378,14 @@
                         <input type="text" id="productName" name="productName" required maxlength="1000">
 
 
-                        <label for="shortDescription">Short Description</label>
-                        <textarea id="shortDescription" name="shortDescription"></textarea>
+                        <label for="shortDescription">Product Uses</label>
+                        <textarea id="shortDescription" name="shortDescription">Do not bold text</textarea>
 
-                        <label for="faq">FAQ</label>
-                        <textarea id="faq" name="faq"></textarea>
+                        <label for="faq">Another details</label>
+                        <textarea id="faq" name="faq">Do not bold text (How to use + Side effects + Notes + Storage)</textarea>
 
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description"></textarea>
+                        <label for="description">Product Description</label>
+                        <textarea id="description" name="description">Do not bold text</textarea>
                     </div>
 
                     <!-- Right Section -->
@@ -401,11 +418,11 @@
 
                         <label for="status">Adding request will be reviewed by admin</label>
                         <select id="status" name="status" required>
-<!--                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>-->
+                            <!--                            <option value="1">Active</option>
+                                                        <option value="0">Inactive</option>-->
                             <option value="3">Pending</option>
-<!--                            <option value="4">Discontinued</option>
-                            <option value="2">Out of stock</option>-->
+                            <!--                            <option value="4">Discontinued</option>
+                                                        <option value="2">Out of stock</option>-->
                         </select>
 
                         <label for="prescriptionRequired">Prescription Required *</label>

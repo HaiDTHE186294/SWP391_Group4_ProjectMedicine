@@ -5,13 +5,23 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
+
     <%
-Integer userRoleID = (Integer) session.getAttribute("userRoleID");
-if (userRoleID == null || userRoleID != 1) {
-   // Điều hướng về trang đăng nhập nếu roleID không hợp lệ
-   response.sendRedirect("login.jsp");
-   return; // Ngừng xử lý JSP
-}
+        // Get roleID from session
+        Integer roleID = (Integer) session.getAttribute("userRoleID");
+
+        // Check if roleID is 2
+        if (roleID != null && roleID == 2) {
+            // Get the previous page URL from the referer header
+            String referer = request.getHeader("referer");
+    %>
+    <script>
+        alert("You do not have permission to access this page.");
+        window.location.href = "<%= (referer != null) ? referer : "http://localhost:8080/MedicineShop/home" %>";
+    </script>
+    <%
+            return;
+        }
     %>
     <head>
         <title>Admin Approval Logs</title>
@@ -64,7 +74,7 @@ if (userRoleID == null || userRoleID != 1) {
     </head>
     <body>
         <h2>Admin Approval Logs</h2>
-         <!-- Search bar -->
+        <!-- Search bar -->
         <input type="text" id="searchBar" onkeyup="searchLogs()" placeholder="Search by Product ID or Name">
 
 
