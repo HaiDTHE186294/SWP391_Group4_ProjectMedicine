@@ -271,7 +271,7 @@ public class CartDAO extends DBContext {
                 + "    ppq.PackagingDetails, \n"
                 + "    ppq.UnitStatus, \n"
                 + "    s.Batch_no, \n"
-                + "	od.price,\n"
+                + "    od.price,\n"
                 + "    s.Quantity AS StockQuantity, \n"
                 + "    s.Date_expired\n"
                 + "FROM \n"
@@ -281,14 +281,13 @@ public class CartDAO extends DBContext {
                 + "JOIN (\n"
                 + "    SELECT \n"
                 + "        ProductID, \n"
-                + "        MIN(SalePrice) AS SalePrice, \n"
-                + "        MIN(PackagingDetails) AS PackagingDetails, \n"
-                + "        MIN(UnitStatus) AS UnitStatus\n"
+                + "        UnitID,\n"
+                + "        SalePrice, \n"
+                + "        PackagingDetails, \n"
+                + "        UnitStatus\n"
                 + "    FROM \n"
                 + "        [dbo].[ProductPriceQuantity]\n"
-                + "    GROUP BY \n"
-                + "        ProductID\n"
-                + ") ppq ON od.ProductID = ppq.ProductID\n"
+                + ") ppq ON od.ProductID = ppq.ProductID AND od.UnitID = ppq.UnitID\n"
                 + "JOIN (\n"
                 + "    SELECT \n"
                 + "        Pid, \n"
@@ -388,43 +387,53 @@ public class CartDAO extends DBContext {
 //            return false;
 //        }
 //    }
-   public boolean addCart(int orderId, String productId, double price, int quantity) {
-    String checkSql = "SELECT quantity FROM OrderDetails WHERE order_id = ? AND ProductID = ?";
-    String updateSql = "UPDATE OrderDetails SET quantity = quantity + ? WHERE order_id = ? AND ProductID = ?";
-    String insertSql = "INSERT INTO OrderDetails (order_id, ProductID, quantity, price) VALUES (?, ?, ?, ?)";
+    public boolean addCart(int orderId, String productId, double price, int quantity) {
+        String checkSql = "SELECT quantity FROM OrderDetails WHERE order_id = ? AND ProductID = ?";
+        String updateSql = "UPDATE OrderDetails SET quantity = quantity + ? WHERE order_id = ? AND ProductID = ?";
+        String insertSql = "INSERT INTO OrderDetails (order_id, ProductID, quantity, price, UnitID) VALUES (?,?, ?, ?, ?)";
+        String getUnitIdSql = "SELECT TOP 1 UnitID FROM ProductPriceQuantity WHERE ProductID = ? ORDER BY UnitID ASC";
 
-    try (
-        PreparedStatement checkPs = connection.prepareStatement(checkSql);
-        PreparedStatement updatePs = connection.prepareStatement(updateSql);
-        PreparedStatement insertPs = connection.prepareStatement(insertSql)) {
-        
-        // Kiểm tra xem sản phẩm đã có trong OrderDetails chưa
-        checkPs.setInt(1, orderId);
-        checkPs.setString(2, productId);
-        ResultSet rs = checkPs.executeQuery();
+        try (
+                PreparedStatement checkPs = connection.prepareStatement(checkSql); PreparedStatement updatePs = connection.prepareStatement(updateSql); PreparedStatement insertPs = connection.prepareStatement(insertSql); PreparedStatement getUnitIdPs = connection.prepareStatement(getUnitIdSql)) {
 
-        if (rs.next()) {
-            // Nếu đã có, cập nhật số lượng bằng cách cộng thêm `quantity`
-            updatePs.setInt(1, quantity);
-            updatePs.setInt(2, orderId);
-            updatePs.setString(3, productId);
-            int rowsUpdated = updatePs.executeUpdate();
-            return rowsUpdated > 0;
-        } else {
-            // Nếu chưa có, chèn mới vào OrderDetails với số lượng `quantity`
-            insertPs.setInt(1, orderId);
-            insertPs.setString(2, productId);
-            insertPs.setInt(3, quantity);
-            insertPs.setDouble(4, price);
-            int rowsInserted = insertPs.executeUpdate();
-            return rowsInserted > 0;
+            // Kiểm tra xem sản phẩm đã có trong OrderDetails chưa
+            checkPs.setInt(1, orderId);
+            checkPs.setString(2, productId);
+            ResultSet rs = checkPs.executeQuery();
+
+            if (rs.next()) {
+                // Nếu đã có, cập nhật số lượng bằng cách cộng thêm `quantity`
+                updatePs.setInt(1, quantity);
+                updatePs.setInt(2, orderId);
+                updatePs.setString(3, productId);
+                int rowsUpdated = updatePs.executeUpdate();
+                return rowsUpdated > 0;
+            } else {
+                getUnitIdPs.setString(1, productId);
+                ResultSet unitIdRs = getUnitIdPs.executeQuery();
+
+                if (unitIdRs.next()) {
+                    String unitId = unitIdRs.getString("UnitID");
+
+                    // Nếu chưa có, chèn mới vào OrderDetails với số lượng `quantity`
+                    insertPs.setInt(1, orderId);
+                    insertPs.setString(2, productId);
+                    insertPs.setInt(3, quantity);
+                    insertPs.setDouble(4, price);
+                    insertPs.setString(5, unitId);
+                    int rowsInserted = insertPs.executeUpdate();
+                    return rowsInserted > 0;
+                } else {
+                    // Return false if no UnitID is found
+                    return false;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
     }
-}
 
     public boolean updateStatusByOrderId(String orderId, String status, String totalPrice, String phone, String address) {
         String sql = "UPDATE [Order] SET status = ?, order_date = GETDATE(), order_total = ?, phone_number_order = ?, address = ? WHERE order_id = ?";
@@ -518,7 +527,7 @@ public class CartDAO extends DBContext {
             } else {
                 System.out.println("false");
             }
-                       
+
             boolean updateSold = sdao.updateSold(normalizedOrderQuantity, productId);
             return true;
         } else {
@@ -592,9 +601,9 @@ public class CartDAO extends DBContext {
 
     public static void main(String[] args) {
         CartDAO cdao = new CartDAO();
-            List<OrderDetail> getListCartDetailByOrderId = cdao.getListCartDetailByOrderId(20);
-            for (OrderDetail orderDetail : getListCartDetailByOrderId) {
-                System.out.println(orderDetail.getPrice());
+        List<OrderDetail> getListCartDetailByOrderId = cdao.getListCartDetailByOrderId(20);
+        for (OrderDetail orderDetail : getListCartDetailByOrderId) {
+            System.out.println(orderDetail.getPrice());
         }
 
     }

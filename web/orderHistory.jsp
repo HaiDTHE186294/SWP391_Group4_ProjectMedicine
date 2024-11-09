@@ -57,7 +57,7 @@
                                                     <th scope="col">Order Total</th>
                                                     <th scope="col">Phone Number</th>
                                                     <th scope="col">Address</th>
-                                            <!--    <th scope="col">View</th>-->
+                                                    <th scope="col">View</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -69,10 +69,9 @@
                                                         <td>${order.orderTotal}</td>
                                                         <td>${order.phone_number_order}</td>
                                                         <td>${order.address}</td>
-                                                <%--        <td>
+                                                       <td>
                                                             <a href="orderHistory?id=${order.orderId}" class="btn btn-primary">View</a>
-                                                        </td>--%>
-
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                             </tbody>
