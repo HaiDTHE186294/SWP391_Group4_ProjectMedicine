@@ -2,7 +2,7 @@
 <%
     // Get userRoleID from session
     Integer userRoleID = (Integer) session.getAttribute("userRoleID");
-    String userName = (String) session.getAttribute("userName");
+    String userName = (String) session.getAttribute("fullName");
 
     // Determine role display based on userRoleID
     String roleDisplay = "";
@@ -20,16 +20,16 @@
         <a href="#" onclick="confirmNavigation('http://localhost:8080/MedicineShop/home')">Home</a>
         <a href="http://localhost:8080/MedicineShop/showProductManageView">Product Manage Menu</a>       
         <% if (userRoleID != null && userRoleID == 3) { %>
-            <a href="http://localhost:8080/MedicineShop/product/addxx">Add Product</a>
-            <a href="http://localhost:8080/MedicineShop/GetImport">Import Product</a>
+        <a href="http://localhost:8080/MedicineShop/product/addxx">Add Product</a>
+        <a href="http://localhost:8080/MedicineShop/GetImport">Import Product</a>
         <% } %>
         <a href="http://localhost:8080/MedicineShop/stockManagement">Stock</a>
         <a href="http://localhost:8080/MedicineShop/viewImports">Import History</a>
         <a href="http://localhost:8080/MedicineShop/CategoryServlet">Category List</a>
-        <% if (userRoleID != null && userRoleID == 1) { %>
-            <a href="http://localhost:8080/MedicineShop/AdminApprovalLogServlet?status=3">Admin Approval</a>
-        <% } %>
-        
+
+        <a href="http://localhost:8080/MedicineShop/AdminApprovalLogServlet?status=3">Admin Approval</a>
+
+
         <a href="http://localhost:8080/MedicineShop/usermanagement">User Management</a>
 
         <script>

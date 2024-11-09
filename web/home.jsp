@@ -108,6 +108,7 @@
 
                 <div class="row">
                     <c:forEach var="product" items="${listTop8SoldProducts}">
+                        <c:if test="${product.Status == 1}">
                         <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
                             <div class="card shop-list border-0">
                                 <div class="shop-image position-relative overflow-hidden rounded shadow">
@@ -131,6 +132,7 @@
                                 </div>
                             </div>
                         </div><!--end col-->
+                        </c:if>
                     </c:forEach>
                 </div><!--end row-->
             </div><!--end container-->
@@ -144,6 +146,7 @@
 
                 <div class="row">  
                     <c:forEach var="product" items="${latestProducts}">
+                        <c:if test="${product.Status == 1}">
                         <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">                         
                             <div class="card shop-list border-0">
                                 <div class="shop-image position-relative overflow-hidden rounded shadow">
@@ -166,6 +169,7 @@
                                 </div>
                             </div>
                         </div><!--end col-->
+                        </c:if>
                     </c:forEach>
                 </div><!--end row-->
             </div><!--end container-->

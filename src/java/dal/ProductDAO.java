@@ -374,7 +374,7 @@ public class ProductDAO extends DBContext {
     // Method to get the top 8 sold products
     public List<Map<String, Object>> getTop8SoldProducts() {
         List<Map<String, Object>> productList = new ArrayList<>();
-        String sql = "SELECT TOP 8 p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName, p.Sold "
+        String sql = "SELECT TOP 8 p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName, p.Sold, p.Status "
            + "FROM Product p "
            + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
            + "JOIN Unit u ON pp.UnitID = u.UnitID "
@@ -382,7 +382,7 @@ public class ProductDAO extends DBContext {
            + "JOIN Stock s ON p.ProductID = s.Pid "
            + "WHERE pp.PackagingDetails = 1 "
            + "AND c.Status = 1 "
-           + "GROUP BY p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName, p.Sold "
+           + "GROUP BY p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName, p.Sold, p.Status "
            + "HAVING MIN(s.quantity) > 0 "
            + "ORDER BY p.Sold DESC";
 
@@ -394,6 +394,7 @@ public class ProductDAO extends DBContext {
                 productDetails.put("imagePath", rs.getString("ImagePath"));
                 productDetails.put("salePrice", rs.getFloat("SalePrice"));
                 productDetails.put("unitName", rs.getString("UnitName"));
+                productDetails.put("Status", rs.getString("Status"));
 
                 productList.add(productDetails);
             }
@@ -406,7 +407,7 @@ public class ProductDAO extends DBContext {
     // Method to get the top 8 latest products
     public List<Map<String, Object>> getLatest8Products() {
         List<Map<String, Object>> productList = new ArrayList<>();
-        String sql = "SELECT TOP 8 p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName, p.Sold, p.DateCreated "
+        String sql = "SELECT TOP 8 p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName, p.Sold, p.DateCreated, p.Status "
            + "FROM Product p "
            + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
            + "JOIN Unit u ON pp.UnitID = u.UnitID "
@@ -414,7 +415,7 @@ public class ProductDAO extends DBContext {
            + "JOIN Stock s ON p.ProductID = s.Pid "
            + "WHERE pp.PackagingDetails = 1 "
            + "AND c.Status = 1 "
-           + "GROUP BY p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName, p.Sold, p.DateCreated "
+           + "GROUP BY p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName, p.Sold, p.DateCreated, p.Status "
            + "HAVING MIN(s.quantity) > 0 "
            + "ORDER BY p.DateCreated DESC";
 
@@ -426,6 +427,7 @@ public class ProductDAO extends DBContext {
                 productData.put("ImagePath", rs.getString("ImagePath"));
                 productData.put("SalePrice", rs.getFloat("salePrice"));
                 productData.put("UnitName", rs.getString("UnitName"));
+                productData.put("Status", rs.getString("Status"));
 
                 productList.add(productData);  // Add to the list
             }
@@ -755,7 +757,7 @@ public class ProductDAO extends DBContext {
         List<Map<String, Object>> productList = new ArrayList<>();
 
         // Cập nhật SQL query để tìm kiếm theo tên sản phẩm
-       String sql = "SELECT p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+       String sql = "SELECT p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, p.Status, pp.SalePrice, u.UnitName "
                 + "FROM Product p "
                 + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
                 + "JOIN Unit u ON pp.UnitID = u.UnitID "
@@ -764,7 +766,7 @@ public class ProductDAO extends DBContext {
                 + "WHERE pp.PackagingDetails = 1 "
                 + "AND p.ProductName LIKE ? "
                 + "AND c.Status = 1 "
-                + "GROUP BY p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+                + "GROUP BY p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, p.Status, pp.SalePrice, u.UnitName "
                 + "HAVING MIN(s.quantity) > 0;";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -781,6 +783,7 @@ public class ProductDAO extends DBContext {
                     productDetails.put("unitName", rs.getString("UnitName"));
                     productDetails.put("countryofproduction", rs.getString("CountryOfProduction"));
                     productDetails.put("audience", rs.getString("TargetAudience"));
+                    productDetails.put("Status", rs.getString("Status"));
 
                     productList.add(productDetails);
                 }

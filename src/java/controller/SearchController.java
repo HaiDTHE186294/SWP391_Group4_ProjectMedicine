@@ -19,6 +19,7 @@ import java.util.Map;
 import model.Product;
 import model.User;
 
+
 /**
  *
  * @author trant
@@ -75,7 +76,7 @@ public class SearchController extends HttpServlet {
 
         CategoryDAO categoryDAO = new CategoryDAO();
         List<String> audienceList = categoryDAO.getAllAudiences();
-        session.setAttribute("audienceList", audienceList);
+session.setAttribute("audienceList", audienceList);
 
         List<String> countryList = categoryDAO.getAllCountries();
         session.setAttribute("countryList", countryList);
