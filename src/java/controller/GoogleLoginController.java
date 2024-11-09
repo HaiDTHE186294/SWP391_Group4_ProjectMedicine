@@ -8,6 +8,7 @@ import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -88,7 +89,12 @@ public class GoogleLoginController extends HttpServlet {
         } else {
             // Nếu email đã đăng ký, lưu thông tin vào session và chuyển hướng về trang chính
             session.setAttribute("User", user);
-            response.sendRedirect("testMenu.jsp");
+            session.setAttribute("username", user.getUsername());
+            session.setAttribute("userId", user.getUserId());
+            session.setAttribute("userName", user.getUsername());
+            session.setAttribute("userEmail", user.getEmail());
+            session.setAttribute("userRoleID", user.getRoleId());
+            response.sendRedirect("home");
         }
     }
 

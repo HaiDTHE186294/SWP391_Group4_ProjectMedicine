@@ -9,6 +9,7 @@
 
 
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta charset="UTF-8">
@@ -98,6 +99,23 @@
                 padding: 5px;
             }
         </style>
+        <%
+    // Get roleID from session
+    Integer roleID = (Integer) session.getAttribute("userRoleID");
+
+    // Check if roleID is not 2
+    if (roleID == null || roleID != 3) {
+        // Get the previous page URL from the referer header
+        String referer = request.getHeader("referer");
+        %>
+        <script>
+            alert("You do not have permission to access this page.");
+            window.location.href = "<%= (referer != null) ? referer : "http://localhost:8080/MedicineShop/home" %>";
+        </script>
+        <%
+                return;
+            }
+        %>
 
         <script>
 
@@ -320,7 +338,7 @@
                         return false; // Prevent form submission
                     }
                 }
-                return true; 
+                return true;
             }
 
             // Hàm kiểm tra ít nhất một checkbox được tích
@@ -404,13 +422,13 @@
                         <label for="productName" class="required">Product Name *</label>
                         <input type="text" id="productName" name="productName" value="${product.productName}" required maxlength="1000">
 
-                        <label for="shortDescription">Short Description</label>
+                        <label for="shortDescription">Product Uses</label>
                         <textarea id="shortDescription" name="shortDescription">${product.shortDescription}</textarea>
 
-                        <label for="faq">FAQ</label>
+                        <label for="faq">Another details</label>
                         <textarea id="faq" name="faq">${product.faq}</textarea>
 
-                        <label for="description" class="required">Description</label>
+                        <label for="description" class="required">Product Description</label>
                         <textarea id="productDescription" name="description">${product.productDescription}</textarea>
                     </div>
 

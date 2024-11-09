@@ -71,6 +71,23 @@
         <%@include file="dashboardHeader.jsp" %>
     </head>
     <body>
+        <%
+    // Get roleID from session
+    Integer roleID = (Integer) session.getAttribute("userRoleID");
+
+    // Check if roleID is not 2
+    if (roleID == null || roleID != 3) {
+        // Get the previous page URL from the referer header
+        String referer = request.getHeader("referer");
+        %>
+        <script>
+            alert("You do not have permission to access this page.");
+            window.location.href = "<%= (referer != null) ? referer : "http://localhost:8080/MedicineShop/home" %>";
+        </script>
+        <%
+                return;
+            }
+        %>
         <h1>Import Product</h1>
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Search by ProductID or Name" onkeyup="searchTable()">

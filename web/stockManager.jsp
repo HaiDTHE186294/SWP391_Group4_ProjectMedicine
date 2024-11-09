@@ -233,6 +233,59 @@
                     }
                 });
             }
+
+            function checkExpirationDates() {
+                const today = new Date(); // Current date
+                const alertThreshold = 7; // Number of days for the alert
+                const rows = document.querySelectorAll('.product-table tbody tr'); // Select all rows in the stock table
+
+                rows.forEach(row => {
+                    const expirationDateCell = row.querySelector('td:nth-child(6)'); // Get the expiration date cell (6th column)
+                    if (expirationDateCell) {
+                        const expirationDateText = expirationDateCell.textContent.trim(); // Get the text content and trim whitespace
+                        const expirationDate = new Date(expirationDateText); // Create a Date object from the expiration date string
+
+                        // Check if the date was parsed correctly
+                        if (isNaN(expirationDate)) {
+                            console.error(`Invalid date format for: ${expirationDateText}`);
+                            return; // Skip this row if the date is invalid
+                        }
+
+                        const timeDiff = expirationDate - today; // Calculate the difference in milliseconds
+                        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+
+                        // Check if expiration is within the threshold
+                        if (daysDiff >= 0 && daysDiff <= alertThreshold) {
+                            // Create a new row for the warning
+                            const warningRow = document.createElement('tr');
+                            const warningCell = document.createElement('td');
+                            warningCell.colSpan = 6; // Span across all columns
+                            warningCell.textContent = `Expiring Soon! `; // Display days left
+                            warningCell.style.color = 'red'; // Style the warning message
+                            warningCell.style.fontWeight = 'bold';
+                            warningCell.style.textAlign = 'center'; // Center the text
+
+                            // Append the warning cell to the warning row
+                            warningRow.appendChild(warningCell);
+
+                            // Insert the warning row after the current row if it doesn't already exist
+                            if (!row.nextSibling || !row.nextSibling.textContent.includes('Expiring Soon')) {
+                                row.parentNode.insertBefore(warningRow, row.nextSibling); // Insert the warning row
+                            }
+                        } else {
+                            // If not expiring soon, check if a warning row exists and remove it
+                            const existingWarningRow = row.nextSibling; // Check the next row
+                            if (existingWarningRow && existingWarningRow.cells[0].textContent.includes('Expiring Soon')) {
+                                row.parentNode.removeChild(existingWarningRow); // Remove the existing warning row if it exists
+                            }
+                        }
+                    }
+                });
+            }
+
+// Call the function when the page loads
+            window.onload = checkExpirationDates;
+
         </script>
 
 

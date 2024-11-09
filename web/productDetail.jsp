@@ -97,6 +97,23 @@
         <%@ include file="dashboardHeader.jsp" %>
     </head>
     <body>
+        <%
+    // Get roleID from session
+    Integer roleID = (Integer) session.getAttribute("userRoleID");
+
+    // Check if roleID is not 2
+    if (roleID == null || roleID == 2) {
+        // Get the previous page URL from the referer header
+        String referer = request.getHeader("referer");
+        %>
+        <script>
+            alert("You do not have permission to access this page.");
+            window.location.href = "<%= (referer != null) ? referer : "http://localhost:8080/MedicineShop/home" %>";
+        </script>
+        <%
+                return;
+            }
+        %>
         <div class="container">
             <h1>View Product Information</h1>
             <form>
@@ -146,7 +163,8 @@
                             <option value="1" ${product.status == 1 ? "selected" : ""}>Active</option>
                             <option value="0" ${product.status == 0 ? "selected" : ""}>Inactive</option>
                             <option value="3" ${product.status == 3 ? "selected" : ""}>Pending</option>
-                            <option value="4" ${product.status == 4 ? "selected" : ""}>Discontinued</option>
+                            <option value="4" ${product.status == 4 ? "selected" : ""}>Rejected</option>
+                            <option value="2" ${product.status == 2 ? "selected" : ""}>Out of stock</option>
                         </select>
 
                         <label for="prescriptionRequired" class="required">Prescription Required</label>
