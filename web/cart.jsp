@@ -55,7 +55,7 @@
                                                     <th class="border-bottom p-3" style="min-width:20px "></th>
                                                     <th class="border-bottom p-3" style="min-width: 300px;">Sản phẩm</th>
                                                     <th class="border-bottom text-center p-3" style="min-width: 80px;">Đơn vị</th>
-                                                    <th class="border-bottom text-center p-3" style="min-width: 80px;">Giá thành</th>
+                                                    <th hidden="" class="border-bottom text-center p-3" style="min-width: 80px;">Giá thành</th>
                                                     <th class="border-bottom text-center p-3" style="min-width: 190px;">Số lượng</th>
                                                     <th class="border-bottom text-end p-3" style="min-width: 50px;">Thành tiền</th>
                                                 </tr>
@@ -113,7 +113,7 @@
                                                         </script>
                                                     </td>
 
-                                                    <td class="gia-thanh">${orderDetail.productPriceQuantity[0].salePrice}</td>
+                                                    <td hidden="" class="gia-thanh">${orderDetail.productPriceQuantity[0].salePrice}</td>
 
 
                                                     <td class="text-center shop-list p-3">
@@ -230,9 +230,11 @@
                                             </table>
                                         </div>
                                         <div class="mt-4 pt-2 text-end">
-                                            <button class="btn btn-primary">
-                                                Proceed to checkout
-                                            </button>
+                                            <c:if test="${not empty listOrderDetail}">
+                                                <button class="btn btn-primary">
+                                                    Proceed to checkout
+                                                </button>
+                                            </c:if>
                                         </div>
                                     </form>
                                 </div><!--end col-->
@@ -246,8 +248,8 @@
         </section>
 
         <jsp:include page="footer.jsp" />
-        
-         <!-- javascript -->
+
+        <!-- javascript -->
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->
         <script src="assets/js/simplebar.min.js"></script>

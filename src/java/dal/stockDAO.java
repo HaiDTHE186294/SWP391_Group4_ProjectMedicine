@@ -617,12 +617,13 @@ public class stockDAO extends DBContext {
         return null;
     }
 
-    boolean updateQuantityStock(float updatedQuantityStock, String batchNo) {
-        String sql = "UPDATE Stock SET Quantity = ? WHERE Batch_no = ?";
+    boolean updateQuantityStock(float updatedQuantityStock, String batchNo, String Pid) {
+        String sql = "UPDATE Stock SET Quantity = ? WHERE Batch_no = ? AND Pid = ? ";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setFloat(1, updatedQuantityStock);
             stmt.setString(2, batchNo);
+            stmt.setString(3,  Pid);
 
             int rowsAffected = stmt.executeUpdate();
             updateProductStatus();

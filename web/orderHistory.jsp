@@ -38,9 +38,9 @@
             <!-- Start Page Content -->
             <main class="page-content bg-light">
                 <div class="container-fluid">
-                    <div class="layout-specing" style="margin-top: 100px">
+                    <div class="layout-specing">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">Checkout</h5>
+                            <h4 class="mb-0">Order History</h4>
                         </div>
 
                         <!-- Bắt đầu phần hiển thị danh sách đơn hàng -->
@@ -51,27 +51,27 @@
                                         <table id="orderTable" class="table table-bordered table-hover table-striped">
                                             <thead class="thead-dark">
                                                 <tr>
-                                                    <th scope="col">Order ID</th>
+                                            <!--    <th scope="col">Order ID</th>-->
                                                     <th scope="col">Order Date</th>
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Order Total</th>
                                                     <th scope="col">Phone Number</th>
                                                     <th scope="col">Address</th>
-                                                    <th scope="col">View</th>
+                                            <!--    <th scope="col">View</th>-->
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <c:forEach var="order" items="${orders}">
                                                     <tr>
-                                                        <th scope="row">${order.orderId}</th>
+                                                <%--    <th scope="row">${order.orderId}</th>--%>
                                                         <td>${order.orderDate}</td>
                                                         <td>${order.status}</td>
                                                         <td>${order.orderTotal}</td>
                                                         <td>${order.phone_number_order}</td>
                                                         <td>${order.address}</td>
-                                                        <td>
+                                                <%--        <td>
                                                             <a href="orderHistory?id=${order.orderId}" class="btn btn-primary">View</a>
-                                                        </td>
+                                                        </td>--%>
 
                                                     </tr>
                                                 </c:forEach>

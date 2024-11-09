@@ -512,7 +512,7 @@ public class CartDAO extends DBContext {
         if (updatedQuantityStock >= 0) {
             System.out.println("Tồn kho sau khi trừ: " + updatedQuantityStock);
             stockDAO sdao = new stockDAO();
-            boolean updateStock = sdao.updateQuantityStock(updatedQuantityStock, stock.getBatchNo());
+            boolean updateStock = sdao.updateQuantityStock(updatedQuantityStock, stock.getBatchNo(), stock.getProductId());
             if (updateStock) {
                 System.out.println("sucess");
             } else {

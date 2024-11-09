@@ -49,7 +49,6 @@
                                     <div class="card rounded shadow p-4 border-0">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <span class="h5 mb-0">Your cart</span>
-                                            <span class="badge bg-primary rounded-pill">3</span>
                                         </div>
                                         <ul class="list-group mb-3 border">
 
@@ -113,7 +112,7 @@
                                             <div class="col-sm-6">
                                                 <label for="firstName" class="form-label">Full name</label>
                                                 <input type="text" class="form-control" id="fullName" placeholder="Full Name" value="${userr.fullName}"
-                                                       name="fullName"      required>
+                                                       name="fullName"      required readonly>
                                                 <div class="invalid-feedback">
                                                     Valid first name is required.
                                                 </div>
@@ -125,6 +124,24 @@
                                                        name="phone"     required>
                                                 <div class="invalid-feedback">
                                                     Valid last name is required.
+                                                </div>
+                                            </div>
+                                                       
+                                            <div class="col-sm-6">
+                                                <label for="firstName" class="form-label">Username</label>
+                                                <input type="text" class="form-control" id="fullName" placeholder="Full Name" value="${userr.username}"
+                                                       name="fullName"      required readonly>
+                                                <div class="invalid-feedback">
+                                                    Valid first name is required.
+                                                </div>
+                                            </div>
+                                                       
+                                            <div class="col-sm-6">
+                                                <label for="firstName" class="form-label">Email</label>
+                                                <input type="text" class="form-control" id="fullName" placeholder="Full Name" value="${userr.email}"
+                                                       name="fullName"      required readonly>
+                                                <div class="invalid-feedback">
+                                                    Valid first name is required.
                                                 </div>
                                             </div>
 
