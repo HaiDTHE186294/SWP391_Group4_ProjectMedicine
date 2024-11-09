@@ -113,7 +113,7 @@
                                         <img src="${User.image}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                         <div class="flex-1 ms-2">
                                             <span class="d-block mb-1">${User.fullName}</span>
-                                            <small class="text-muted">Orthopedic</small>
+                                            <small class="text-muted">SE1979</small>
                                         </div>
                                     </a>
                                     <c:if test="${sessionScope.User.getRoleId() == 1 || sessionScope.User.roleId == 3}">

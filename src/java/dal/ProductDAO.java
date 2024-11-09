@@ -757,7 +757,7 @@ public class ProductDAO extends DBContext {
         List<Map<String, Object>> productList = new ArrayList<>();
 
         // Cập nhật SQL query để tìm kiếm theo tên sản phẩm
-       String sql = "SELECT p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+       String sql = "SELECT p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, p.Status, pp.SalePrice, u.UnitName "
                 + "FROM Product p "
                 + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
                 + "JOIN Unit u ON pp.UnitID = u.UnitID "
@@ -766,7 +766,7 @@ public class ProductDAO extends DBContext {
                 + "WHERE pp.PackagingDetails = 1 "
                 + "AND p.ProductName LIKE ? "
                 + "AND c.Status = 1 "
-                + "GROUP BY p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+                + "GROUP BY p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, p.Status, pp.SalePrice, u.UnitName "
                 + "HAVING MIN(s.quantity) > 0;";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -783,6 +783,7 @@ public class ProductDAO extends DBContext {
                     productDetails.put("unitName", rs.getString("UnitName"));
                     productDetails.put("countryofproduction", rs.getString("CountryOfProduction"));
                     productDetails.put("audience", rs.getString("TargetAudience"));
+                    productDetails.put("Status", rs.getString("Status"));
 
                     productList.add(productDetails);
                 }
