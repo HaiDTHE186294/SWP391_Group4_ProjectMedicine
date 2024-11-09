@@ -44,50 +44,75 @@
                         </div>
 
                         <form action="checkout" method="post">
-                             <div class="row">
-                            <div class="col-md-5 col-lg-4 order-last mt-4 pt-2 pt-sm-0">
-                                <div class="card rounded shadow p-4 border-0">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="h5 mb-0">Your cart</span>
-                                        <span class="badge bg-primary rounded-pill">3</span>
-                                    </div>
-                                    <ul class="list-group mb-3 border">
-                                        <c:forEach items="${listOrderDetail}" var="orderDetail">
-
-                                            <li class="d-flex justify-content-between lh-sm p-3 border-bottom">
-                                                <div>
-                                                    <h6 class="my-0">${orderDetail.product.productName}</h6>
-                                                    <small class="text-muted"></small>
-                                                </div>
-                                                <div></div>
-                                                <span class="text-muted">${orderDetail.price} VND</span>
-                                            </li> 
+                            <div class="row">
+                                <div class="col-md-5 col-lg-4 order-last mt-4 pt-2 pt-sm-0">
+                                    <div class="card rounded shadow p-4 border-0">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <span class="h5 mb-0">Your cart</span>
+                                        </div>
+                                        <ul class="list-group mb-3 border">
 
 
-                                        </c:forEach>
+                                            <table class="table">
 
-                                        <li class="d-flex justify-content-between p-3">
-                                            <span>Total (VND)</span>
-                                            <strong>${totalPricee} VND</strong>
-                                            <input hidden="" value="${totalPricee}" name="totalPrice">
-                                        </li>
-                                    </ul>
-                                            <input hidden="" name="orderId" value="${order.getOrderId()}">
+                                                <c:forEach items="${listOrderDetail}" var="orderDetail">
+                                                    <tr class="border-bottom">
+                                                        <td class="p-3" style="width: 70%;">
+                                                            <h6 class="my-0">${orderDetail.product.productName}</h6>
+                                                            <small class="text-muted"></small>
+                                                        </td>
+                                                        <td>${orderDetail.quantity}</td>
+                                                        <td>
+                                                            <c:choose>
+                                                                <c:when test="${orderDetail.getUnitId().trim() eq 'U001'}">Viên</c:when>
+                                                                <c:when test="${orderDetail.getUnitId().trim() eq 'U002'}">Chai</c:when>
+                                                                <c:when test="${orderDetail.getUnitId().trim() eq 'U003'}">Lọ</c:when>
+                                                                <c:when test="${orderDetail.getUnitId().trim() eq 'U004'}">Hộp</c:when>
+                                                                <c:when test="${orderDetail.getUnitId().trim() eq 'U005'}">Gói</c:when>
+                                                                <c:when test="${orderDetail.getUnitId().trim() eq 'U006'}">Ống</c:when>
+                                                                <c:when test="${orderDetail.getUnitId().trim() eq 'U007'}">Tuýp</c:when>
+                                                                <c:when test="${orderDetail.getUnitId().trim() eq 'U008'}">Bình</c:when>
+                                                                <c:when test="${orderDetail.getUnitId().trim() eq 'U009'}">Thùng</c:when>
+                                                                <c:when test="${orderDetail.getUnitId().trim() eq 'U010'}">Vỉ</c:when>
+                                                                <c:otherwise>${orderDetail.getUnitId()}</c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+
+
+                                                        <!--<td class="p-3 text-end" style="width: 30%;">
+                                                            <span class="text-muted">${orderDetail.price} VND</span>
+                                                        </td>end col-->
+                                                        <td class="p-3 text-end">
+                                                            <span class="text-muted">${orderDetail.quantity * orderDetail.price} VND</span>
+                                                        </td>
+                                                    </tr>
+
+                                                </c:forEach>
+                                            </table>
+
+                                            <li class="d-flex justify-content-between p-3">
+                                                <span>Total (VND)</span>
+                                                <strong>${totalPricee} VND</strong>
+                                                <input hidden="" value="${totalPricee}" name="totalPrice">
+                                            </li>
+
+                                        </ul>
+                                        <input hidden="" name="orderId" value="${order.getOrderId()}">
 
                                         <div class="input-group">
                                             <button class="w-100 btn btn-primary" type="submit">Continue to checkout</button>
                                         </div>
-                                </div>
-                            </div><!--end col-->
+                                    </div>
+                                </div><!--end col-->
 
-                            <div class="col-md-7 col-lg-8 mt-4">
-                                <div class="card rounded shadow p-4 border-0">
-                                    <h5 class="mb-3">Billing address</h5>
+                                <div class="col-md-7 col-lg-8 mt-4">
+                                    <div class="card rounded shadow p-4 border-0">
+                                        <h5 class="mb-3">Billing address</h5>
                                         <div class="row g-3">
                                             <div class="col-sm-6">
                                                 <label for="firstName" class="form-label">Full name</label>
                                                 <input type="text" class="form-control" id="fullName" placeholder="Full Name" value="${userr.fullName}"
-                                                       name="fullName"      required>
+                                                       name="fullName"      required readonly>
                                                 <div class="invalid-feedback">
                                                     Valid first name is required.
                                                 </div>
@@ -99,6 +124,24 @@
                                                        name="phone"     required>
                                                 <div class="invalid-feedback">
                                                     Valid last name is required.
+                                                </div>
+                                            </div>
+                                                       
+                                            <div class="col-sm-6">
+                                                <label for="firstName" class="form-label">Username</label>
+                                                <input type="text" class="form-control" id="fullName" placeholder="Full Name" value="${userr.username}"
+                                                       name="fullName"      required readonly>
+                                                <div class="invalid-feedback">
+                                                    Valid first name is required.
+                                                </div>
+                                            </div>
+                                                       
+                                            <div class="col-sm-6">
+                                                <label for="firstName" class="form-label">Email</label>
+                                                <input type="text" class="form-control" id="fullName" placeholder="Full Name" value="${userr.email}"
+                                                       name="fullName"      required readonly>
+                                                <div class="invalid-feedback">
+                                                    Valid first name is required.
                                                 </div>
                                             </div>
 
@@ -113,11 +156,11 @@
                                         </div>
 
 
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
+                                    </div>
+                                </div><!--end col-->
+                            </div><!--end row-->
                         </form>
-                       
+
                     </div>
                 </div><!--end container-->
             </main>

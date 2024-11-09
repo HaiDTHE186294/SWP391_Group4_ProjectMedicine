@@ -20,10 +20,10 @@ public class DBContext {
             String user = "sa";
 
 
-            String pass = "123";
+            String pass = "123456";
 
 
-            String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=SWP2";
+            String url = "jdbc:sqlserver://localhost\\MSSQLSERVER:1433;databaseName=SWP1";
 
 
 

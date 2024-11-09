@@ -121,7 +121,7 @@
                                             </c:if>
                                     <a class="dropdown-item text-dark" href="changeProfile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-setting align-middle h6"></i></span> Profile Settings</a>
                                     <div class="dropdown-divider border-top"></div>
-                                    <a class="dropdown-item text-dark" href="orderHistory"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Order History</a>
+                                    <a class="dropdown-item text-dark" href="orderHistory"><span class="mb-0 d-inline-block me-1"><i class="uil uil-history align-middle h6"></i></span> Order History</a>
                                     <a class="dropdown-item text-dark" href="logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
                                 </div>
                             </div>
@@ -207,7 +207,9 @@
                         </li>
 
                         <li class="has-submenu parent-menu-item">
+
                             <a href=""></a>
+
                         </li>
                     </ul><!--end navigation menu-->
                 </div><!--end navigation-->

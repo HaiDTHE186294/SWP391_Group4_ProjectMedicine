@@ -123,7 +123,7 @@ public class UserManagementController extends HttpServlet {
             // Send email with the new user's information
             Email handleEmail = new Email();
             String subject = handleEmail.subjectStaffInfor();
-            String msgEmail = handleEmail.messageStaffInfor(username, password);
+            String msgEmail = handleEmail.messageStaffInfor(fullName, username, password);
             handleEmail.sendEmail(subject, msgEmail, email);
 
             response.sendRedirect("usermanagement");

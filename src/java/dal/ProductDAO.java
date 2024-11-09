@@ -374,12 +374,17 @@ public class ProductDAO extends DBContext {
     // Method to get the top 8 sold products
     public List<Map<String, Object>> getTop8SoldProducts() {
         List<Map<String, Object>> productList = new ArrayList<>();
-        String sql = "SELECT TOP 8 p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
-                + "FROM Product p "
-                + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
-                + "JOIN Unit u ON pp.UnitID = u.UnitID "
-                + "WHERE pp.PackagingDetails = 1 "
-                + "ORDER BY p.Sold DESC";
+        String sql = "SELECT TOP 8 p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName, p.Sold "
+           + "FROM Product p "
+           + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
+           + "JOIN Unit u ON pp.UnitID = u.UnitID "
+           + "JOIN Category c ON p.CategoryID = c.CategoryID "
+           + "JOIN Stock s ON p.ProductID = s.Pid "
+           + "WHERE pp.PackagingDetails = 1 "
+           + "AND c.Status = 1 "
+           + "GROUP BY p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName, p.Sold "
+           + "HAVING MIN(s.quantity) > 0 "
+           + "ORDER BY p.Sold DESC";
 
         try (PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
@@ -401,12 +406,17 @@ public class ProductDAO extends DBContext {
     // Method to get the top 8 latest products
     public List<Map<String, Object>> getLatest8Products() {
         List<Map<String, Object>> productList = new ArrayList<>();
-        String sql = "SELECT TOP 8 p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
-                + "FROM Product p "
-                + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
-                + "JOIN Unit u ON pp.UnitID = u.UnitID "
-                + "WHERE pp.PackagingDetails = 1 "
-                + "ORDER BY p.DateCreated DESC";
+        String sql = "SELECT TOP 8 p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName, p.Sold, p.DateCreated "
+           + "FROM Product p "
+           + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
+           + "JOIN Unit u ON pp.UnitID = u.UnitID "
+           + "JOIN Category c ON p.CategoryID = c.CategoryID "
+           + "JOIN Stock s ON p.ProductID = s.Pid "
+           + "WHERE pp.PackagingDetails = 1 "
+           + "AND c.Status = 1 "
+           + "GROUP BY p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName, p.Sold, p.DateCreated "
+           + "HAVING MIN(s.quantity) > 0 "
+           + "ORDER BY p.DateCreated DESC";
 
         try (PreparedStatement st = connection.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
@@ -667,7 +677,7 @@ public class ProductDAO extends DBContext {
                 + "p.BrandOrigin, p.Manufacturer, p.CountryOfProduction, p.ShortDescription, "
                 + "p.RegistrationNumber, p.ProductDescription, p.ContentReviewer, p.FAQ, "
                 + "p.ProductReviews, p.Status, p.Sold, p.DateCreated, p.ProductVersion, "
-                + "p.PrescriptionRequired, p.TargetAudience, p.ImagePath, ppq.SalePrice " // Lưu ý phải viết đúng tên cột (chữ hoa SalePrice)
+                + "p.PrescriptionRequired, p.TargetAudience, p.ImagePath, p.Ing, ppq.SalePrice " // Lưu ý phải viết đúng tên cột (chữ hoa SalePrice)
                 + "FROM Product p "
                 + "JOIN ProductPriceQuantity ppq ON p.ProductID = ppq.ProductID "
                 + "WHERE p.ProductID = ?";
@@ -701,6 +711,7 @@ public class ProductDAO extends DBContext {
                     product.setPrescriptionRequired(rs.getString("PrescriptionRequired"));
                     product.setTargetAudience(rs.getString("TargetAudience"));
                     product.setImagePath(rs.getString("ImagePath"));
+                    product.setIng(rs.getString("Ing"));
                     float salePrice = rs.getFloat("salePrice");
                     if (rs.wasNull()) {
                         salePrice = 0.0f;  // Giá trị mặc định nếu salePrice là NULL
@@ -744,11 +755,17 @@ public class ProductDAO extends DBContext {
         List<Map<String, Object>> productList = new ArrayList<>();
 
         // Cập nhật SQL query để tìm kiếm theo tên sản phẩm
-        String sql = "SELECT p.Manufacturer, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+       String sql = "SELECT p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
                 + "FROM Product p "
                 + "JOIN ProductPriceQuantity pp ON p.ProductID = pp.ProductID "
                 + "JOIN Unit u ON pp.UnitID = u.UnitID "
-                + "WHERE pp.PackagingDetails = 1 AND p.ProductName LIKE ?";
+                + "JOIN Category c ON p.CategoryID = c.CategoryID "
+                + "JOIN Stock s ON p.ProductID = s.Pid "
+                + "WHERE pp.PackagingDetails = 1 "
+                + "AND p.ProductName LIKE ? "
+                + "AND c.Status = 1 "
+                + "GROUP BY p.CountryOfProduction, p.TargetAudience, p.ProductID, p.ProductName, p.ImagePath, pp.SalePrice, u.UnitName "
+                + "HAVING MIN(s.quantity) > 0;";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             // Thiết lập giá trị cho tên sản phẩm với wildcard
@@ -762,7 +779,7 @@ public class ProductDAO extends DBContext {
                     productDetails.put("imagePath", rs.getString("ImagePath"));
                     productDetails.put("salePrice", rs.getFloat("SalePrice"));
                     productDetails.put("unitName", rs.getString("UnitName"));
-                    productDetails.put("manufacturer", rs.getString("Manufacturer"));
+                    productDetails.put("countryofproduction", rs.getString("CountryOfProduction"));
                     productDetails.put("audience", rs.getString("TargetAudience"));
 
                     productList.add(productDetails);

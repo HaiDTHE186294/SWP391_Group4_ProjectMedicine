@@ -100,11 +100,12 @@ public class UserDAO extends DBContext {
         }
     }
 
-    public boolean checkUserExists(String username, String email) {
-        String sql = "SELECT COUNT(*) FROM Users WHERE username = ? OR email = ?";
+    public boolean checkUserExists(String username, String email, String phone) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE username = ? OR email = ? OR phone = ? ";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, username);
             ps.setString(2, email);
+            ps.setString(3, phone);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1) > 0;
