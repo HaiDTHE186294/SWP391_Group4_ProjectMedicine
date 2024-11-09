@@ -16,6 +16,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
+import model.Product;
+import model.User;
+
 
 /**
  *

@@ -40,7 +40,7 @@
                 <div class="container-fluid">
                     <div class="layout-specing" style="margin-top: 30px">
                         <div class="d-md-flex justify-content-between">
-                            <h5 class="mb-0">list detail</h5>
+                            <h5 class="mb-0">Order Detail</h5>
                         </div>
 
                         <div class="order-list mt-4">
@@ -54,7 +54,7 @@
                                                     <th>Product Name</th>
                                                     <th>Image</th>
                                                     <th>Quantity</th>
-                                                    <th>Unit Price</th>
+                                                    <th>Unit</th>
                                                     <th>Total Price</th>
                                                 </tr>
                                             </thead>
@@ -65,7 +65,20 @@
                                                         <td>${detail.product.productName}</td>
                                                         <td><img src="${detail.product.imagePath}" alt="${detail.product.productName}" style="width: 50px; height: auto;"></td>
                                                         <td>${detail.quantity}</td>
-                                                        <td>${detail.price}</td>
+                                                        <td><c:choose>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U001'}">Viên</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U002'}">Chai</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U003'}">Lọ</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U004'}">Hộp</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U005'}">Gói</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U006'}">Ống</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U007'}">Tuýp</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U008'}">Bình</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U009'}">Thùng</c:when>
+                                                                <c:when test="${detail.getUnitId().trim() eq 'U010'}">Vỉ</c:when>
+                                                                <c:otherwise>${detail.getUnitId()}</c:otherwise>
+                                                            </c:choose>
+                                                        </td>
                                                         <td>${detail.quantity * detail.price}</td>
                                                     </tr>
                                                 </c:forEach>
