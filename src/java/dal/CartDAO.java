@@ -388,52 +388,55 @@ public class CartDAO extends DBContext {
 //        }
 //    }
     public boolean addCart(int orderId, String productId, double price, int quantity) {
-        String checkSql = "SELECT quantity FROM OrderDetails WHERE order_id = ? AND ProductID = ?";
-        String updateSql = "UPDATE OrderDetails SET quantity = quantity + ? WHERE order_id = ? AND ProductID = ?";
-        String insertSql = "INSERT INTO OrderDetails (order_id, ProductID, quantity, price, UnitID) VALUES (?,?, ?, ?, ?)";
-        String getUnitIdSql = "SELECT TOP 1 UnitID FROM ProductPriceQuantity WHERE ProductID = ? ORDER BY UnitID ASC";
+    String checkSql = "SELECT quantity FROM OrderDetails WHERE order_id = ? AND ProductID = ?";
+    String updateSql = "UPDATE OrderDetails SET quantity = quantity + ? WHERE order_id = ? AND ProductID = ?";
+    String insertSql = "INSERT INTO OrderDetails (order_id, ProductID, quantity, price, UnitID) VALUES (?,?, ?, ?, ?)";
+    String getUnitIdSql = "SELECT TOP 1 UnitID FROM ProductPriceQuantity WHERE ProductID = ? ORDER BY UnitID ASC";
 
-        try (
-                PreparedStatement checkPs = connection.prepareStatement(checkSql); PreparedStatement updatePs = connection.prepareStatement(updateSql); PreparedStatement insertPs = connection.prepareStatement(insertSql); PreparedStatement getUnitIdPs = connection.prepareStatement(getUnitIdSql)) {
+    try (
+            PreparedStatement checkPs = connection.prepareStatement(checkSql); 
+            PreparedStatement updatePs = connection.prepareStatement(updateSql); 
+            PreparedStatement insertPs = connection.prepareStatement(insertSql); 
+            PreparedStatement getUnitIdPs = connection.prepareStatement(getUnitIdSql)) {
 
-            // Kiểm tra xem sản phẩm đã có trong OrderDetails chưa
-            checkPs.setInt(1, orderId);
-            checkPs.setString(2, productId);
-            ResultSet rs = checkPs.executeQuery();
+        // Kiểm tra xem sản phẩm đã có trong OrderDetails chưa
+        checkPs.setInt(1, orderId);
+        checkPs.setString(2, productId);
+        ResultSet rs = checkPs.executeQuery();
 
-            if (rs.next()) {
-                // Nếu đã có, cập nhật số lượng bằng cách cộng thêm `quantity`
-                updatePs.setInt(1, quantity);
-                updatePs.setInt(2, orderId);
-                updatePs.setString(3, productId);
-                int rowsUpdated = updatePs.executeUpdate();
-                return rowsUpdated > 0;
+        if (rs.next()) {
+            // Nếu đã có, cập nhật số lượng bằng cách cộng thêm `quantity`
+            updatePs.setInt(1, quantity);
+            updatePs.setInt(2, orderId);
+            updatePs.setString(3, productId);
+            int rowsUpdated = updatePs.executeUpdate();
+            return rowsUpdated > 0;
+        } else {
+            getUnitIdPs.setString(1, productId);
+            ResultSet unitIdRs = getUnitIdPs.executeQuery();
+            
+            if (unitIdRs.next()) {
+                String unitId = unitIdRs.getString("UnitID");
+
+                // Nếu chưa có, chèn mới vào OrderDetails với số lượng `quantity`
+                insertPs.setInt(1, orderId);
+                insertPs.setString(2, productId);
+                insertPs.setInt(3, quantity);
+                insertPs.setDouble(4, price);
+                insertPs.setString(5, unitId);
+                int rowsInserted = insertPs.executeUpdate();
+                return rowsInserted > 0;
             } else {
-                getUnitIdPs.setString(1, productId);
-                ResultSet unitIdRs = getUnitIdPs.executeQuery();
-
-                if (unitIdRs.next()) {
-                    String unitId = unitIdRs.getString("UnitID");
-
-                    // Nếu chưa có, chèn mới vào OrderDetails với số lượng `quantity`
-                    insertPs.setInt(1, orderId);
-                    insertPs.setString(2, productId);
-                    insertPs.setInt(3, quantity);
-                    insertPs.setDouble(4, price);
-                    insertPs.setString(5, unitId);
-                    int rowsInserted = insertPs.executeUpdate();
-                    return rowsInserted > 0;
-                } else {
-                    // Return false if no UnitID is found
-                    return false;
-                }
+                // Return false if no UnitID is found
+                return false;
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
         }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
+}
 
     public boolean updateStatusByOrderId(String orderId, String status, String totalPrice, String phone, String address) {
         String sql = "UPDATE [Order] SET status = ?, order_date = GETDATE(), order_total = ?, phone_number_order = ?, address = ? WHERE order_id = ?";
