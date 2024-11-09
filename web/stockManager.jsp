@@ -234,66 +234,57 @@
                     }
                 });
             }
-
             function checkExpirationDates() {
-                const today = new Date(); // Current date
-                const alertThreshold = 7; // Number of days for the alert
-                const rows = document.querySelectorAll('.product-table tbody tr'); // Select all rows in the stock table
+                var today = new Date(); // Get today's date
+                var warningPeriod = 7; // Set the number of days to consider as near expiration (e.g., 7 days)
 
-                rows.forEach(row => {
-                    const expirationDateCell = row.querySelector('td:nth-child(6)'); // Get the expiration date cell (6th column)
-                    if (expirationDateCell) {
-                        const expirationDateText = expirationDateCell.textContent.trim(); // Get the text content and trim whitespace
-                        const expirationDate = new Date(expirationDateText); // Create a Date object from the expiration date string
+                // Select all rows in the product table
+                var rows = document.querySelectorAll('.product-table tbody tr');
 
-                        // Check if the date was parsed correctly
-                        if (isNaN(expirationDate)) {
-                            console.error(`Invalid date format for: ${expirationDateText}`);
-                            return; // Skip this row if the date is invalid
-                        }
+                rows.forEach(function (row) {
+                    var expirationDateStr = row.cells[5].textContent.trim(); // Get the expiration date from the 6th cell (0-indexed)
+                    var expirationDate = new Date(expirationDateStr); // Convert the expiration date string to a Date object
 
-                        const timeDiff = expirationDate - today; // Calculate the difference in milliseconds
-                        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+                    // Calculate the difference between the expiration date and today's date
+                    var timeDiff = expirationDate - today;
+                    var daysRemaining = timeDiff / (1000 * 3600 * 24); // Convert milliseconds to days
 
-                        // Check if expiration is within the threshold
-                        if (daysDiff >= 0 && daysDiff <= alertThreshold) {
-                            // Create a new row for the warning
-                            const warningRow = document.createElement('tr');
-                            const warningCell = document.createElement('td');
-                            warningCell.colSpan = 6; // Span across all columns
-                            warningCell.textContent = `Expiring Soon! `; // Display days left
-                            warningCell.style.color = 'red'; // Style the warning message
-                            warningCell.style.fontWeight = 'bold';
-                            warningCell.style.textAlign = 'center'; // Center the text
-
-                            // Append the warning cell to the warning row
-                            warningRow.appendChild(warningCell);
-
-                            // Insert the warning row after the current row if it doesn't already exist
-                            if (!row.nextSibling || !row.nextSibling.textContent.includes('Expiring Soon')) {
-                                row.parentNode.insertBefore(warningRow, row.nextSibling); // Insert the warning row
-                            }
-                        } else {
-                            // If not expiring soon, check if a warning row exists and remove it
-                            const existingWarningRow = row.nextSibling; // Check the next row
-                            if (existingWarningRow && existingWarningRow.cells[0].textContent.includes('Expiring Soon')) {
-                                row.parentNode.removeChild(existingWarningRow); // Remove the existing warning row if it exists
-                            }
-                        }
+                    // If the product is within the warning period, highlight the row and display a warning
+                    if (daysRemaining <= warningPeriod && daysRemaining >= 0) {
+                        row.style.backgroundColor = '#f8d7da'; // Highlight the row in red for near-expiration
+                        var warningMessage = document.createElement('span');
+                        warningMessage.textContent = ' Warning: Near Expiration!';
+                        warningMessage.style.color = 'red';
+                        warningMessage.style.fontWeight = 'bold';
+                        row.cells[5].appendChild(warningMessage); // Add the warning message in the expiration date cell
                     }
                 });
             }
 
-// Call the function when the page loads
+            // Run the checkExpirationDates function when the page loads
             window.onload = checkExpirationDates;
-
         </script>
-
-
 
         <%@include file="dashboardHeader.jsp" %>
     </head>
     <body>
+        <%
+    // Get roleID from session
+    Integer roleID = (Integer) session.getAttribute("userRoleID");
+
+    // Check if roleID is 2
+    if (roleID == null || roleID == 2) {
+        // Get the previous page URL from the referer header
+        String referer = request.getHeader("referer");
+        %>
+        <script>
+            alert("You do not have permission to access this page.");
+            window.location.href = "<%= (referer != null) ? referer : "http://localhost:8080/MedicineShop/home" %>";
+        </script>
+        <%
+                return;
+            }
+        %>
 
         <h2>Stock View</h2>
         <div class="search-container">

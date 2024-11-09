@@ -106,7 +106,7 @@
     Integer roleID = (Integer) session.getAttribute("userRoleID");
 
     // Check if roleID is 2
-    if (roleID != null && roleID == 2) {
+    if (roleID == null || roleID == 2) {
         // Get the previous page URL from the referer header
         String referer = request.getHeader("referer");
         %>
